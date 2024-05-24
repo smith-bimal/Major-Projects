@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <% if (userType === 'admin') { %>
+  <%- include('includes/navbar') %>
+  <% }else if (userType === 'doctor') { %>
+  <%- include('includes/doc_navbar') %>
+  <% } %>
+
+  <section class="main">
+    <div>
+      <!-- Add new Lab test -->
+      <form id="new_lab_test">
+        <div class="container-fluid p-3 bg-white rounded-2">
+          <h2 class="mt-2">Add New Lab Test</h2>
+
+          <div class="labtest-form-container">
+            <!-- name and ailment -->
+            <div class="row mt-4">
+              <div class="col-lg-6 m-0">
+                <label for="lab_test_name">Patient Name</label><br />
+
+                <input type="text" class="form-control rounded-4" id="lab_test_name" name="user" placeholder="Name" value="<%= lab.full_name %>" disabled />
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="lab_test_ailment">Patient Ailment</label><br />
+
+                <input type="text" class="form-control rounded-4" id="lab_test_ailment" placeholder="Ailment" value="<%= lab.ailment %>" disabled />
+              </div>
+            </div>
+
+            <!-- ID section-->
+            <div class="row mt-4">
+              <div class="m-0">
+                <label for="lab_test_id">Patient ID</label><br />
+
+                <input type="text" class="form-control rounded-4 mb-4" id="lab_test_id" placeholder="ID no." value="<%= lab.id %>" disabled />
+              </div>
+            </div>
+
+            <!-- Lab tests details -->
+            <div class="row">
+              <label for="lab_test_notes">Laboratory Tests</label>
+
+              <div id="lab_test_notes"></div>
+            </div>
+
+            <!-- Add lab test button -->
+            <div class="row d-flex align-items-center justify-content-center mt-4 mb-4">
+              <button type="submit" class="btn btn-primary col-lg-2 m-2">
+                Add
+              </button>
+              <a href="/<%= userType %>/lab/tests" class="btn btn-secondary col-lg-2 m-2" id="cancel_btn">
+                Cancel
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- quill editor cdn -->
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.5/dist/quill.js"></script>
+  <script src="/js/quill.js"></script>
+  <script>
+    const lab_test_editor = new Quill("#lab_test_notes", {
+      modules: {
+        toolbar: toolbarOptions,
+      },
+      theme: "snow",
+    });
+  </script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <% if (userType === 'admin') { %>
+  <%- include('includes/navbar') %>
+  <% }else if (userType === 'doctor') { %>
+  <%- include('includes/doc_navbar') %>
+  <% } %>
+
+  <section class="main">
+    <!-- Create Appointment content -->
+    <div class="create-appointment-content">
+      <form action="#">
+        <div class="container-fluid p-3 bg-white rounded-2">
+          <h2>Create Appointment</h2>
+
+          <div class="appointment-form-container">
+            <div class="row mt-4">
+              <!-- name, email and number -->
+              <div class="col-lg-4 m-0">
+                <label for="patient_name">Patient's Name</label><br />
+
+                <input type="text" placeholder="Name of the patient" class="form-control rounded-4" id="patient_name" />
+              </div>
+
+              <div class="col-lg-4 m-0">
+                <label for="patient_email">Patient Email</label><br />
+
+                <input type="email" placeholder="Email Address" class="form-control rounded-4" id="patient_email" />
+              </div>
+
+              <div class="col-lg-4 m-0">
+                <label for="patient_contact_number">Contact Details</label><br />
+
+                <input type="text" maxlength="10" minlength="10" placeholder="Contact number" class="form-control rounded-4" id="patient_contact_number" />
+              </div>
+            </div>
+
+            <!-- DOB, age and gender -->
+            <div class="row mt-4">
+              <div class="col-lg-4 m-0">
+                <label for="patient_dob">Date of Birth</label><br />
+
+                <input type="date" class="form-control rounded-4" id="patient_dob" />
+              </div>
+
+              <div class="col-lg-4 m-0">
+                <label for="patient_age">Age</label><br />
+
+                <input class="form-control rounded-4" type="number" aria-label="Age" id="patient_age" placeholder="Patient's age" />
+              </div>
+
+              <div class="col-lg-4">
+                <label for="patient_gender">Gender</label><br />
+
+                <select class="form-select rounded-4" aria-label="Gender">
+                  <option selected>------Select------</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Others</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- address & pincode -->
+            <div class="row mt-4">
+              <div class="col-lg-6 m-0">
+                <label for="patient_address">Address</label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Address" id="patient_address" placeholder="Patient's Address"></textarea>
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="patient_pincode">Pincode</label><br />
+
+                <input type="number" minlength="6" class="form-control rounded-4" id="patient_pincode" placeholder="Area pincode" />
+              </div>
+            </div>
+
+            <hr />
+
+            <!-- doctor and date -->
+            <div class="row mt-4">
+              <div class="col-lg-6">
+                <label for="appointment_doc_name">Preferred Doctor</label><br />
+
+                <select class="form-select rounded-4" aria-label="Gender">
+                  <option selected>------Select------</option>
+                  <% for (doctor of doctors) {%>
+                  <option>
+                    Dr. <%=doctor.full_name %> (<%= doctor.specialty %>)
+                  </option>
+                  <% } %>
+                </select>
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="appointment_date_time">Preferred Date and Time</label><br />
+
+                <input type="datetime-local" class="form-control rounded-4" id="appointment_date_time" />
+              </div>
+            </div>
+
+            <!-- reason and additional notes -->
+            <div class="row mt-4 mb-5">
+              <div class="col-lg-6 m-0">
+                <label for="appointment_reason">Appointment Reason</label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Appointment Reason" id="appointment_reason" placeholder="Reason for appointment..."></textarea>
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="appointment_notes">Additional Notes</label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Additional Notes" id="appointment_notes" placeholder="Any additional notes..."></textarea>
+              </div>
+            </div>
+
+            <!-- create and reset buttons -->
+            <div class="row d-flex align-items-center justify-content-center mt-4 mb-4">
+              <button type="submit" class="btn btn-primary col-lg-2 m-2">
+                Create
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

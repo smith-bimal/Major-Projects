@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <%- include('includes/doc_navbar') %>
+
+  <section class="main">
+    <!-- dashboard content -->
+    <div class="dashboard-content container-fluid p-3">
+      <div class="card-container d-flex justify-content-center">
+        <div class="card border-0 d-flex flex-column justify-content-between">
+          <div class="d-flex">
+            <div class="card-logo-container doctor-logo rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-file-contract"></i>
+            </div>
+
+            <div class="ms-3">
+              <h2 id="report_count"><%= labReports.length %></h2>
+              <p>Reports</p>
+            </div>
+          </div>
+          <p class="m-0 mt-2">
+            <span class="cyan">0</span> Report is pending
+          </p>
+        </div>
+
+        <div class="card border-0 d-flex flex-column justify-content-between">
+          <div class="d-flex">
+            <div class="card-logo-container staff-logo rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <div class="ms-3">
+              <h2 id="app_count"><%= appointments.length %></h2>
+              <p>Appointments</p>
+            </div>
+          </div>
+          <p class="m-0 mt-2">
+            <span class="orange">0</span> Assigned to you
+          </p>
+        </div>
+
+        <div class="card border-0 d-flex flex-column justify-content-between">
+          <div class="d-flex">
+            <div class="card-logo-container patient-logo rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-brands fa-accessible-icon"></i>
+            </div>
+
+            <div class="ms-3">
+              <h2 id="pat_count"><%= patients.length %></h2>
+              <p>Patients</p>
+            </div>
+          </div>
+          <p class="m-0 mt-2">
+            <span class="red">2</span> new patients admitted
+          </p>
+        </div>
+
+        <div class="card border-0 d-flex flex-column justify-content-between">
+          <div class="d-flex">
+            <div class="card-logo-container medicine-logo rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-pills"></i>
+            </div>
+
+            <div class="ms-3">
+              <h2 id="pharma_count"><%= pharmacies.length %></h2>
+              <p>Pharmacies</p>
+            </div>
+          </div>
+          <p class="m-0 mt-2">
+            <span class="blue">15</span> medicines on reserve
+          </p>
+        </div>
+      </div>
+
+      <div class="appointment-container d-flex justify-content-center">
+        <div class="card border-0">
+          <div class="card-head d-flex justify-content-between align-items-center">
+            <h2>Appointments Activity</h2>
+            <a href="/doctor/appointment/manage">
+              <p>View all</p>
+            </a>
+          </div>
+
+          <div class="appointment-list-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Patient Name</th>
+                  <th scope="col">Date & Time</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Gender</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(app of appointments) {%>
+                <tr>
+                  <td><%= appointments.indexOf(app) +1 %></td>
+                  <td><%= app.patient_name %></td>
+                  <td><%= app.preferred_date_time %></td>
+                  <td><%= app.age %></td>
+                  <td><%= app.gender %></td>
+                  <td><span class="app-status p-1 rounded-3"><%= app.status %></span></td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card border-0">
+          <div class="card-head">
+            <h2>Appointment Status</h2>
+          </div>
+
+          <div class="quick-link-container card-body p-0 d-flex flex-column gap-3">
+            <div class="card-body">
+              <div class="chart d-flex justify-content-center align-items-center">
+                <canvas id="appointment_chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="appointment-container d-flex justify-content-center">
+        <div class="card border-0">
+          <div class="card-head d-flex justify-content-between align-items-center">
+            <h2>Patient Lists</h2>
+            <a href="/doctor/patient/q">
+              <p>View all</p>
+            </a>
+          </div>
+
+          <div class="appointment-list-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Patient Name</th>
+                  <th scope="col">Patient ID</th>
+                  <th scope="col">Ailment</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Doctor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(patient of patients) {%>
+                <tr>
+                  <td><%= patients.indexOf(patient) +1 %></td>
+                  <td><%= patient.full_name %></td>
+                  <td><%= patient.id %></td>
+                  <td><%= patient.ailment %></td>
+                  <td><%= patient.type %></td>
+                  <td>Dr. <%= patient.doctor_assigned %></td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card border-0">
+          <div class="card-head">
+            <h2>Quick Link</h2>
+          </div>
+
+          <div class="quick-link-container card-body p-0 d-flex flex-column gap-3">
+            <a href="/doctor/patient/q">
+              <div class="quick-link rounded-pill p-2 d-flex align-items-center mt-2" id="pat-quick-link">
+                <div class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center">
+                  <i class="fa-brands fa-accessible-icon"></i>
+                </div>
+
+                Patients
+              </div>
+            </a>
+
+            <a href="/doctor/prescription/q">
+              <div class="quick-link rounded-pill p-2 d-flex align-items-center" id="doc-quick-link">
+                <div class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center">
+                  <i class="fa-solid fa-prescription"></i>
+                </div>
+                Prescriptions
+              </div>
+            </a>
+
+            <a href="/doctor/pharmacy/manage">
+              <div class="quick-link rounded-pill p-2 d-flex align-items-center" id="phar-quick-link">
+                <div class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center">
+                  <i class="fa-solid fa-pills"></i>
+                </div>
+                Pharmacy
+              </div>
+            </a>
+
+            <a href="/doctor/survey">
+              <div class="quick-link rounded-pill p-2 d-flex align-items-center" id="sur-quick-link">
+                <div class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center">
+                  <i class="fa-solid fa-square-poll-vertical"></i>
+                </div>
+                Surveys
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <% const appointmentStatusCounts = {'Completed': 0,'Cancelled': 0,'Pending': 0};appointments.forEach(appointment => {appointmentStatusCounts[appointment.status]++;}); %>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script>
+    const ctx3 = document.getElementById('appointment_chart').getContext('2d');
+
+    new Chart(ctx3, {
+      type: 'polarArea',
+      data: {
+        labels: ['Completed', 'Cancelled', 'Pending'],
+        datasets: [{
+          label: 'Counts',
+          data: [
+            <%= appointmentStatusCounts['Completed'] %>,
+            <%= appointmentStatusCounts['Cancelled'] %>,
+            <%= appointmentStatusCounts['Pending'] %>
+          ],
+          borderWidth: 3,
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(255, 205, 86, 0.8)'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          }
+        }
+      },
+    });
+  </script>
+
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

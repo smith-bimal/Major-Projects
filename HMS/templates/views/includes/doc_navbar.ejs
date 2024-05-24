@@ -1,0 +1,153 @@
+<section class="header-container container-fluid px-5 py-2">
+  <header class="navbar">
+    <div class="container-fluid">
+      <div class="logo col-1">H<span>M</span>S</div>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2 rounded-pill" type="search" placeholder="Search for files, patients or medicines..." aria-label="Search" />
+        <button class="btn btn-outline-primary rounded-pill" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <div class="d-flex account-sec align-items-center">
+        <div class="notification d-flex align-items-center justify-content-center">
+          <i class="fa-solid fa-bell"></i>
+        </div>
+
+        <img src="/Assets/pngwing.com.png" />
+
+        <div class="username">
+          <% if (doctor) { %>
+          <h3><%= doctor.full_name %></h3>
+          <p>Doctor</p>
+          <% } else { %>
+          <h3>Username</h3>
+          <p>Doctor</p>
+          <% } %>
+        </div>
+        <i class="fa-solid fa-caret-down"></i>
+      </div>
+    </div>
+  </header>
+</section>
+
+<section class="navigation p-2">
+  <ul class="list-unstyled">
+    <a href="/doctor/dashboard">
+      <li class="col-10 rounded-pill nav-option" id="dash-nav">
+        <i class="fa-solid fa-chart-line"></i>Dashboard
+      </li>
+    </a>
+
+    <li class="d-flex justify-content-between col-10 rounded-pill nav-option" id="apt-nav">
+      <div>
+        <i class="fa-solid fa-calendar-check"></i><span>Appointments</span>
+      </div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="apt-nav-child">
+      <a href="/doctor/appointment/create">
+        <p>Create Appointment</p>
+      </a>
+      <a href="/doctor/appointment/manage">
+        <p>Manage Appointment</p>
+      </a>
+    </div>
+
+    <li class="d-flex justify-content-between col-10 rounded-pill nav-option" id="pharm-nav">
+      <div>
+        <i class="fa-solid fa-prescription"></i><span>Prescriptions</span>
+      </div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="pharm-nav-child">
+      <a href="/doctor/prescription/add">
+        <p>Add Prescriptions</p>
+      </a>
+      <a href="/doctor/prescription/q">
+        <p>View Prescriptions</p>
+      </a>
+      <a href="/doctor/prescription/manage">
+        <p>Manage Prescriptions</p>
+      </a>
+    </div>
+
+    <li class="d-flex justify-content-between col-10 rounded-pill nav-option" id="pharm-nav">
+      <div><i class="fa-solid fa-capsules"></i><span>Pharmacy</span></div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="pharm-nav-child">
+      <a href="/doctor/pharmacy/add">
+        <p>Add Pharmaceuticals</p>
+      </a>
+      <a href="/doctor/pharmacy/manage">
+        <p>Manage Pharmaceuticals</p>
+      </a>
+    </div>
+
+    <li class="d-flex justify-content-between col-10 rounded-pill nav-option" id="lab-nav">
+      <div><i class="fa-solid fa-flask"></i><span>Laboratory</span></div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="lab-nav-child">
+      <a href="/doctor/lab/tests">
+        <p>Patient Lab Tests</p>
+      </a>
+      <a href="/doctor/lab/results">
+        <p>Patient Lab Results</p>
+      </a>
+      <a href="/doctor/patient/vitals">
+        <p>Patient Vitals</p>
+      </a>
+      <a href="/doctor/lab/reports">
+        <p>Lab Reports</p>
+      </a>
+    </div>
+
+    <li class="d-flex justify-content-between col-10 rounded-pill nav-option" id="pat-nav">
+      <div><i class="fa-solid fa-bed"></i><span>Patients</span></div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="pat-nav-child">
+      <a href="/doctor/patient/register">
+        <p>Register Patient</p>
+      </a>
+      <a href="/doctor/patient/q">
+        <p>View Patients</p>
+      </a>
+      <a href="/doctor/patient/manage">
+        <p>Manage Patients</p>
+      </a>
+      <a href="/doctor/patient/discharge">
+        <p>Discharge Patient</p>
+      </a>
+    </div>
+
+    <li class="d-flex justify-content-between col-10 rounded-pill nav-option" id="record-nav">
+      <div>
+        <i class="fa-solid fa-file-lines"></i><span>Medical Records</span>
+      </div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="record-nav-child">
+      <a href="/doctor/records/appointment">
+        <p>Appointment Records</p>
+      </a>
+      <a href="/doctor/records/patient">
+        <p>Patient Records</p>
+      </a>
+    </div>
+
+    <a href="/doctor/survey">
+      <li class="col-10 rounded-pill nav-option" id="sur-nav">
+        <i class="fa-solid fa-square-poll-vertical"></i>Surveys
+      </li>
+    </a>
+
+    <a href="/doctor/profile">
+      <li class="col-10 rounded-pill nav-option" id="sur-nav">
+        <i class="fa-solid fa-user"></i>My Profile
+      </li>
+    </a>
+  </ul>
+</section>

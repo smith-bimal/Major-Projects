@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <% if (userType === 'admin') { %>
+  <%- include('includes/navbar') %>
+  <% }else if (userType === 'doctor') { %>
+  <%- include('includes/doc_navbar') %>
+  <% } %>
+
+  <!-- Discharge Form content -->
+  <section class="main">
+    <div class="discharge-form-content">
+      <form action="#">
+        <div class="me-4 mt-3 fs-4 float-end">
+          <a href="/<%= userType %>/patient/discharge"><i class="fa-solid fa-xmark text-secondary"></i></a>
+        </div>
+        <div class="container-fluid p-3 bg-white rounded-2">
+          <h2>Discharge Form</h2>
+
+          <div class="discharge-form-container">
+            <div class="row mt-4">
+              <!-- name, email and ID -->
+              <div class="col-lg-4 m-0">
+                <label for="patient_id">Patient ID</label><br />
+
+                <input type="text" class="form-control rounded-4" id="patient_id" value="<%= patient.id %>" required />
+              </div>
+
+              <div class="col-lg-4 m-0">
+                <label for="patient_name">Patient Name</label><br />
+
+                <input type="text" value="<%= patient.full_name %>" class="form-control rounded-4" id="patient_name" required />
+              </div>
+
+              <div class="col-lg-4 m-0">
+                <label for="patient_email">Patient Email</label><br />
+
+                <input type="email" value="<%= patient.email %>" class="form-control rounded-4" id="patient_email" required />
+              </div>
+            </div>
+
+            <!-- Contact, DOB and gender -->
+            <div class="row mt-4">
+              <div class="col-lg-4 m-0">
+                <label for="patient_contact_number">Contact Details</label><br />
+
+                <input type="text" maxlength="10" minlength="10" value="<%= patient.contact_number %>" class="form-control rounded-4" id="patient_contact_number" required />
+              </div>
+
+              <div class="col-lg-4 m-0">
+                <label for="patient_dob">Date of Birth</label><br />
+
+                <input type="date" class="form-control rounded-4" id="patient_dob" value="<%= patient.date_of_birth %>" required />
+              </div>
+
+              <div class="col-lg-4">
+                <label for="patient_gender">Gender</label><br />
+
+                <input type="text" class="form-control rounded-4" id="patient_gender" value="<%= patient.gender %>" required />
+              </div>
+            </div>
+
+            <!-- address & pincode -->
+            <div class="row mt-4">
+              <div class="col-lg-6 m-0">
+                <label for="patient_em_contact">Emergency Contact Details</label><br />
+
+                <input type="text" minlength="10" class="form-control rounded-4" id="patient_em_contact" value="<%= patient.emergency_contact_number %>" />
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="patient_address">Complete Address</label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Address" id="patient_address" placeholder="Patient's Complete Address" required>
+<%= patient.address %></textarea>
+              </div>
+            </div>
+
+            <hr />
+
+            <!-- admission date, reason -->
+            <div class="row mt-4">
+              <div class="col-lg-6 m-0">
+                <label for="admission_date">Date of Admission</label><br />
+
+                <input type="date" class="form-control rounded-4" id="admission_date" required />
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="admission_reason">Reason for Admission</label><br />
+
+                <input type="text" class="form-control rounded-4" placeholder="Admission Reason" id="admission_reason" required />
+              </div>
+            </div>
+
+            <hr />
+
+            <!-- Date and time of Discharge -->
+            <div class="row mt-4">
+              <div class="col-lg-6 m-0">
+                <label for="discharge_date_time">Date & Time of Discharge</label><br />
+
+                <input type="datetime-local" class="form-control rounded-4" id="discharge_date_time" required />
+              </div>
+            </div>
+
+            <hr />
+
+            <!-- Primary and Secondary Diagnostics -->
+            <div class="row mt-4 mb-5">
+              <div class="col-lg-6 m-0">
+                <label for="primary_diag">Primary Diagnostics</label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Address" id="primary_diag" placeholder="Primary Diagnostics Notes" required></textarea>
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="secondary_diag">Secondary Diagnostics</label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Address" id="secondary_diag" placeholder="Secondary Diagnostics Notes" required></textarea>
+              </div>
+            </div>
+
+            <!-- Treatement Summary, Procedures and Medications -->
+            <div class="row mt-4 mb-5">
+              <div class="col-lg-4 m-0">
+                <label for="treat_summary">Treatment Summary </label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Address" id="treat_summary" placeholder="Summary of Treatments Provided" required></textarea>
+              </div>
+
+              <div class="col-lg-4 m-0">
+                <label for="treat_procedure">Procedures Performed</label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Address" id="treat_procedure" placeholder="Procedures Performed" required></textarea>
+              </div>
+
+              <div class="col-lg-4 m-0">
+                <label for="medication">Medications Administered</label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Address" id="medication" placeholder="Medications Need to be taken" required></textarea>
+              </div>
+            </div>
+
+            <!-- create and reset buttons -->
+            <div class="row d-flex align-items-center justify-content-center mt-4 mb-4">
+              <button type="submit" class="btn btn-primary col-lg-2 m-2">
+                Discharge Patient
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

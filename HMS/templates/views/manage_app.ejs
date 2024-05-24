@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <% if (userType === 'admin') { %>
+  <%- include('includes/navbar') %>
+  <% }else if (userType === 'doctor') { %>
+  <%- include('includes/doc_navbar') %>
+  <% } %>
+
+  <section class="main">
+    <!-- Manage Appointment content -->
+    <div class="manage-appointment-content">
+      <div class="container-fluid p-3 bg-white rounded-2">
+        <div class="manage-app-heading d-flex justify-content-between pt-2 pb-3">
+          <h2>Manage Appointments</h2>
+          <a href="/<%= userType %>/appointment/create" class="create_appointment_link text-decoration-none">+ Create New Appointment</a>
+        </div>
+
+        <div class="overflow-auto">
+          <table id="appointment" class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Patient Name</th>
+                <th scope="col">Date & Time</th>
+                <th scope="col">Age</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (app of appointments) { %>
+              <tr>
+                <td><%= appointments.indexOf(app) + 1 %></td>
+                <td><%= app.patient_name; %></td>
+                <td><%= app.preferred_date_time; %></td>
+                <td><%= app.age; %></td>
+                <td><%= app.gender; %></td>
+                <td><%= app.appointment_reason; %></td>
+                <td>
+                  <span class="app-status p-1 rounded-3"><%= app.status; %></span>
+                </td>
+                <td>
+                  <i class="fa-solid fa-ellipsis-vertical p-3" data-id="/<%= userType %>/appointment/manage/<%= app.appointment_id %>"></i>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script defer src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+  <script defer src="/js/datatable_table.js"></script>
+
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

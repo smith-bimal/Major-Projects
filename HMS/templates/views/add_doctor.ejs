@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <%- include('includes/navbar') %>
+
+  <section class="main">
+    <!-- Add Doctor content -->
+    <div class="add-doc-content">
+      <form action="#">
+        <div class="container-fluid p-3 bg-white rounded-2">
+          <h2>Add Doctor Details</h2>
+
+          <div class="add-doc-container">
+            <div class="row mt-4">
+              <!-- name and number -->
+              <div class="col-lg-6 m-0">
+                <label for="doc_name">Full Name</label><br />
+
+                <input type="text" placeholder="Doctor Name" class="form-control rounded-4" id="doc_name" />
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="doc_mail_id">Email</label><br />
+
+                <input type="email" placeholder="Email ID" class="form-control rounded-4" id="doc_mail_id" />
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <!-- Contact, DOB and gender -->
+              <div class="col-lg-4 m-0">
+                <label for="doc_contact_number">Contact Details</label><br />
+
+                <input class="form-control rounded-4" type="text" minlength="10" maxlength="10" aria-label="Contact Number" id="doc_contact_number" placeholder="Contact Number" />
+              </div>
+              <div class="col-lg-4 m-0">
+                <label for="doc_dob">Date of Birth</label><br />
+
+                <input type="date" class="form-control rounded-4" id="doc_dob" />
+              </div>
+
+              <div class="col-lg-4">
+                <label for="doc_gender">Gender</label><br />
+
+                <select class="form-select rounded-4" aria-label="Gender">
+                  <option selected>------Select------</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Others</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- address & pincode -->
+            <div class="row mt-4">
+              <div class="col-lg-6 m-0">
+                <label for="doc_address">Address</label><br />
+
+                <input type="text" class="form-control rounded-4" aria-label="Address" id="doc_address" placeholder="Doctor's Address"></input>
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="doc_pincode">Pincode</label><br />
+
+                <input type="number" minlength="6" class="form-control rounded-4" id="doc_pincode" placeholder="Area pincode" />
+              </div>
+            </div>
+
+            <hr />
+
+            <!-- ID no. & Specialization -->
+            <div class="row mt-4">
+              <div class="col-lg-6">
+                <label for="doc_id_num">Doctor ID</label><br />
+
+                <input type="text" id="doc_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." />
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="doc_specialization">Specialization</label><br />
+
+                <input type="text" class="form-control rounded-4" id="doc_specialization" />
+              </div>
+            </div>
+
+            <!-- Qualification & Experience-->
+            <div class="row mt-4">
+              <div class="col-lg-6">
+                <label for="doc_qualifi">Qualification</label><br />
+
+                <input type="text" class="form-control rounded-4" aria-label="Qualification" />
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="doc_exp">Years of Experience</label><br />
+
+                <input type="number" class="form-control rounded-4" id="doc_exp" />
+              </div>
+            </div>
+
+            <hr>
+
+            <!-- username, password-->
+            <div class="row mt-4 mb-2">
+              <div class="col-lg-6 m-0">
+                <label for="doc_uid">Username</label><br />
+
+                <input type="text" class="form-control rounded-4" id="doc_uid" placeholder="New username">
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="doc_pwd">Password</label><br />
+
+                <input type="password" minlength="8" class="form-control rounded-4" id="doc_pwd" placeholder="New password"></input>
+              </div>
+            </div>
+
+            <!-- profile picture and additional notes  -->
+            <div class="row mt-4 mb-5">
+              <div class="col-lg-6 m-0">
+                <label for="doc_addition_notes">Additional Notes</label><br />
+
+                <textarea class="form-control rounded-4" aria-label="Additional Notes" id="doc_addition_notes" placeholder="Any additional notes..."></textarea>
+              </div>
+
+              <div class="col-lg-6 m-0">
+                <label for="doc_pic">Profile Picture</label><br />
+
+                <input type="file" class="form-control rounded-4" id="doc_pic">
+              </div>
+            </div>
+
+            <!-- create and reset buttons -->
+            <div class="row d-flex align-items-center justify-content-center mt-4 mb-4">
+              <button type="submit" class="btn btn-primary col-lg-2 m-2">
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

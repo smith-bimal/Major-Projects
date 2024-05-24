@@ -1,0 +1,122 @@
+[
+  {
+    "patient_id": "PA-39-9940859",
+    "patient_name": "Amit Kumar",
+    "patient_ailment": "insomnia",
+    "prescription_notes": [
+      "Prescribed 10mg Zolpidem tablets to be taken once daily at bedtime.",
+      "Recommended sleep hygiene practices including maintaining a regular sleep schedule.",
+      "Advised to avoid caffeine and heavy meals before bedtime.",
+      "Suggested relaxation techniques such as meditation or a warm bath before bed.",
+      "Follow-up in two weeks to assess effectiveness and make any necessary adjustments."
+    ]
+  },
+  {
+    "patient_id": "PA-82-7040026",
+    "patient_name": "Sita Sharma",
+    "patient_ailment": "fatigue",
+    "prescription_notes": [
+      "Advised daily multivitamin supplements and a balanced diet rich in iron.",
+      "Recommended regular light exercise, such as walking for 30 minutes a day.",
+      "Encouraged to maintain a consistent sleep schedule and practice good sleep hygiene.",
+      "Suggested reducing stress through activities like yoga or meditation.",
+      "Follow-up in one month to monitor energy levels and overall well-being."
+    ]
+  },
+  {
+    "patient_id": "PA-51-5583244",
+    "patient_name": "Ravi Verma",
+    "patient_ailment": "allergies",
+    "prescription_notes": [
+      "Prescribed 5mg Levocetirizine tablets once daily for allergy relief.",
+      "Advised to avoid known allergens and keep windows closed during high pollen days.",
+      "Recommended using an air purifier to reduce indoor allergens.",
+      "Suggested saline nasal spray for nasal congestion relief.",
+      "Follow-up if symptoms persist or worsen to reassess treatment plan."
+    ]
+  },
+  {
+    "patient_id": "PA-30-0417402",
+    "patient_name": "Lakshmi Nair",
+    "patient_ailment": "sore throat",
+    "prescription_notes": [
+      "Prescribed 500mg Amoxicillin tablets to be taken thrice daily for 7 days.",
+      "Advised to stay hydrated and use throat lozenges to soothe throat irritation.",
+      "Recommended gargling with warm salt water several times a day.",
+      "Suggested avoiding irritants such as smoking and alcohol.",
+      "Follow-up if no improvement or if symptoms worsen within a week."
+    ]
+  },
+  {
+    "patient_id": "PA-95-0067684",
+    "patient_name": "Ramesh Gupta",
+    "patient_ailment": "allergies",
+    "prescription_notes": [
+      "Prescribed 5mg Loratadine tablets once daily for allergy symptom relief.",
+      "Advised to use saline nasal spray as needed to clear nasal passages.",
+      "Recommended keeping windows closed during high pollen days to minimize exposure.",
+      "Suggested washing bedding frequently to reduce dust mites.",
+      "Follow-up if symptoms do not improve or if new symptoms develop."
+    ]
+  },
+  {
+    "patient_id": "PA-04-7961598",
+    "patient_name": "Anita Singh",
+    "patient_ailment": "allergies",
+    "prescription_notes": [
+      "Prescribed 10mg Cetirizine tablets once daily to manage allergy symptoms.",
+      "Advised to keep windows closed during high pollen periods and use an air purifier.",
+      "Recommended washing clothes and showering after being outdoors.",
+      "Suggested using a humidifier to maintain optimal indoor humidity levels.",
+      "Follow-up if symptoms persist or if any side effects occur."
+    ]
+  },
+  {
+    "patient_id": "PA-83-4918209",
+    "patient_name": "Kavita Joshi",
+    "patient_ailment": "headache",
+    "prescription_notes": [
+      "Prescribed 500mg Paracetamol tablets to be taken as needed for pain relief.",
+      "Recommended stress management techniques such as deep breathing exercises.",
+      "Advised to maintain a regular sleep schedule and avoid triggers like certain foods.",
+      "Suggested hydration and regular meals to prevent headache onset.",
+      "Follow-up if headaches continue or if they become more severe."
+    ]
+  },
+  {
+    "patient_id": "PA-28-8523048",
+    "patient_name": "Manoj Patel",
+    "patient_ailment": "sore throat",
+    "prescription_notes": [
+      "Prescribed 250mg Erythromycin tablets to be taken thrice daily for 7 days.",
+      "Advised to rest and drink warm fluids like herbal tea with honey.",
+      "Recommended using throat lozenges or sprays to soothe irritation.",
+      "Suggested avoiding irritants such as smoke and strong odors.",
+      "Follow-up if no improvement or if symptoms worsen within a week."
+    ]
+  },
+  {
+    "patient_id": "PA-55-7237124",
+    "patient_name": "Bharat Desai",
+    "patient_ailment": "fever",
+    "prescription_notes": [
+      "Prescribed 500mg Paracetamol tablets to be taken every 6 hours to reduce fever.",
+      "Advised to stay hydrated by drinking plenty of fluids.",
+      "Recommended rest and avoiding strenuous activities until fever subsides.",
+      "Suggested using a cool compress to alleviate discomfort.",
+      "Follow-up if fever persists for more than 3 days or if symptoms worsen."
+    ]
+  },
+  {
+    "patient_id": "PA-77-9181409",
+    "patient_name": "Geeta Mehta",
+    "patient_ailment": "sore throat",
+    "prescription_notes": [
+      "Prescribed 500mg Azithromycin tablets to be taken once daily for 3 days.",
+      "Advised to gargle with warm salt water several times a day to reduce throat pain.",
+      "Recommended staying hydrated and drinking warm fluids.",
+      "Suggested avoiding irritants such as smoking and alcohol.",
+      "Follow-up if symptoms do not improve or if they worsen."
+    ]
+  }
+]

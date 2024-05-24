@@ -1,0 +1,163 @@
+<section class="header-container container-fluid px-5 py-2">
+  <header class="navbar">
+    <div class="container-fluid">
+      <div class="logo col-1">H<span>M</span>S</div>
+      <form class="d-flex" role="search">
+        <input
+          class="form-control me-2 rounded-pill"
+          type="search"
+          placeholder="Search for files, patients or medicines..."
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-primary rounded-pill" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <div class="d-flex account-sec align-items-center">
+        <div
+          class="notification d-flex align-items-center justify-content-center"
+        >
+          <i class="fa-solid fa-bell"></i>
+        </div>
+
+        <img src="/Assets/pngwing.com.png" />
+
+        <div class="username">
+          <h3>Username</h3>
+          <p>Admin</p>
+        </div>
+        <i class="fa-solid fa-caret-down"></i>
+      </div>
+    </div>
+  </header>
+</section>
+
+<section class="navigation p-2">
+  <ul class="list-unstyled">
+    <a href="/admin/dashboard"
+      ><li class="col-10 rounded-pill nav-option" id="dash-nav">
+        <i class="fa-solid fa-chart-line"></i>Dashboard
+      </li></a
+    >
+
+    <li
+      class="d-flex justify-content-between col-10 rounded-pill nav-option"
+      id="apt-nav"
+    >
+      <div>
+        <i class="fa-solid fa-calendar-check"></i><span>Appointments</span>
+      </div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="apt-nav-child">
+      <a href="/admin/appointment/create"><p>Create Appointment</p></a>
+      <a href="/admin/appointment/manage"><p>Manage Appointment</p></a>
+    </div>
+
+    <li
+      class="d-flex justify-content-between col-10 rounded-pill nav-option"
+      id="pharm-nav"
+    >
+      <div><i class="fa-solid fa-capsules"></i><span>Pharmacy</span></div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="pharm-nav-child">
+      <a href="/admin/pharmacy/add"><p>Add Pharmaceuticals</p></a>
+      <a href="/admin/pharmacy/manage"><p>Manage Pharmaceuticals</p></a>
+      <hr />
+      <a href="/admin/prescription/add"><p>Add Prescriptions</p></a>
+      <a href="/admin/prescription/q"><p>View Prescriptions</p></a>
+      <a href="/admin/prescription/manage"><p>Manage Prescriptions</p></a>
+    </div>
+
+    <li
+      class="d-flex justify-content-between col-10 rounded-pill nav-option"
+      id="lab-nav"
+    >
+      <div><i class="fa-solid fa-flask"></i><span>Laboratory</span></div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="lab-nav-child">
+      <a href="/admin/lab/tests"><p>Patient Lab Tests</p></a>
+      <a href="/admin/lab/results"><p>Patient Lab Results</p></a>
+      <a href="/admin/patient/vitals"><p>Patient Vitals</p></a>
+      <a href="/admin/lab/reports"><p>Lab Reports</p></a>
+    </div>
+
+    <li
+      class="d-flex justify-content-between col-10 rounded-pill nav-option"
+      id="doc-nav"
+    >
+      <div><i class="fa-solid fa-user-doctor"></i><span>Doctors</span></div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="doc-nav-child">
+      <a href="/admin/doctor/add"><p>Add Doctors</p></a>
+      <a href="/admin/doctor/q"><p>View Doctors</p></a>
+      <a href="/admin/doctor/manage"><p>Manage Doctors</p></a>
+    </div>
+
+    <li
+      class="d-flex justify-content-between col-10 rounded-pill nav-option"
+      id="pat-nav"
+    >
+      <div><i class="fa-solid fa-bed"></i><span>Patients</span></div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="pat-nav-child">
+      <a href="/admin/patient/register"><p>Register Patient</p></a>
+      <a href="/admin/patient/q"><p>View Patients</p></a>
+      <a href="/admin/patient/manage"><p>Manage Patients</p></a>
+      <a href="/admin/patient/discharge"><p>Discharge Patient</p></a>
+    </div>
+
+    <li
+      class="d-flex justify-content-between col-10 rounded-pill nav-option"
+      id="staff-nav"
+    >
+      <div><i class="fa-solid fa-people-group"></i><span>Our Staffs</span></div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="staff-nav-child">
+      <a href="/admin/employee/add"><p>Add Employee</p></a>
+      <a href="/admin/employee/q"><p>View Employees</p></a>
+      <a href="/admin/employee/manage"><p>Manage Employees</p></a>
+    </div>
+
+    <li
+      class="d-flex justify-content-between col-10 rounded-pill nav-option"
+      id="record-nav"
+    >
+      <div>
+        <i class="fa-solid fa-file-lines"></i><span>Medical Records</span>
+      </div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="record-nav-child">
+      <a href="/admin/records/appointment"><p>Appointment Records</p></a>
+      <a href="/admin/records/patient"><p>Patient Records</p></a>
+    </div>
+
+    <li
+      class="d-flex justify-content-between col-10 rounded-pill nav-option"
+      id="acc-nav"
+    >
+      <div>
+        <i class="fa-solid fa-circle-dollar-to-slot"></i><span>Accounting</span>
+      </div>
+      <i class="fa-solid fa-caret-down"></i>
+    </li>
+    <div class="sub-nav rounded-3 nav-child" id="acc-nav-child">
+      <a href="/admin/payroll/add"><p>Add Payroll</p></a>
+      <a href="/admin/payroll/manage"><p>Manage Payroll</p></a>
+      <a href="/admin/payroll/generate"><p>Generate Payroll</p></a>
+    </div>
+
+    <a href="/admin/survey"
+      ><li class="col-10 rounded-pill nav-option" id="sur-nav">
+        <i class="fa-solid fa-square-poll-vertical"></i>Surveys
+      </li></a
+    >
+  </ul>
+</section>

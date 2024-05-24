@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <% if (userType === 'admin') { %>
+  <%- include('includes/navbar') %>
+  <% }else if (userType === 'doctor') { %>
+  <%- include('includes/doc_navbar') %>
+  <% } %>
+
+  <section class="main">
+    <!-- Appointment Report content -->
+    <div>
+      <div class="container-fluid p-3 bg-white rounded-2">
+        <div class="close_lab_report text-end m-3 d-inline float-end">
+          <a href="/<%= userType %>/records/appointment"><i class="fa-solid fa-xmark text-secondary"></i></a>
+        </div>
+        <h2 class="mt-2">Appointment Record</h2>
+        <div class="d-lg-flex">
+          <div class="app-report-hero col-xxl-6 p-3">
+            <div class="hero-image-container m-auto rounded-2">
+              <img src="/Assets/report_hero.jpg" class="m-auto" />
+            </div>
+          </div>
+          <div class="app-report-details col-xxl-6 p-3">
+            <div class="row">
+              <ul class="list-unstyled">
+                <li>
+                  Patient Name: &nbsp;&nbsp;<span><%= app.patient_name %></span>
+                </li>
+                <li>
+                  Patient Email: &nbsp;&nbsp;<span><%= app.patient_email %></span>
+                </li>
+                <li>
+                  Patient Contact Number: &nbsp;&nbsp;<span><%= app.contact_number %></span>
+                </li>
+                <li>
+                  Date of Birth: &nbsp;&nbsp;<span><%= app.date_of_birth %></span>
+                </li>
+                <li>Patient Age: &nbsp;&nbsp;<span><%= app.age %></span></li>
+                <li>
+                  Patient Gender: &nbsp;&nbsp;<span><%= app.gender %></span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="row">
+              <ul class="list-unstyled">
+                <li>
+                  Doctor Name: &nbsp;&nbsp;<span>Dr. <%= doc.full_name %></span>
+                </li>
+                <li>Doctor ID: &nbsp;&nbsp;<span><%= doc.id %></span></li>
+                <li>
+                  Doctor Contact Number: &nbsp;&nbsp;<span><%= doc.contact_number %></span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="row">
+              <ul class="list-unstyled">
+                <li>
+                  Appointment Date & Time: &nbsp;&nbsp;<span><%= app.preferred_date_time %></span>
+                </li>
+                <li>
+                  Appointment Status: &nbsp;&nbsp;<span class="app-status p-1 rounded-2"><%= app.status %></span>
+                </li>
+                <li>
+                  Reason for Appointment: &nbsp;&nbsp;<span><%= app.appointment_reason %></span>
+                </li>
+                <br />
+                <li>Appointment Notes: <br /><span>--</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

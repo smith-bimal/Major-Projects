@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <% if (userType === 'admin') { %>
+  <%- include('includes/navbar') %>
+  <% }else if (userType === 'doctor') { %>
+  <%- include('includes/doc_navbar') %>
+  <% } %>
+
+  <section class="main">
+    <!-- Lab Report content -->
+    <div>
+      <div class="container-fluid p-3 bg-white rounded-2" id="view_lab_report">
+        <div class="close_lab_report text-end m-3 d-inline float-end">
+          <a href="/<%= userType %>/lab/reports"><i class="fa-solid fa-xmark text-secondary"></i></a>
+        </div>
+        <h2 class="mt-2">Lab Report</h2>
+        <div class="d-lg-flex">
+          <div class="lab-report-hero col-xxl-6 p-3">
+            <div class="hero-image-container m-auto rounded-2">
+              <img src="/Assets/report_hero.jpg" class="m-auto" />
+            </div>
+          </div>
+          <div class="lab-report-details col-xxl-6 p-3">
+            <div class="row">
+              <ul class="list-unstyled">
+                <li>
+                  Name: &nbsp;&nbsp;<span id="lab_report_name"><%= patient.full_name %></span>
+                </li>
+                <li>
+                  Age: &nbsp;&nbsp;<span id="lab_report_age"><%= patient.age; %></span>
+                </li>
+                <li>
+                  Patient ID: &nbsp;&nbsp;<span id="lab_report_ID"><%= patient.id; %></span>
+                </li>
+                <li>
+                  Type: &nbsp;&nbsp;<span id="lab_report_type"><%= patient.type; %></span>
+                </li>
+                <li>
+                  Ailment: &nbsp;&nbsp;<span id="lab_report_ailment"><%= patient.ailment; %></span>
+                </li>
+                <li>
+                  Address: &nbsp;&nbsp;<span id="lab_report_address"><%= patient.address; %></span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- <hr /> -->
+
+            <div class="row p-3">
+              <p class="p-0 text-decoration-underline">Lab Tests:</p>
+
+              <div id="lab_test_note" class="border rounded-2 p-3">
+                <%= lab.lab_tests %>
+              </div>
+            </div>
+
+            <!-- <hr /> -->
+
+            <div class="row p-3">
+              <p class="p-0 text-decoration-underline">Test Results:</p>
+
+              <div id="lab_test_results" class="border rounded-2 p-3">
+                <%= lab.lab_results %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

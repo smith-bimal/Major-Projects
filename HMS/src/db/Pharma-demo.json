@@ -1,0 +1,82 @@
+[
+  {
+    "pharmaceutical_name": "Diphtheria Vaccine",
+    "quantity_cartons": 120,
+    "pharmaceutical_category": "Vaccines",
+    "pharmaceutical_vendor": "PharmaGlobe",
+    "pharmaceutical_barcode": 8901234567890,
+    "pharmaceutical_category_description": "Used to prevent diphtheria, tetanus, and pertussis (whooping cough). Store in a cool, dry place."
+  },
+  {
+    "pharmaceutical_name": "Cefixime",
+    "quantity_cartons": 180,
+    "pharmaceutical_category": "Antibiotics",
+    "pharmaceutical_vendor": "PharmaGlobe",
+    "pharmaceutical_barcode": 8909876543210,
+    "pharmaceutical_category_description": "An antibiotic used to treat a wide variety of bacterial infections. Consult your doctor before use."
+  },
+  {
+    "pharmaceutical_name": "Paracetamol",
+    "quantity_cartons": 150,
+    "pharmaceutical_category": "Analgesics",
+    "pharmaceutical_vendor": "MedVista Pharmaceuticals",
+    "pharmaceutical_barcode": 8904567890123,
+    "pharmaceutical_category_description": "Commonly used to reduce fever and relieve mild to moderate pain."
+  },
+  {
+    "pharmaceutical_name": "Levothyroxine",
+    "quantity_cartons": 200,
+    "pharmaceutical_category": "Hormonal medications",
+    "pharmaceutical_vendor": "Apex Pharma Solutions",
+    "pharmaceutical_barcode": 8903210987654,
+    "pharmaceutical_category_description": "A medication prescribed for thyroid hormone replacement therapy."
+  },
+  {
+    "pharmaceutical_name": "BCG Vaccine",
+    "quantity_cartons": 190,
+    "pharmaceutical_category": "Vaccines",
+    "pharmaceutical_vendor": "PharmaGlobe",
+    "pharmaceutical_barcode": 8909876543201,
+    "pharmaceutical_category_description": "A vaccine primarily used against tuberculosis. Store under recommended conditions."
+  },
+  {
+    "pharmaceutical_name": "Azithromycin",
+    "quantity_cartons": 170,
+    "pharmaceutical_category": "Antibiotics",
+    "pharmaceutical_vendor": "PharmaSolutions",
+    "pharmaceutical_barcode": 8906543210987,
+    "pharmaceutical_category_description": "An antibiotic used for treating various types of bacterial infections, including respiratory infections."
+  },
+  {
+    "pharmaceutical_name": "Ibuprofen",
+    "quantity_cartons": 130,
+    "pharmaceutical_category": "Analgesics",
+    "pharmaceutical_vendor": "PharmaSolutions",
+    "pharmaceutical_barcode": 8900987654321,
+    "pharmaceutical_category_description": "Used for relief from pain, inflammation, and fever. Follow the dosage instructions."
+  },
+  {
+    "pharmaceutical_name": "Insulin Glargine",
+    "quantity_cartons": 160,
+    "pharmaceutical_category": "Hormonal medications",
+    "pharmaceutical_vendor": "PharmaSolutions",
+    "pharmaceutical_barcode": 8905678901234,
+    "pharmaceutical_category_description": "A long-acting insulin used to treat diabetes. Ensure proper storage as per instructions."
+  },
+  {
+    "pharmaceutical_name": "Atorvastatin",
+    "quantity_cartons": 140,
+    "pharmaceutical_category": "Hormonal medications",
+    "pharmaceutical_vendor": "Apex Pharma Solutions",
+    "pharmaceutical_barcode": 8902345678901,
+    "pharmaceutical_category_description": "Used to lower cholesterol and reduce the risk of heart disease."
+  },
+  {
+    "pharmaceutical_name": "Diclofenac",
+    "quantity_cartons": 115,
+    "pharmaceutical_category": "Analgesics",
+    "pharmaceutical_vendor": "MedVista Pharmaceuticals",
+    "pharmaceutical_barcode": 8903456789012,
+    "pharmaceutical_category_description": "Used to relieve pain and inflammation in conditions such as arthritis."
+  }
+]

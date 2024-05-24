@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <% if (userType === 'admin') { %>
+  <%- include('includes/navbar') %>
+  <% }else if (userType === 'doctor') { %>
+  <%- include('includes/doc_navbar') %>
+  <% } %>
+
+  <section class="main">
+    <!-- Lab Report content -->
+    <div>
+      <div class="lab-report-content container-fluid p-3 bg-white rounded-2">
+        <div class="lab-report-heading d-flex justify-content-between pt-2 pb-3">
+          <h2>Patient Lab Reports</h2>
+        </div>
+
+        <div class="overflow-auto">
+          <table id="lab_report" class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Patient Name</th>
+                <th scope="col">Patient ID</th>
+                <th scope="col">Patient Ailment</th>
+                <th scope="col">Report Date</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (patient of patients) { %>
+              <tr>
+                <td><%= patients.indexOf(patient) + 1 %></td>
+                <td><%= patient.full_name; %></td>
+                <td><%= patient.id; %></td>
+                <td><%= patient.ailment; %></td>
+                <td>--</td>
+                <td>
+                  <a href="/<%= userType %>/lab/reports/<%= patient.id %>" class="text-decoration-none">View Report</a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- datatable cdn -->
+  <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script defer src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+  <script defer src="/js/datatable_table.js"></script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <% if (userType === 'admin') { %>
+  <%- include('includes/navbar') %>
+  <% }else if (userType === 'doctor') { %>
+  <%- include('includes/doc_navbar') %>
+  <% } %>
+
+  <section class="main">
+    <!-- Manage Pharmaceutical content -->
+    <div class="manage-pharma-content">
+      <div class="container-fluid p-3 bg-white rounded-2">
+        <div class="manage-pharma-heading d-flex justify-content-between pt-2 pb-3">
+          <h2>Manage Pharmaceuticals</h2>
+          <a href="/<%= userType %>/pharmacy/add" class="add_pharma_link text-decoration-none">+ Add Pharmaceutical</a>
+        </div>
+
+        <div class="overflow-auto">
+          <table id="pharma" class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Barcode No.</th>
+                <th scope="col">Vendor</th>
+                <th scope="col">Category</th>
+                <th scope="col">Quantity</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(pharma of pharmacies) { %>
+              <tr>
+                <td><%= pharmacies.indexOf(pharma) +1 %></td>
+                <td><%= pharma.pharmaceutical_name %></td>
+                <td><%= pharma.pharmaceutical_barcode %></td>
+                <td><%= pharma.pharmaceutical_vendor %></td>
+                <td><%= pharma.pharmaceutical_category %></td>
+                <td><%= pharma.quantity_cartons %> Cartons</td>
+                <td>
+                  <i class="fa-solid fa-ellipsis-vertical p-3" data-id="/<%= userType %>/pharmacy/manage/<%= pharma.pharmaceutical_barcode %>"></i>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- datatable cdn -->
+  <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script defer src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+  <script defer src="/js/datatable_table.js"></script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

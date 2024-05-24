@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+
+<body>
+  <% if (userType === 'admin') { %>
+  <%- include('includes/navbar') %>
+  <% }else if (userType === 'doctor') { %>
+  <%- include('includes/doc_navbar') %>
+  <% } %>
+
+  <section class="main">
+    <!-- patient profile content -->
+    <div>
+      <div class="pat-profile-content container-fluid p-4 bg-white rounded-2 position-relative">
+        <div class="pat-profile-heading d-flex justify-content-between pt-2 pb-3">
+          <h2>Patient Prescription</h2>
+        </div>
+        <div class="pat-profile-clost-btn me-4 mt-3">
+          <a href="/<%= userType %>/prescription/q"><i class="fa-solid fa-xmark"></i></a>
+        </div>
+
+        <div class="d-flex flex-lg-row flex-column">
+          <div class="left-pat-profile-sec p-4 col-lg-5 rounded-2 me-lg-4 mb-3">
+            <div class="pat-img-container rounded-circle"></div>
+            <div class="pat-name-id-container pt-lg-4 text-center">
+              <p>
+                <span id="pat_profile_name"><%= patient.full_name %>,</span>
+                <span id="pat_profile_age"><%= patient.age %> yrs</span>
+              </p>
+              <p><span id="pat_profile_id"><%= patient.id %></span></p>
+              <p><span id="pat_profile_type"><%= patient.type %></span></p>
+              <p>
+                <span id="pat_profile_contact"><%= patient.contact_number %></span>
+              </p>
+              <p>
+                <span id="pat_profile_mail"><%= patient.email %></span>
+              </p>
+              <p>
+                Gender :
+                <span id="pat_profile_gender"><%= patient.gender %></span>
+              </p>
+              <p>
+                Ailment :
+                <span id="pat_profile_ailment"><%= patient.ailment %></span>
+              </p>
+            </div>
+          </div>
+
+          <div class="right-pat-profile-sec p-5 rounded-2 flex-fill mb-3">
+            <h2 class="mb-4">Prescription Notes</h2>
+            <div class="details-container d-flex gap-lg-5 border p-4 pb-3 rounded-2" id="prescription_notes">
+              <ul>
+                <% presc.prescription_notes.forEach(note => { %>
+                <li><%= note %></li>
+                <br>
+                <% }) %>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
+</html>

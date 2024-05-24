@@ -1,0 +1,217 @@
+[
+  {
+    "id": "PA-39-9940859",
+    "full_name": "Amit Kumar",
+    "ailment": "insomnia",
+    "lab_tests": [
+      "Polysomnography (Sleep Study)",
+      "Actigraphy",
+      "Blood Tests",
+      "Urine Tests"
+    ],
+    "lab_results": [
+      "Mild sleep apnea detected",
+      "Irregular sleep patterns observed",
+      "Normal",
+      "Normal"
+    ],
+    "heart_rate": 72,
+    "blood_pressure": "120/80",
+    "temperature": 98.6,
+    "respiratory_rate": 16,
+    "oxygen_saturation": 98
+  },
+  {
+    "id": "PA-82-7040026",
+    "full_name": "Sita Sharma",
+    "ailment": "fatigue",
+    "lab_tests": [
+      "Complete Blood Count (CBC)",
+      "Thyroid Function Tests",
+      "Blood Glucose Tests",
+      "Electrolyte Panel"
+    ],
+    "lab_results": ["Anemia detected", "Normal", "Normal", "Normal"],
+    "heart_rate": 78,
+    "blood_pressure": "115/75",
+    "temperature": 98.4,
+    "respiratory_rate": 18,
+    "oxygen_saturation": 97
+  },
+  {
+    "id": "PA-51-5583244",
+    "full_name": "Ravi Verma",
+    "ailment": "allergies",
+    "lab_tests": [
+      "Allergy Skin Tests",
+      "IgE Antibody Blood Test",
+      "Complete Blood Count (CBC)",
+      "Nasal Smear"
+    ],
+    "lab_results": [
+      "Positive for pollen and dust mites",
+      "Elevated IgE levels",
+      "Normal",
+      "Eosinophils present"
+    ],
+    "heart_rate": 76,
+    "blood_pressure": "118/78",
+    "temperature": 98.6,
+    "respiratory_rate": 16,
+    "oxygen_saturation": 98
+  },
+  {
+    "id": "PA-30-0417402",
+    "full_name": "Lakshmi Nair",
+    "ailment": "sore throat",
+    "lab_tests": [
+      "Throat Swab Culture",
+      "Rapid Strep Test",
+      "Complete Blood Count (CBC)",
+      "Monospot Test"
+    ],
+    "lab_results": [
+      "Streptococcus pyogenes detected",
+      "Positive",
+      "Elevated white blood cells",
+      "Negative"
+    ],
+    "heart_rate": 82,
+    "blood_pressure": "122/80",
+    "temperature": 99.1,
+    "respiratory_rate": 18,
+    "oxygen_saturation": 96
+  },
+  {
+    "id": "PA-95-0067684",
+    "full_name": "Ramesh Gupta",
+    "ailment": "allergies",
+    "lab_tests": [
+      "Allergy Skin Tests",
+      "IgE Antibody Blood Test",
+      "Complete Blood Count (CBC)",
+      "Nasal Smear"
+    ],
+    "lab_results": [
+      "Positive for pollen and dust mites",
+      "Elevated IgE levels",
+      "Normal",
+      "Eosinophils present"
+    ],
+    "heart_rate": 75,
+    "blood_pressure": "120/80",
+    "temperature": 98.6,
+    "respiratory_rate": 16,
+    "oxygen_saturation": 98
+  },
+  {
+    "id": "PA-04-7961598",
+    "full_name": "Anita Singh",
+    "ailment": "allergies",
+    "lab_tests": [
+      "Allergy Skin Tests",
+      "IgE Antibody Blood Test",
+      "Complete Blood Count (CBC)",
+      "Nasal Smear"
+    ],
+    "lab_results": [
+      "Positive for pollen and dust mites",
+      "Elevated IgE levels",
+      "Normal",
+      "Eosinophils present"
+    ],
+    "heart_rate": 74,
+    "blood_pressure": "118/78",
+    "temperature": 98.5,
+    "respiratory_rate": 16,
+    "oxygen_saturation": 98
+  },
+  {
+    "id": "PA-83-4918209",
+    "full_name": "Kavita Joshi",
+    "ailment": "headache",
+    "lab_tests": [
+      "Magnetic Resonance Imaging (MRI)",
+      "Computed Tomography (CT) Scan",
+      "Blood Tests",
+      "Eye Exam"
+    ],
+    "lab_results": [
+      "No abnormalities detected",
+      "No abnormalities detected",
+      "Normal",
+      "Normal"
+    ],
+    "heart_rate": 80,
+    "blood_pressure": "120/80",
+    "temperature": 98.6,
+    "respiratory_rate": 16,
+    "oxygen_saturation": 98
+  },
+  {
+    "id": "PA-28-8523048",
+    "full_name": "Manoj Patel",
+    "ailment": "sore throat",
+    "lab_tests": [
+      "Throat Swab Culture",
+      "Rapid Strep Test",
+      "Complete Blood Count (CBC)",
+      "Monospot Test"
+    ],
+    "lab_results": [
+      "Streptococcus pyogenes detected",
+      "Positive",
+      "Elevated white blood cells",
+      "Negative"
+    ],
+    "heart_rate": 85,
+    "blood_pressure": "122/82",
+    "temperature": 99.0,
+    "respiratory_rate": 18,
+    "oxygen_saturation": 96
+  },
+  {
+    "id": "PA-55-7237124",
+    "full_name": "Bharat Desai",
+    "ailment": "fever",
+    "lab_tests": [
+      "Complete Blood Count (CBC)",
+      "Blood Culture",
+      "Urinalysis",
+      "Chest X-Ray"
+    ],
+    "lab_results": [
+      "Elevated white blood cells",
+      "No growth",
+      "Normal",
+      "Normal"
+    ],
+    "heart_rate": 90,
+    "blood_pressure": "118/76",
+    "temperature": 100.4,
+    "respiratory_rate": 20,
+    "oxygen_saturation": 95
+  },
+  {
+    "id": "PA-77-9181409",
+    "full_name": "Geeta Mehta",
+    "ailment": "sore throat",
+    "lab_tests": [
+      "Throat Swab Culture",
+      "Rapid Strep Test",
+      "Complete Blood Count (CBC)",
+      "Monospot Test"
+    ],
+    "lab_results": [
+      "Streptococcus pyogenes detected",
+      "Positive",
+      "Elevated white blood cells",
+      "Negative"
+    ],
+    "heart_rate": 84,
+    "blood_pressure": "120/80",
+    "temperature": 99.2,
+    "respiratory_rate": 18,
+    "oxygen_saturation": 96
+  }
+]

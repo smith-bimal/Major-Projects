@@ -193,7 +193,7 @@ a {
   height: 100%;
   width: 300px;
   position: fixed;
-  top: 104px;
+  top: 100px;
   font-size: 0.95rem;
 }
 
@@ -227,6 +227,10 @@ i.fa-caret-down {
   -moz-transition: 0.5s ease;
   -ms-transition: 0.5s ease;
   -o-transition: 0.5s ease;
+}
+
+.nav-hamburger {
+  display: none;
 }
 
 .nav-active {
@@ -621,6 +625,11 @@ table tbody tr a {
   width: fit-content;
 }
 
+.hero-image-container img {
+  width: 100%;
+  min-width: 450px;
+}
+
 .close_lab_report {
   font-size: 1.5rem;
 }
@@ -650,7 +659,7 @@ table tbody tr a {
 
 .doc-profile .doc-img-container img {
   height: 375px;
-  width: 375px;
+  width: fit-content;
   margin-inline: auto;
   border-top-left-radius: 0.75rem;
   background-position: center;
@@ -694,7 +703,7 @@ table tbody tr a {
   flex-direction: column;
   justify-content: space-between;
 }
-.doc-profile-clost-btn {
+.doc-profile-close-btn {
   float: right;
   font-size: 1.5rem;
   right: 0;
@@ -708,8 +717,8 @@ table tbody tr a {
   margin: 5px;
 }
 
-.pat-profile-clost-btn a i,
-.emp-profile-clost-btn {
+.pat-profile-close-btn a i,
+.emp-profile-close-btn {
   position: absolute;
   font-size: 1.5rem;
   color: var(--text-secondary);
@@ -726,7 +735,7 @@ table tbody tr a {
 .right-emp-profile-sec,
 .right-pat-profile-sec {
   background-color: #47b9ff18;
-  min-width: 450px;
+  min-width: 350px;
 }
 .left-emp-profile-sec .emp-img-container {
   height: 300px;
@@ -785,4 +794,8 @@ table tbody tr a {
 
 #appointment_chart {
   margin-top: -20px;
+}
+
+#print-button {
+  min-width: 150px;
 }

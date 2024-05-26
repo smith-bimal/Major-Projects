@@ -49,12 +49,18 @@ app.use((req, res, next) => {
 app.use(async (req, res, next) => {
     if (req.session.userEmail) {
         const userEmail = req.session.userEmail;
-        // Fetch doctor details from the database based on userEmail
         const doctor = await fetchDoctorDetails(userEmail); // Implement fetchDoctorDetails function
         res.locals.doctor = doctor; // Make doctor information available in all EJS templates
     }
     next();
 });
+
+//Function to fetch logged in doctor information
+function fetchDoctorDetails(userEmail) {
+    const doctor = doctors.find(d => d.email === userEmail);
+    return doctor;
+}
+
 
 app.get("/", (req, res) => {
     res.render("index");
@@ -378,219 +384,288 @@ app.route("/doctor/dashboard")
     .post(async (req, res) => {
         try {
             let { email, password } = req.body;
-            console.log(email, password);
+            console.log(email, password); // Consider validating the email and password
             req.session.userEmail = email;
+            req.session.userType = 'doctor';
             res.redirect("/doctor/dashboard");
         } catch (error) {
             res.status(400).send("Doctor login failed");
         }
-    }).get((req, res) => {
+    })
+    .get(async (req, res) => {
         const userType = req.session.userType;
         const userEmail = req.session.userEmail;
-        res.render("doctor", { userType, patients, appointments, pharmacies, labReports });
+        const doctor = await fetchDoctorDetails(userEmail);
+        res.render("doctor", { userType, patients, appointments, pharmacies, labReports, doctor });
     });
 
 
-app.get("/doctor/appointment/create", (req, res) => {
+
+app.get("/doctor/appointment/create", async (req, res) => {
     const userType = req.session.userType;
-    res.render("create_app", { doctors, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("create_app", { doctors, userType, doctor });
 });
 
-app.get("/doctor/appointment/manage", (req, res) => {
+app.get("/doctor/appointment/manage", async (req, res) => {
     const userType = req.session.userType;
-    res.render("manage_app", { appointments, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("manage_app", { appointments, userType, doctor });
 });
 
-app.get("/doctor/appointment/manage/:id", (req, res) => {
+app.get("/doctor/appointment/manage/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
     let app = appointments.find(a => a.appointment_id === id);
-    res.render("update_app", { app, doctors, userType });
+    res.render("update_app", { app, doctors, userType, doctor });
 });
 
-app.get("/doctor/prescription/add", (req, res) => {
+app.get("/doctor/prescription/add", async (req, res) => {
     const userType = req.session.userType;
-    res.render("add_presc", { patients, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("add_presc", { patients, userType, doctor });
 });
 
-app.get("/doctor/prescription/add/:id", (req, res) => {
+app.get("/doctor/prescription/add/:id", async (req, res) => {
+    const userType = req.session.userType;
+    let id = req.params.id;
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    let patient = patients.find(p => p.id === id);
+    res.render("add_new_presc", { patient, userType, doctor });
+});
+
+app.get("/doctor/prescription/q", async (req, res) => {
+    const userType = req.session.userType;
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("view_presc", { patients, userType, doctor });
+});
+
+app.get("/doctor/prescription/q/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
-    res.render("add_new_presc", { patient, userType });
-});
-
-app.get("/doctor/prescription/q", (req, res) => {
-    const userType = req.session.userType;
-    res.render("view_presc", { patients, userType });
-});
-
-app.get("/doctor/prescription/q/:id", (req, res) => {
-    const userType = req.session.userType;
-    let id = req.params.id;
-    let patient = patients.find(p => p.id === id);
+    const userEmail = req.session.userEmail;
     let presc = prescriptions.find(p => p.patient_id === id);
-    res.render("prescription", { patient, presc, userType });
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("prescription", { patient, presc, userType, doctor });
 });
 
-app.get("/doctor/prescription/manage", (req, res) => {
+app.get("/doctor/prescription/manage", async (req, res) => {
     const userType = req.session.userType;
-    res.render("manage_presc", { patients, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("manage_presc", { patients, userType, doctor });
 });
 
-app.get("/doctor/prescription/manage/:id", (req, res) => {
+app.get("/doctor/prescription/manage/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
     let presc = prescriptions.find(p => p.patient_id === id);
-    res.render("update_presc", { patient, presc, userType });
+    res.render("update_presc", { patient, presc, userType, doctor });
 });
 
-app.get("/doctor/pharmacy/add", (req, res) => {
+app.get("/doctor/pharmacy/add", async (req, res) => {
     const userType = req.session.userType;
-    res.render("add_pharma", { userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("add_pharma", { userType, doctor });
 });
 
-app.get("/doctor/pharmacy/manage", (req, res) => {
+app.get("/doctor/pharmacy/manage", async (req, res) => {
     const userType = req.session.userType;
-    res.render("manage_pharma", { pharmacies, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("manage_pharma", { pharmacies, userType, doctor });
 });
 
-app.get("/doctor/pharmacy/manage/:bc", (req, res) => {
+app.get("/doctor/pharmacy/manage/:bc", async (req, res) => {
     const userType = req.session.userType;
     let bc = req.params.bc;
+    const userEmail = req.session.userEmail;
     let pharma = pharmacies.find(p => p.pharmaceutical_barcode === Number(bc));
-    res.render("update_pharma", { pharma, userType });
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("update_pharma", { pharma, userType, doctor });
 });
 
-app.get("/doctor/lab/tests", (req, res) => {
+app.get("/doctor/lab/tests", async (req, res) => {
     const userType = req.session.userType;
-    res.render("patient_lab_test", { patients, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("patient_lab_test", { patients, userType, doctor });
 });
 
-app.get("/doctor/lab/tests/:id", (req, res) => {
+app.get("/doctor/lab/tests/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
+    const userEmail = req.session.userEmail;
     let lab = labReports.find(r => r.id === id);
-    res.render("add_lab_test", { lab, userType });
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("add_lab_test", { lab, userType, doctor });
 });
 
-app.get("/doctor/lab/results", (req, res) => {
+app.get("/doctor/lab/results", async (req, res) => {
     const userType = req.session.userType;
-    res.render("patient_lab_result", { patients, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("patient_lab_result", { patients, userType, doctor });
 });
 
-app.get("/doctor/lab/results/:id", (req, res) => {
+app.get("/doctor/lab/results/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
+    const userEmail = req.session.userEmail;
     let lab = labReports.find(r => r.id === id);
-    res.render("add_lab_result", { lab, userType });
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("add_lab_result", { lab, userType, doctor });
 });
 
-app.get("/doctor/patient/vitals", (req, res) => {
+app.get("/doctor/patient/vitals", async (req, res) => {
     const userType = req.session.userType;
-    res.render("patient_vitals", { patients, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("patient_vitals", { patients, userType, doctor });
 });
 
-app.get("/doctor/patient/vitals/:id", (req, res) => {
+app.get("/doctor/patient/vitals/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
     let lab = labReports.find(l => l.id === id);
-    res.render("add_patient_vitals", { patient, lab, userType });
+    res.render("add_patient_vitals", { patient, lab, userType, doctor });
 });
 
-app.get("/doctor/lab/reports", (req, res) => {
+app.get("/doctor/lab/reports", async (req, res) => {
     const userType = req.session.userType;
-    res.render("lab_reports", { patients, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("lab_reports", { patients, userType, doctor });
 });
 
-app.get("/doctor/lab/reports/:id", (req, res) => {
+app.get("/doctor/lab/reports/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
     let lab = labReports.find(l => l.id === id);
-    res.render("view_lab_report", { patient, lab, userType });
+    res.render("view_lab_report", { patient, lab, userType, doctor });
 });
 
-app.get("/doctor/patient/register", (req, res) => {
+app.get("/doctor/patient/register", async (req, res) => {
     const userType = req.session.userType;
-    res.render("register_patient", { userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("register_patient", { userType, doctor });
 });
 
-app.get("/doctor/patient/q", (req, res) => {
+app.get("/doctor/patient/q", async (req, res) => {
     const userType = req.session.userType;
-    res.render("view_patient", { patients, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("view_patient", { patients, userType, doctor });
 });
 
-app.get("/doctor/patient/q/:id", (req, res) => {
+app.get("/doctor/patient/q/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
     let lab = labReports.find(d => d.id === id);
-    res.render("patient_profile", { patient, lab, userType });
+    res.render("patient_profile", { patient, lab, userType, doctor });
 });
 
-app.get("/doctor/patient/manage", (req, res) => {
+app.get("/doctor/patient/manage", async (req, res) => {
     const userType = req.session.userType;
-    res.render("manage_patient", { patients, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("manage_patient", { patients, userType, doctor });
 });
 
-app.get("/doctor/patient/manage/:id", (req, res) => {
-    const userType = req.session.userType;
-    let id = req.params.id;
-    let patient = patients.find(p => p.id === id);
-    res.render("update_patient", { patient, doctors, userType });
-});
-
-app.get("/doctor/patient/discharge", (req, res) => {
-    const userType = req.session.userType;
-    res.render("discharge_patient", { patients, userType });
-});
-
-app.get("/doctor/patient/discharge/:id", (req, res) => {
+app.get("/doctor/patient/manage/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
+    const userEmail = req.session.userEmail;
     let patient = patients.find(p => p.id === id);
-    res.render("discharge_form", { patient, userType });
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("update_patient", { patient, doctors, userType, doctor });
 });
 
-app.get("/doctor/records/appointment", (req, res) => {
+app.get("/doctor/patient/discharge", async (req, res) => {
     const userType = req.session.userType;
-    res.render("appointment_records", { appointments, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("discharge_patient", { patients, userType, doctor });
 });
 
-app.get("/doctor/records/appointment/:id", (req, res) => {
+app.get("/doctor/patient/discharge/:id", async (req, res) => {
+    const userType = req.session.userType;
+    let id = req.params.id;
+    const userEmail = req.session.userEmail;
+    let patient = patients.find(p => p.id === id);
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("discharge_form", { patient, userType, doctor });
+});
+
+app.get("/doctor/records/appointment", async (req, res) => {
+    const userType = req.session.userType;
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("appointment_records", { appointments, userType, doctor });
+});
+
+app.get("/doctor/records/appointment/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let app = appointments.find(a => a.appointment_id === id);
     let doctorName = app.preferred_doctor;
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
     let doc = doctors.find(d => d.full_name === doctorName);
-    res.render("appointment", { app, doc, userType });
+    res.render("appointment", { app, doc, userType, doctor });
 });
 
-app.get("/doctor/records/patient", (req, res) => {
+app.get("/doctor/records/patient", async (req, res) => {
     const userType = req.session.userType;
-    res.render("patient_records", { patients, userType });
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("patient_records", { patients, userType, doctor });
 });
 
-app.get("/doctor/records/patient/:id", (req, res) => {
+app.get("/doctor/records/patient/:id", async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
     let doctorName = patient.doctor_assigned;
     let doc = doctors.find(d => d.full_name === doctorName);
-    let lab = labReports.find(r => r.id === id);
-    res.render("patient_final_record", { patient, doc, lab, userType });
-});
-
-app.get("/doctor/survey", (req, res) => {
-    const userType = req.session.userType;
-    res.render("survey", { userType });
-});
-
-app.get("/doctor/profile", (req, res) => {
     const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    let lab = labReports.find(r => r.id === id);
+    res.render("patient_final_record", { patient, doc, lab, userType, doctor });
+});
+
+app.get("/doctor/survey", async (req, res) => {
+    const userType = req.session.userType;
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("survey", { userType, doctor });
+});
+
+app.get("/doctor/profile", async (req, res) => {
+    const userEmail = req.session.userEmail;
+    const doctor = await fetchDoctorDetails(userEmail);
     res.send(fetchDoctorDetails(userEmail));
 });
 
@@ -607,8 +682,3 @@ app.get('*', (req, res) => {
     res.render("404", { userType });
 });
 
-//function to fetch the doctor details according to the email logged in
-function fetchDoctorDetails(userEmail) {
-    const doctor = doctors.find(d => d.email === userEmail);
-    return doctor;
-}

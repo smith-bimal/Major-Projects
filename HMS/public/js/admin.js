@@ -1,7 +1,14 @@
 const navOptions = document.querySelectorAll(".nav-option");
 const subNavOptions = document.querySelectorAll(".nav-child a p");
 
+// Close the sub-menus if clicked outside
+document.addEventListener("click", (e) => {
 
+    if (!e.target.closest(".nav-option") && !e.target.closest(".sub-nav")) {
+        closeSubNav();
+        document.querySelectorAll(".sub-nav").forEach(sub => sub.classList.remove("sub-nav-active"));
+    }
+});
 // Function to set the active state of the navigation options based on the current URL
 function setActiveNav() {
     const currentUrl = window.location.pathname;
@@ -149,17 +156,6 @@ setActiveNav();
 window.addEventListener('DOMContentLoaded', setActiveNav);
 window.addEventListener('popstate', setActiveNav);
 
-
-// close sub menu active state
-function closeSubNav() {
-    navOptions.forEach((el) => {
-        if (el.nextElementSibling) {
-            el.nextElementSibling.classList.remove("sub-menu-active");
-            rotateIconUp(el)
-        }
-    })
-}
-
 // toggle the sub nav option when clicked
 navOptions.forEach((el) => {
     el.addEventListener("click", (e) => {
@@ -170,6 +166,7 @@ navOptions.forEach((el) => {
         }
     });
 });
+
 
 
 //Rotate the down arrow icon
@@ -184,7 +181,15 @@ function rotateIconUp() {
     })
 }
 
-
+// close sub menu active state
+function closeSubNav() {
+    navOptions.forEach((el) => {
+        if (el.nextElementSibling) {
+            el.nextElementSibling.classList.remove("sub-menu-active");
+            rotateIconUp(el)
+        }
+    })
+}
 
 
 
@@ -393,3 +398,26 @@ const copyright = document.createElement("p");
 copyright.setAttribute("class", "copyright text-secondary pt-0 pb-0 m-0");
 copyright.innerHTML = "&copy; 2024 Smith Bimal. All rights reserved.";
 main.appendChild(copyright);
+
+
+
+//Responsive navbar when screen size smaller than 768px
+
+if (window.innerWidth < 768) {
+    const navMenuBtn = document.querySelector(".nav-hamburger");
+
+    navMenuBtn.addEventListener("click", () => {
+        console.log("button is clicked");
+        document.querySelector(".navigation").classList.toggle("slide-in");
+    })
+
+
+    // Close the nav menus if clicked outside
+    document.addEventListener("click", (e) => {
+
+        if (!e.target.closest(".navigation") && !e.target.closest(".nav-option")) {
+            closeSubNav();
+            document.querySelector(".navigation").classList.remove("slide-in");
+        }
+    });
+}

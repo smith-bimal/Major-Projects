@@ -16,7 +16,7 @@
         <div class="pat-profile-heading d-flex justify-content-between pt-2 pb-3">
           <h2>Patient Prescription</h2>
         </div>
-        <div class="pat-profile-clost-btn me-4 mt-3">
+        <div class="pat-profile-close-btn me-4 mt-3">
           <a href="/<%= userType %>/prescription/q"><i class="fa-solid fa-xmark"></i></a>
         </div>
 
@@ -49,7 +49,7 @@
 
           <div class="right-pat-profile-sec p-5 rounded-2 flex-fill mb-3">
             <h2 class="mb-4">Prescription Notes</h2>
-            <div class="details-container d-flex gap-lg-5 border p-4 pb-3 rounded-2" id="prescription_notes">
+            <div class="presc-notes-container d-flex gap-lg-5 border p-4 pb-3 rounded-2" id="prescription_notes">
               <ul>
                 <% presc.prescription_notes.forEach(note => { %>
                 <li><%= note %></li>

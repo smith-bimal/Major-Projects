@@ -1,129 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('includes/head') %>
+<%- include('includes/head') %>
 
-  <body>
-    <%- include('includes/navbar') %>
+<body>
+  <%- include('includes/navbar') %>
 
-    <section class="main">
-      <!-- Employee profile content -->
-      <div>
-        <div
-          class="emp-profile-content container-fluid p-4 bg-white rounded-2 position-relative"
-        >
-          <div
-            class="emp-profile-heading d-flex justify-content-between pt-2 pb-3"
-          >
-            <h2>Employee Profile</h2>
+  <section class="main">
+    <!-- Employee profile content -->
+    <div>
+      <div class="emp-profile-content container-fluid p-4 bg-white rounded-2 position-relative">
+        <div class="emp-profile-heading d-flex justify-content-between pt-2 pb-3">
+          <h2>Employee Profile</h2>
+        </div>
+        <div class="emp-profile-close-btn">
+          <a href="/admin/employee/q"><i class="fa-solid fa-xmark text-secondary"></i></a>
+        </div>
+
+        <div class="d-flex flex-lg-row flex-column">
+          <div class="left-emp-profile-sec p-4 col-lg-5 rounded-2 me-lg-4 mb-3">
+            <div class="emp-img-container rounded-circle">
+              <img src="<%= employee.image %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
+            </div>
+            <div class="emp-name-id-container pt-lg-4 text-center">
+              <p>
+                <span id="emp_profile_name"><%= employee.full_name %>,</span>
+                <span id="emp_profile_age"><%= employee.age %> yrs</span>
+              </p>
+              <p>
+                <span id="emp_profile_id"><%= employee.employee_id %></span>
+              </p>
+              <p>
+                <span id="emp_profile_contact"><%= employee.contact_number %></span>
+              </p>
+              <p>
+                <span id="emp_profile_mail"><%= employee.email %></span>
+              </p>
+              <p>
+                <span id="emp_profile_position"><%= employee.position %></span>
+              </p>
+              <p>
+                <span id="emp_profile_dept"><%= employee.department %></span>
+              </p>
+            </div>
           </div>
-          <div class="emp-profile-clost-btn">
-            <a href="/admin/employee/q"
-              ><i class="fa-solid fa-xmark text-secondary"></i
-            ></a>
-          </div>
 
-          <div class="d-flex flex-lg-row flex-column">
-            <div
-              class="left-emp-profile-sec p-4 col-lg-5 rounded-2 me-lg-4 mb-3"
-            >
-              <div class="emp-img-container rounded-circle">
-                <img
-                  src="<%= employee.image %>"
-                  onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'"
-                />
+          <div class="right-emp-profile-sec p-5 rounded-2 flex-fill mb-3">
+            <h2 class="mb-4">Personal Details</h2>
+            <div class="details-container d-flex gap-lg-5 border p-4 pb-3 rounded-2">
+              <div class="left-details d-flex flex-column justify-content-between">
+                <p>Gender :</p>
+                <p>Date of Birth :</p>
+                <p>Qualification :</p>
+                <p>Experience :</p>
+                <p>Complete Address :</p>
               </div>
-              <div class="emp-name-id-container pt-lg-4 text-center">
+              <div class="right-details d-flex flex-column justify-content-between">
                 <p>
-                  <span id="emp_profile_name"><%= employee.full_name %>,</span>
-                  <span id="emp_profile_age"><%= employee.age %> yrs</span>
+                  <span id="emp_profile_gender"><%= employee.gender %></span>
                 </p>
                 <p>
-                  <span id="emp_profile_id"><%= employee.employee_id %></span>
+                  <span id="emp_profile_dob"><%= employee.date_of_birth %></span>
                 </p>
                 <p>
-                  <span id="emp_profile_contact"
-                    ><%= employee.contact_number %></span
-                  >
+                  <span id="emp_profile_qual"><%= employee.qualification %></span>
                 </p>
                 <p>
-                  <span id="emp_profile_mail"><%= employee.email %></span>
+                  <span id="emp_profile_exp"><%= employee.experience %> yrs</span>
                 </p>
                 <p>
-                  <span id="emp_profile_position"
-                    ><%= employee.position %></span
-                  >
-                </p>
-                <p>
-                  <span id="emp_profile_dept"><%= employee.department %></span>
+                  <span id="emp_profile_address"><%= employee.address %>, <%= employee.pincode %></span>
                 </p>
               </div>
             </div>
+            <br />
 
-            <div class="right-emp-profile-sec p-5 rounded-2 flex-fill mb-3">
-              <h2 class="mb-4">Personal Details</h2>
-              <div
-                class="details-container d-flex gap-lg-5 border p-4 pb-3 rounded-2"
-              >
-                <div
-                  class="left-details d-flex flex-column justify-content-between"
-                >
-                  <p>Gender :</p>
-                  <p>Date of Birth :</p>
-                  <p>Qualification :</p>
-                  <p>Experience :</p>
-                  <p>Complete Address :</p>
-                </div>
-                <div
-                  class="right-details d-flex flex-column justify-content-between"
-                >
-                  <p>
-                    <span id="emp_profile_gender"><%= employee.gender %></span>
-                  </p>
-                  <p>
-                    <span id="emp_profile_dob"
-                      ><%= employee.date_of_birth %></span
-                    >
-                  </p>
-                  <p>
-                    <span id="emp_profile_qual"
-                      ><%= employee.qualification %></span
-                    >
-                  </p>
-                  <p>
-                    <span id="emp_profile_exp"
-                      ><%= employee.experience %> yrs</span
-                    >
-                  </p>
-                  <p>
-                    <span id="emp_profile_address"
-                      ><%= employee.address %>, <%= employee.pincode %></span
-                    >
-                  </p>
-                </div>
-              </div>
-              <br />
-
-              <h2 class="mb-4">Additional Notes</h2>
-              <div
-                class="notes-container d-flex gap-lg-5 border p-4 pb-3 rounded-2"
-              >
-                ----
-              </div>
+            <h2 class="mb-4">Additional Notes</h2>
+            <div class="notes-container d-flex gap-lg-5 border p-4 pb-3 rounded-2">
+              ----
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- bootstrap cdn -->
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <!-- Main js file -->
-    <script defer src="/js/admin.js"></script>
-  </body>
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
 </html>

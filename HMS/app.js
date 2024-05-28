@@ -94,7 +94,7 @@ app.route("/admin/appointment/create").get((req, res) => {
     console.log(name, email, contact, dob, age, gender, address, pincode, app_doc, app_date, reason, notes);
     setTimeout(() => {
         res.redirect("/admin/appointment/manage");
-    }, 2000);
+    }, 1500);
 })
 
 app.get("/admin/appointment/manage", (req, res) => {
@@ -102,22 +102,26 @@ app.get("/admin/appointment/manage", (req, res) => {
     res.render("manage_app", { appointments, userType });
 });
 
-app.get("/admin/appointment/manage/:id", (req, res) => {
+app.route("/admin/appointment/manage/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let app = appointments.find(a => a.appointment_id === id);
     res.render("update_app", { app, doctors, userType });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/appointment/manage");
+    }, 1500);
+})
 
 app.route("/admin/pharmacy/add").get((req, res) => {
     const userType = req.session.userType;
     res.render("add_pharma", { userType });
 }).post((req, res) => {
-    let { name, quantity, category, vendor, barcode, desc } = req.body;
-    console.log(name, quantity, category, vendor, barcode, desc);
-    // setTimeout(() => {
-    //     res.redirect("/admin/pharmacy/manage");
-    // }, 2000);
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/pharmacy/manage");
+    }, 1500);
 });
 
 app.get("/admin/pharmacy/manage", (req, res) => {
@@ -125,24 +129,34 @@ app.get("/admin/pharmacy/manage", (req, res) => {
     res.render("manage_pharma", { pharmacies, userType });
 });
 
-app.get("/admin/pharmacy/manage/:bc", (req, res) => {
+app.route("/admin/pharmacy/manage/:bc").get((req, res) => {
     const userType = req.session.userType;
     let bc = req.params.bc;
     let pharma = pharmacies.find(p => p.pharmaceutical_barcode === Number(bc));
     res.render("update_pharma", { pharma, userType });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/pharmacy/manage");
+    }, 1500);
+})
 
 app.get("/admin/prescription/add", (req, res) => {
     const userType = req.session.userType;
     res.render("add_presc", { patients, userType });
 });
 
-app.get("/admin/prescription/add/:id", (req, res) => {
+app.route("/admin/prescription/add/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
     res.render("add_new_presc", { patient, userType });
-});
+}).post((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/prescription/manage");
+    }, 1500);
+})
 
 app.get("/admin/prescription/q", (req, res) => {
     const userType = req.session.userType;
@@ -162,36 +176,51 @@ app.get("/admin/prescription/manage", (req, res) => {
     res.render("manage_presc", { patients, userType });
 });
 
-app.get("/admin/prescription/manage/:id", (req, res) => {
+app.route("/admin/prescription/manage/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
     let presc = prescriptions.find(p => p.patient_id === id);
     res.render("update_presc", { patient, presc, userType });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/prescription/manage");
+    }, 1500);
+})
 
 app.get("/admin/lab/tests", (req, res) => {
     const userType = req.session.userType;
     res.render("patient_lab_test", { patients, userType });
-});
+})
 
-app.get("/admin/lab/tests/:id", (req, res) => {
+app.route("/admin/lab/tests/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let lab = labReports.find(r => r.id === id);
     res.render("add_lab_test", { lab, userType });
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/lab/tests");
+    }, 1500);
 });
 
 app.get("/admin/lab/results", (req, res) => {
     const userType = req.session.userType;
     res.render("patient_lab_result", { patients, userType });
-});
+})
 
-app.get("/admin/lab/results/:id", (req, res) => {
+app.route("/admin/lab/results/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let lab = labReports.find(r => r.id === id);
     res.render("add_lab_result", { lab, userType });
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/lab/results");
+    }, 1500);
 });
 
 app.get("/admin/patient/vitals", (req, res) => {
@@ -199,13 +228,18 @@ app.get("/admin/patient/vitals", (req, res) => {
     res.render("patient_vitals", { patients, userType });
 });
 
-app.get("/admin/patient/vitals/:id", (req, res) => {
+app.route("/admin/patient/vitals/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
     let lab = labReports.find(l => l.id === id);
     res.render("add_patient_vitals", { patient, lab, userType });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/patient/vitals");
+    }, 1500);
+})
 
 app.get("/admin/lab/reports", (req, res) => {
     const userType = req.session.userType;
@@ -225,10 +259,15 @@ app.get("/admin/doctor/add", (req, res) => {
     res.render("add_doctor", { userType });
 });
 
-app.get("/admin/doctor/q", (req, res) => {
+app.route("/admin/doctor/q").get((req, res) => {
     const userType = req.session.userType;
     res.render("view_doctor", { doctors, userType });
-});
+}).post((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/doctor/q");
+    }, 1500);
+})
 
 app.get("/admin/doctor/q/:id", (req, res) => {
     const userType = req.session.userType;
@@ -242,16 +281,26 @@ app.get("/admin/doctor/manage", (req, res) => {
     res.render("manage_doctor", { doctors, userType });
 });
 
-app.get("/admin/doctor/manage/:id", (req, res) => {
+app.route("/admin/doctor/manage/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let doctor = doctors.find(d => d.id === id);
     res.render("update_doctor", { doctor, userType });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/doctor/manage");
+    }, 1500);
+})
 
-app.get("/admin/patient/register", (req, res) => {
+app.route("/admin/patient/register").get((req, res) => {
     const userType = req.session.userType;
     res.render("register_patient", { userType });
+}).post((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/patient/q");
+    }, 1500);
 });
 
 app.get("/admin/patient/q", (req, res) => {
@@ -272,29 +321,44 @@ app.get("/admin/patient/manage", (req, res) => {
     res.render("manage_patient", { patients, userType });
 });
 
-app.get("/admin/patient/manage/:id", (req, res) => {
+app.route("/admin/patient/manage/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
     res.render("update_patient", { patient, doctors, userType });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/patient/manage");
+    }, 1500);
+})
 
 app.get("/admin/patient/discharge", (req, res) => {
     const userType = req.session.userType;
     res.render("discharge_patient", { patients, userType });
 });
 
-app.get("/admin/patient/discharge/:id", (req, res) => {
+app.route("/admin/patient/discharge/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
     res.render("discharge_form", { patient, userType });
-});
+}).post((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/patient/discharge");
+    }, 1500);
+})
 
-app.get("/admin/employee/add", (req, res) => {
+app.route("/admin/employee/add").get((req, res) => {
     const userType = req.session.userType;
     res.render("add_employee", { userType });
-});
+}).post((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/employee/q");
+    }, 1500);
+})
 
 app.get("/admin/employee/q", (req, res) => {
     const userType = req.session.userType;
@@ -313,12 +377,17 @@ app.get("/admin/employee/manage", (req, res) => {
     res.render("manage_employee", { employees, userType });
 });
 
-app.get("/admin/employee/manage/:id", (req, res) => {
+app.route("/admin/employee/manage/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let employee = employees.find(e => e.employee_id === id);
     res.render("update_employee", { employee, userType });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/employee/manage");
+    }, 1500);
+})
 
 app.get("/admin/records/appointment", (req, res) => {
     const userType = req.session.userType;
@@ -354,24 +423,34 @@ app.get("/admin/payroll/add", (req, res) => {
     res.render("add_payroll", { employees, userType });
 });
 
-app.get("/admin/payroll/add/:id", (req, res) => {
+app.route("/admin/payroll/add/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let emp = employees.find(e => e.employee_id === id);
     res.render("add_new_payroll", { emp, userType });
-});
+}).post((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/payroll/add");
+    }, 1500);
+})
 
 app.get("/admin/payroll/manage", (req, res) => {
     const userType = req.session.userType;
     res.render("manage_payroll", { employees, userType });
 });
 
-app.get("/admin/payroll/manage/:id", (req, res) => {
+app.route("/admin/payroll/manage/:id").get((req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let emp = employees.find(e => e.employee_id === id);
     res.render("update_payroll", { emp, userType });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/admin/payroll/manage");
+    }, 1500);
+})
 
 app.get("/admin/payroll/generate", (req, res) => {
     const userType = req.session.userType;
@@ -419,11 +498,10 @@ app.route("/doctor/appointment/create").get(async (req, res) => {
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("create_app", { doctors, userType, doctor });
 }).post((req, res) => {
-    let { name, email, contact, dob, age, gender, address, pincode, app_doc, app_date, reason, notes } = req.body;
-    console.log(name, email, contact, dob, age, gender, address, pincode, app_doc, app_date, reason, notes);
+    console.log(req.body);
     setTimeout(() => {
         res.redirect("/doctor/appointment/manage");
-    }, 2000);
+    }, 1500);
 })
 
 
@@ -434,14 +512,19 @@ app.get("/doctor/appointment/manage", async (req, res) => {
     res.render("manage_app", { appointments, userType, doctor });
 });
 
-app.get("/doctor/appointment/manage/:id", async (req, res) => {
+app.route("/doctor/appointment/manage/:id").get(async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     const userEmail = req.session.userEmail;
     const doctor = await fetchDoctorDetails(userEmail);
     let app = appointments.find(a => a.appointment_id === id);
     res.render("update_app", { app, doctors, userType, doctor });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/appointment/manage");
+    }, 1500);
+})
 
 app.get("/doctor/prescription/add", async (req, res) => {
     const userType = req.session.userType;
@@ -450,14 +533,19 @@ app.get("/doctor/prescription/add", async (req, res) => {
     res.render("add_presc", { patients, userType, doctor });
 });
 
-app.get("/doctor/prescription/add/:id", async (req, res) => {
+app.route("/doctor/prescription/add/:id").get(async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     const userEmail = req.session.userEmail;
     const doctor = await fetchDoctorDetails(userEmail);
     let patient = patients.find(p => p.id === id);
     res.render("add_new_presc", { patient, userType, doctor });
-});
+}).post((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/prescription/add");
+    }, 1500);
+})
 
 app.get("/doctor/prescription/q", async (req, res) => {
     const userType = req.session.userType;
@@ -483,7 +571,7 @@ app.get("/doctor/prescription/manage", async (req, res) => {
     res.render("manage_presc", { patients, userType, doctor });
 });
 
-app.get("/doctor/prescription/manage/:id", async (req, res) => {
+app.route("/doctor/prescription/manage/:id").get(async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
@@ -491,6 +579,11 @@ app.get("/doctor/prescription/manage/:id", async (req, res) => {
     const doctor = await fetchDoctorDetails(userEmail);
     let presc = prescriptions.find(p => p.patient_id === id);
     res.render("update_presc", { patient, presc, userType, doctor });
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/prescription/manage");
+    }, 1500);
 });
 
 app.route("/doctor/pharmacy/add").get(async (req, res) => {
@@ -499,11 +592,10 @@ app.route("/doctor/pharmacy/add").get(async (req, res) => {
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("add_pharma", { userType, doctor });
 }).post((req, res) => {
-    let { name, quantity, category, vendor, barcode, desc } = req.body;
-    console.log(name, quantity, category, vendor, barcode, desc);
-    // setTimeout(() => {
-    //     res.redirect("/doctor/pharmacy/manage");
-    // }, 2000);
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/pharmacy/manage");
+    }, 1500);
 });
 
 app.get("/doctor/pharmacy/manage", async (req, res) => {
@@ -513,13 +605,18 @@ app.get("/doctor/pharmacy/manage", async (req, res) => {
     res.render("manage_pharma", { pharmacies, userType, doctor });
 });
 
-app.get("/doctor/pharmacy/manage/:bc", async (req, res) => {
+app.route("/doctor/pharmacy/manage/:bc").get(async (req, res) => {
     const userType = req.session.userType;
     let bc = req.params.bc;
     const userEmail = req.session.userEmail;
     let pharma = pharmacies.find(p => p.pharmaceutical_barcode === Number(bc));
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("update_pharma", { pharma, userType, doctor });
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/pharmacy/manage");
+    }, 1500);
 });
 
 app.get("/doctor/lab/tests", async (req, res) => {
@@ -529,13 +626,18 @@ app.get("/doctor/lab/tests", async (req, res) => {
     res.render("patient_lab_test", { patients, userType, doctor });
 });
 
-app.get("/doctor/lab/tests/:id", async (req, res) => {
+app.route("/doctor/lab/tests/:id").get(async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     const userEmail = req.session.userEmail;
     let lab = labReports.find(r => r.id === id);
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("add_lab_test", { lab, userType, doctor });
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/lab/tests");
+    }, 1500);
 });
 
 app.get("/doctor/lab/results", async (req, res) => {
@@ -545,13 +647,18 @@ app.get("/doctor/lab/results", async (req, res) => {
     res.render("patient_lab_result", { patients, userType, doctor });
 });
 
-app.get("/doctor/lab/results/:id", async (req, res) => {
+app.route("/doctor/lab/results/:id").get(async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     const userEmail = req.session.userEmail;
     let lab = labReports.find(r => r.id === id);
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("add_lab_result", { lab, userType, doctor });
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/lab/results");
+    }, 1500);
 });
 
 app.get("/doctor/patient/vitals", async (req, res) => {
@@ -561,7 +668,7 @@ app.get("/doctor/patient/vitals", async (req, res) => {
     res.render("patient_vitals", { patients, userType, doctor });
 });
 
-app.get("/doctor/patient/vitals/:id", async (req, res) => {
+app.route("/doctor/patient/vitals/:id").get(async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     let patient = patients.find(p => p.id === id);
@@ -569,6 +676,12 @@ app.get("/doctor/patient/vitals/:id", async (req, res) => {
     const doctor = await fetchDoctorDetails(userEmail);
     let lab = labReports.find(l => l.id === id);
     res.render("add_patient_vitals", { patient, lab, userType, doctor });
+}).patch((req, res) => {
+    console.log(Date.now());
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/patient/vitals");
+    }, 1500);
 });
 
 app.get("/doctor/lab/reports", async (req, res) => {
@@ -588,12 +701,17 @@ app.get("/doctor/lab/reports/:id", async (req, res) => {
     res.render("view_lab_report", { patient, lab, userType, doctor });
 });
 
-app.get("/doctor/patient/register", async (req, res) => {
+app.route("/doctor/patient/register").get(async (req, res) => {
     const userType = req.session.userType;
     const userEmail = req.session.userEmail;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("register_patient", { userType, doctor });
-});
+}).post((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/patient/q");
+    }, 1500);
+})
 
 app.get("/doctor/patient/q", async (req, res) => {
     const userType = req.session.userType;
@@ -619,13 +737,18 @@ app.get("/doctor/patient/manage", async (req, res) => {
     res.render("manage_patient", { patients, userType, doctor });
 });
 
-app.get("/doctor/patient/manage/:id", async (req, res) => {
+app.route("/doctor/patient/manage/:id").get(async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     const userEmail = req.session.userEmail;
     let patient = patients.find(p => p.id === id);
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("update_patient", { patient, doctors, userType, doctor });
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/patient/manage");
+    }, 1500);
 });
 
 app.get("/doctor/patient/discharge", async (req, res) => {
@@ -635,13 +758,18 @@ app.get("/doctor/patient/discharge", async (req, res) => {
     res.render("discharge_patient", { patients, userType, doctor });
 });
 
-app.get("/doctor/patient/discharge/:id", async (req, res) => {
+app.route("/doctor/patient/discharge/:id").get(async (req, res) => {
     const userType = req.session.userType;
     let id = req.params.id;
     const userEmail = req.session.userEmail;
     let patient = patients.find(p => p.id === id);
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("discharge_form", { patient, userType, doctor });
+}).post((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/patient/discharge");
+    }, 1500);
 });
 
 app.get("/doctor/records/appointment", async (req, res) => {
@@ -688,13 +816,17 @@ app.get("/doctor/survey", async (req, res) => {
     res.render("survey", { userType, doctor });
 });
 
-app.get("/doctor/profile", async (req, res) => {
+app.route("/doctor/profile").get((req, res) => {
     const userType = req.session.userType;
     const userEmail = req.session.userEmail;
-    const doctor = await fetchDoctorDetails(userEmail);
-    // res.send(doctor);
+    const doctor = fetchDoctorDetails(userEmail);
     res.render("doc_profile_acc", { doctor, userType });
-});
+}).patch((req, res) => {
+    console.log(req.body);
+    setTimeout(() => {
+        res.redirect("/doctor/profile");
+    }, 1500);
+})
 
 // doctor section end ------------------------------------------
 

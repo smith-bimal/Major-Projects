@@ -12,7 +12,7 @@
   <section class="main">
     <!-- Register Patient content -->
     <div class="reg-pat-content">
-      <form action="#" id="pat_reg_form">
+      <form action="/<%= userType %>/patient/register" method="post" id="pat_reg_form">
         <div class="container-fluid p-3 bg-white rounded-2">
           <h2>Register New Patient</h2>
 
@@ -22,19 +22,19 @@
               <div class="col-lg-4 m-0">
                 <label for="reg_pat_name">Full Name</label><br />
 
-                <input type="text" placeholder="Patient Full Name" class="form-control rounded-4" id="reg_pat_name" />
+                <input type="text" placeholder="Patient Full Name" class="form-control rounded-4" id="reg_pat_name" name="name" />
               </div>
 
               <div class="col-lg-4 m-0">
                 <label for="reg_pat_id">Patient ID</label><br />
 
-                <input type="text" placeholder="Patient ID" class="form-control rounded-4" id="reg_pat_id" />
+                <input type="text" placeholder="Patient ID" class="form-control rounded-4" id="reg_pat_id" name="id" />
               </div>
 
               <div class="col-lg-4 m-0">
                 <label for="reg_pat_mail">Email</label><br />
 
-                <input type="email" placeholder="Patient Email ID" class="form-control rounded-4" id="reg_pat_mail" />
+                <input type="email" placeholder="Patient Email ID" class="form-control rounded-4" id="reg_pat_mail" name="email" />
               </div>
             </div>
 
@@ -43,23 +43,23 @@
               <div class="col-lg-4 m-0">
                 <label for="reg_pat_dob">Date of Birth</label><br />
 
-                <input type="date" class="form-control rounded-4" id="reg_pat_dob" />
+                <input type="date" class="form-control rounded-4" id="reg_pat_dob" name="dob" />
               </div>
 
               <div class="col-lg-4 m-0">
                 <label for="reg_pat_age">Age</label><br />
 
-                <input class="form-control rounded-4" type="number" aria-label="Patient Age" id="reg_pat_age" placeholder="Patient Age" />
+                <input class="form-control rounded-4" type="number" aria-label="Patient Age" id="reg_pat_age" placeholder="Patient Age" name="age" />
               </div>
 
               <div class="col-lg-4">
                 <label for="reg_pat_gender">Gender</label><br />
 
-                <select class="form-select rounded-4" aria-label="Gender">
+                <select class="form-select rounded-4" aria-label="Gender" name="gender">
                   <option selected>------Select------</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Others</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Others</option>
                 </select>
               </div>
             </div>
@@ -69,13 +69,13 @@
               <div class="col-lg-6 m-0">
                 <label for="reg_pat_contact_number">Contact Details</label><br />
 
-                <input class="form-control rounded-4" type="text" minlength="10" aria-label="Contact Number" id="reg_pat_contact_number" placeholder="Contact Number" />
+                <input class="form-control rounded-4" type="text" minlength="10" aria-label="Contact Number" id="reg_pat_contact_number" placeholder="Contact Number" name="contact" />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="reg_pat_emerg_contact_number">Emergency Contact Details</label><br />
 
-                <input class="form-control rounded-4" type="text" minlength="10" aria-label="Emergency Contact Number" id="reg_pat_emerg_contact_number" placeholder="Contact Number" />
+                <input class="form-control rounded-4" type="text" minlength="10" aria-label="Emergency Contact Number" id="reg_pat_emerg_contact_number" placeholder="Contact Number" name="em_contact" />
               </div>
             </div>
 
@@ -84,19 +84,19 @@
               <div class="col-lg-6 m-0">
                 <label for="reg_pat_address">Address</label><br />
 
-                <input type="text" class="form-control rounded-4" aria-label="Address" id="reg_pat_address" placeholder="Patient's Address"></input>
+                <input type="text" class="form-control rounded-4" aria-label="Address" id="reg_pat_address" placeholder="Patient's Address" name="address" />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="reg_pat_marital">Marital Status</label><br />
 
-                <select class="form-select rounded-4" aria-label="Marital Status" id="reg_pat_marital">
+                <select class="form-select rounded-4" aria-label="Marital Status" id="reg_pat_marital" name="marital_sts">
                   <option selected>------Select------</option>
-                  <option value="single">Single</option>
-                  <option value="married">Married</option>
-                  <option value="divorced">Divorced</option>
-                  <option value="widowed">Widowed</option>
-                  <option value="separated">Separated</option>
+                  <option value="Single">Single</option>
+                  <option value="Married">Married</option>
+                  <option value="Divorced">Divorced</option>
+                  <option value="Widowed">Widowed</option>
+                  <option value="Separated">Separated</option>
                 </select>
               </div>
             </div>
@@ -106,16 +106,16 @@
               <div class="col-lg-6">
                 <label for="reg_pat_ailment">Ailment</label><br />
 
-                <input type="text" class="form-control rounded-4" aria-label="Ailment" id="reg_pat_ailment" placeholder="Patient's Ailment"></input>
+                <input type="text" class="form-control rounded-4" aria-label="Ailment" id="reg_pat_ailment" placeholder="Patient's Ailment" name="ailment" />
               </div>
 
               <div class="col-lg-6">
                 <label for="reg_pat_type">Patient Type</label><br />
 
-                <select class="form-select rounded-4" aria-label="Patient Type" id="reg_pat_type">
+                <select class="form-select rounded-4" aria-label="Patient Type" id="reg_pat_type" name="type">
                   <option selected>------Select------</option>
-                  <option value="in">In-patient</option>
-                  <option value="out">Out-patient</option>
+                  <option value="In-patient">In-patient</option>
+                  <option value="Out-patient">Out-patient</option>
                 </select>
               </div>
             </div>

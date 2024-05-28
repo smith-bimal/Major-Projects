@@ -8,7 +8,7 @@
   <section class="main">
     <!-- Add Employee content -->
     <div class="add-emp-content">
-      <form action="#" id="add_emp_form">
+      <form action="/admin/employee/add" method="post" id="add_emp_form">
         <div class="container-fluid p-3 bg-white rounded-2">
           <h2>Add Employee Details</h2>
 
@@ -18,13 +18,13 @@
               <div class="col-lg-6 m-0">
                 <label for="emp_name">Full Name</label><br />
 
-                <input type="text" placeholder="Employee Name" class="form-control rounded-4" id="emp_name" />
+                <input type="text" placeholder="Employee Name" class="form-control rounded-4" id="emp_name" name="name" />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="emp_mail_id">Email</label><br />
 
-                <input type="email" placeholder="Email ID" class="form-control rounded-4" id="emp_mail_id" />
+                <input type="email" placeholder="Email ID" class="form-control rounded-4" id="emp_mail_id" name="email" />
               </div>
             </div>
 
@@ -33,22 +33,22 @@
               <div class="col-lg-4 m-0">
                 <label for="emp_contact_number">Contact Details</label><br />
 
-                <input class="form-control rounded-4" type="text" minlength="10" maxlength="10" aria-label="Contact Number" id="emp_contact_number" placeholder="Contact Number" />
+                <input class="form-control rounded-4" type="text" minlength="10" maxlength="10" aria-label="Contact Number" id="emp_contact_number" placeholder="Contact Number" name="contact" />
               </div>
               <div class="col-lg-4 m-0">
                 <label for="emp_dob">Date of Birth</label><br />
 
-                <input type="date" class="form-control rounded-4" id="emp_dob" />
+                <input type="date" class="form-control rounded-4" id="emp_dob" name="dob" />
               </div>
 
               <div class="col-lg-4">
                 <label for="emp_gender">Gender</label><br />
 
-                <select class="form-select rounded-4" aria-label="Gender">
+                <select class="form-select rounded-4" aria-label="Gender" name="gender">
                   <option selected>------Select------</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Others</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
@@ -58,13 +58,13 @@
               <div class="col-lg-6 m-0">
                 <label for="emp_address">Address</label><br />
 
-                <input type="text" class="form-control rounded-4" aria-label="Address" id="emp_address" placeholder="Employee's Address"></input>
+                <input type="text" class="form-control rounded-4" aria-label="Address" id="emp_address" placeholder="Employee's Address" name="address" />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="emp_pincode">Pincode</label><br />
 
-                <input type="number" minlength="6" class="form-control rounded-4" id="emp_pincode" placeholder="Area pincode" />
+                <input type="number" minlength="6" class="form-control rounded-4" id="emp_pincode" placeholder="Area pincode" name="pincode" />
               </div>
             </div>
 
@@ -75,27 +75,27 @@
               <div class="col-lg-4">
                 <label for="emp_id_num">Employee ID</label><br />
 
-                <input type="text" id="emp_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." />
+                <input type="text" id="emp_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." name="id" />
               </div>
 
               <div class="col-lg-4 m-0">
                 <label for="emp_dept">Department</label><br />
 
-                <select class="form-select rounded-4" aria-label="Department" id="emp_dept">
+                <select class="form-select rounded-4" aria-label="Department" id="emp_dept" name="dept">
                   <option selected>------Select------</option>
-                  <option value="admin">Administration</option>
-                  <option value="nurse">Nursing</option>
-                  <option value="pharm">Pharmacy</option>
-                  <option value="lab">Laboratory</option>
-                  <option value="record">Medical Records</option>
-                  <option value="mainHK">Maintenance and Housekeeping</option>
+                  <option value="Administration">Administration</option>
+                  <option value="Nursing">Nursing</option>
+                  <option value="Pharmacy">Pharmacy</option>
+                  <option value="Laboratory">Laboratory</option>
+                  <option value="Medical Records">Medical Records</option>
+                  <option value="Maintenance and Housekeeping">Maintenance and Housekeeping</option>
                 </select>
               </div>
 
               <div class="col-lg-4">
                 <label for="emp_pos">Postion</label><br />
 
-                <input type="text" id="emp_pos" class="form-control rounded-4" aria-label="Position" placeholder="Employee Position" />
+                <input type="text" id="emp_pos" class="form-control rounded-4" aria-label="Position" placeholder="Employee Position" name="position" />
               </div>
             </div>
 
@@ -104,19 +104,19 @@
               <div class="col-lg-6">
                 <label for="emp_qualifi">Qualification</label><br />
 
-                <select class="form-select rounded-4" aria-label="Qualification">
+                <select class="form-select rounded-4" aria-label="Qualification" name="qual">
                   <option value="" selected>------Select------</option>
-                  <option value="12th">12th Pass</option>
-                  <option value="diplo">Diploma or Equivalent</option>
-                  <option value="grad">Graduate</option>
-                  <option value="P-grad">Post Graduate</option>
+                  <option value="12th Pass">12th Pass</option>
+                  <option value="Diploma or Equivalent">Diploma or Equivalent</option>
+                  <option value="Graduate">Graduate</option>
+                  <option value="Post Graduate">Post Graduate</option>
                 </select>
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="emp_exp">Years of Experience</label><br />
 
-                <input type="number" class="form-control rounded-4" id="emp_exp" />
+                <input type="number" class="form-control rounded-4" id="emp_exp" name="exp" />
               </div>
             </div>
 
@@ -128,13 +128,13 @@
               <div class="col-lg-6 m-0">
                 <label for="emp_addition_notes">Additional Notes</label><br />
 
-                <textarea class="form-control rounded-4" aria-label="Additional Notes" id="emp_addition_notes" placeholder="Any additional notes..."></textarea>
+                <textarea class="form-control rounded-4" aria-label="Additional Notes" id="emp_addition_notes" placeholder="Any additional notes..." name="notes"></textarea>
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="emp_pic">Profile Picture</label><br />
 
-                <input type="file" class="form-control rounded-4" id="emp_pic">
+                <input type="file" class="form-control rounded-4" id="emp_pic" name="pic">
               </div>
             </div>
 

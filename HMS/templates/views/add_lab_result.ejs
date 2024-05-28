@@ -12,7 +12,7 @@
   <section class="main">
     <div>
       <!-- Add new Lab Result -->
-      <form action="#" id="new_lab_result">
+      <form action="/<%= userType %>/lab/results/<%= lab.id %>?_method=PATCH" id="new_lab_result" method="post">
         <div class="container-fluid p-3 bg-white rounded-2">
           <h2 class="mt-2">Add Lab Result</h2>
 
@@ -22,6 +22,7 @@
               <label for="lab_result_notes">Laboratory Result (<span id="lab_result_name"><%= lab.full_name %></span>)</label>
 
               <div id="lab_result_notes"></div>
+              <input type="hidden" name="results" id="lab_results_input">
             </div>
 
             <!-- Add lab Result button -->
@@ -56,6 +57,12 @@
       },
       theme: "snow",
     });
+
+    lab_result_editor.root.innerHTML = `<%- lab.lab_results %>`;
+
+    document.querySelector("#new_lab_result").addEventListener("submit", (e) => {
+      document.querySelector("#lab_results_input").value = lab_result_editor.root.innerHTML;
+    })
   </script>
 
   <!-- Main js file -->

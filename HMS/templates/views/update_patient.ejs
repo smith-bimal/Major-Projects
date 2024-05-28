@@ -11,23 +11,29 @@
 
   <section class="main">
     <!-- Update Patient content -->
-    <form action="#" id="update_pat_form">
+    <form action="/<%= userType %>/patient/manage/<%= patient.id %>?_method=PATCH" method="post" id="update_pat_form">
       <div class="container-fluid p-3 bg-white rounded-2">
         <h2 class="mt-2">Update Patient Details</h2>
 
         <div class="update-pat-container">
           <!-- name and mail id -->
           <div class="row mt-4">
-            <div class="col-lg-6 m-0">
+            <div class="col-lg-4 m-0">
               <label for="update_pat_name">Full Name</label><br />
 
-              <input type="text" placeholder="Patient Full Name" class="form-control rounded-4" id="update_pat_name" value="<%= patient.full_name %>" />
+              <input type="text" placeholder="Patient Full Name" class="form-control rounded-4" id="update_pat_name" value="<%= patient.full_name %>" name="name" />
             </div>
 
-            <div class="col-lg-6 m-0">
+            <div class="col-lg-4 m-0">
+              <label for="update_pat_id">Patient ID</label><br />
+
+              <input type="text" placeholder="Patient ID" class="form-control rounded-4" id="update_pat_id" value="<%= patient.id %>" name="id" />
+            </div>
+
+            <div class="col-lg-4 m-0">
               <label for="update_pat_mail">Email</label><br />
 
-              <input type="email" placeholder="Patient Email ID" class="form-control rounded-4" id="update_pat_mail" value="<%= patient.email %>" />
+              <input type="email" placeholder="Patient Email ID" class="form-control rounded-4" id="update_pat_mail" value="<%= patient.email %>" name="email" />
             </div>
           </div>
 
@@ -36,23 +42,23 @@
             <div class="col-lg-4 m-0">
               <label for="update_pat_dob">Date of Birth</label><br />
 
-              <input type="date" class="form-control rounded-4" id="update_pat_dob" value="<%= patient.date_of_birth %>" />
+              <input type="date" class="form-control rounded-4" id="update_pat_dob" value="<%= patient.date_of_birth %>" name="dob" />
             </div>
 
             <div class="col-lg-4 m-0">
               <label for="update_pat_age">Age</label><br />
 
-              <input class="form-control rounded-4" type="number" aria-label="Patient Age" id="update_pat_age" placeholder="Patient Age" value="<%= patient.age %>" />
+              <input class="form-control rounded-4" type="number" aria-label="Patient Age" id="update_pat_age" placeholder="Patient Age" value="<%= patient.age %>" name="age" />
             </div>
 
             <div class="col-lg-4">
               <label for="update_pat_gender">Gender</label><br />
 
-              <select class="form-select rounded-4" aria-label="Gender" id="update_pat_gender">
+              <select class="form-select rounded-4" aria-label="Gender" id="update_pat_gender" name="gender">
                 <option value="" disabled>------Select------</option>
-                <option value="male" <%= patient.gender === 'Male' ? 'selected' : '' %>>Male</option>
-                <option value="female" <%= patient.gender === 'Female' ? 'selected' : '' %>>Female</option>
-                <option value="other" <%= patient.gender === 'Other' ? 'selected' : '' %>>Others</option>
+                <option value="Male" <%= patient.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%= patient.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                <option value="Other" <%= patient.gender === 'Other' ? 'selected' : '' %>>Others</option>
               </select>
             </div>
           </div>
@@ -62,13 +68,13 @@
             <div class="col-lg-6 m-0">
               <label for="update_pat_contact_number">Contact Details</label><br />
 
-              <input class="form-control rounded-4" type="text" minlength="10" aria-label="Contact Number" id="update_pat_contact_number" placeholder="Contact Number" value="<%= patient.contact_number %>" />
+              <input class="form-control rounded-4" type="text" minlength="10" aria-label="Contact Number" id="update_pat_contact_number" placeholder="Contact Number" value="<%= patient.contact_number %>" name="contact" />
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_pat_emerg_contact_number">Emergency Contact Details</label><br />
 
-              <input class="form-control rounded-4" type="text" minlength="10" aria-label="Emergency Contact Number" id="update_pat_emerg_contact_number" placeholder="Contact Number" value="<%= patient.emergency_contact_number %>" />
+              <input class="form-control rounded-4" type="text" minlength="10" aria-label="Emergency Contact Number" id="update_pat_emerg_contact_number" placeholder="Contact Number" value="<%= patient.emergency_contact_number %>" name="em_contact" />
             </div>
           </div>
 
@@ -77,19 +83,19 @@
             <div class="col-lg-6 m-0">
               <label for="update_pat_address">Address</label><br />
 
-              <input type="text" class="form-control rounded-4" aria-label="Address" id="update_pat_address" placeholder="Patient's Address" value="<%= patient.address %>" />
+              <input type="text" class="form-control rounded-4" aria-label="Address" id="update_pat_address" placeholder="Patient's Address" value="<%= patient.address %>" name="address" />
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_pat_marital">Marital Status</label><br />
 
-              <select class="form-select rounded-4" aria-label="Marital Status" id="update_pat_marital">
+              <select class="form-select rounded-4" aria-label="Marital Status" id="update_pat_marital" name="marital_sts">
                 <option value="" disabled>------Select------</option>
-                <option value="single" <%= patient.marital_status === 'Single' ? 'selected' : '' %>>Single</option>
-                <option value="married" <%= patient.marital_status === 'Married' ? 'selected' : '' %>>Married</option>
-                <option value="divorced" <%= patient.marital_status === 'Divorced' ? 'selected' : '' %>>Divorced</option>
-                <option value="widowed" <%= patient.marital_status === 'Widowed' ? 'selected' : '' %>>Widowed</option>
-                <option value="separated" <%= patient.marital_status === 'Separated' ? 'selected' : '' %>>Separated</option>
+                <option value="Single" <%= patient.marital_status === 'Single' ? 'selected' : '' %>>Single</option>
+                <option value="Married" <%= patient.marital_status === 'Married' ? 'selected' : '' %>>Married</option>
+                <option value="Divorced" <%= patient.marital_status === 'Divorced' ? 'selected' : '' %>>Divorced</option>
+                <option value="Widowed" <%= patient.marital_status === 'Widowed' ? 'selected' : '' %>>Widowed</option>
+                <option value="Separated" <%= patient.marital_status === 'Separated' ? 'selected' : '' %>>Separated</option>
               </select>
             </div>
           </div>
@@ -99,16 +105,16 @@
             <div class="col-lg-6">
               <label for="update_pat_ailment">Ailment</label><br />
 
-              <input type="text" class="form-control rounded-4" aria-label="Ailment" id="update_pat_ailment" placeholder="Patient's Ailment" value="<%= patient.ailment %>" />
+              <input type="text" class="form-control rounded-4" aria-label="Ailment" id="update_pat_ailment" placeholder="Patient's Ailment" value="<%= patient.ailment %>" name="ailment" />
             </div>
 
             <div class="col-lg-6">
               <label for="update_pat_type">Patient Type</label><br />
 
-              <select class="form-select rounded-4" aria-label="Patient Type" id="update_pat_type">
+              <select class="form-select rounded-4" aria-label="Patient Type" id="update_pat_type" name="type">
                 <option value="" disabled>------Select------</option>
-                <option value="in" <%= patient.type === 'In-patient' ? 'selected' : '' %>>In-patient</option>
-                <option value="out" <%= patient.type === 'Out-patient' ? 'selected' : '' %>>Out-patient</option>
+                <option value="In-patient" <%= patient.type === 'In-patient' ? 'selected' : '' %>>In-patient</option>
+                <option value="Out-patient" <%= patient.type === 'Out-patient' ? 'selected' : '' %>>Out-patient</option>
               </select>
             </div>
           </div>
@@ -117,18 +123,18 @@
             <div class="col-lg-6">
               <label for="update_pat_status">Patient Status</label><br />
 
-              <select class="form-select rounded-4" aria-label="Patient Type" id="update_pat_status">
+              <select class="form-select rounded-4" aria-label="Patient Type" id="update_pat_status" name="status">
                 <option value="" disabled>------Select------</option>
-                <option value="ongoing" <%= patient.treatment_status === 'Ongoing' ? 'selected' : '' %>>Ongoing</option>
-                <option value="completed" <%= patient.treatment_status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                <option value="Ongoing" <%= patient.treatment_status === 'Ongoing' ? 'selected' : '' %>>Ongoing</option>
+                <option value="Completed" <%= patient.treatment_status === 'Completed' ? 'selected' : '' %>>Completed</option>
               </select>
             </div>
 
             <div class="col-lg-6">
               <label for="update_pat_status">Assigned Doctor</label><br />
 
-              <select class="form-select rounded-4" aria-label="Patient Type" id="update_pat_status">
-                <option value="" disabled selected>------Select------</option>
+              <select class="form-select rounded-4" aria-label="Patient Type" id="update_pat_status" name="assign_doc">
+                <option disabled>------Select------</option>
                 <% for(doc of doctors){ %>
                 <option value="<%= doc.full_name %>" <%= patient.doctor_assigned === doc.full_name ? 'selected' : '' %>>
                   <%= doc.full_name %> (<%= doc.specialty %>)

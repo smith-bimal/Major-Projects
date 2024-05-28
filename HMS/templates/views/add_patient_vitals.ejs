@@ -12,7 +12,7 @@
   <section class="main">
     <div>
       <!-- Add patient vitals section -->
-      <form action="#" id="new_pat_vital">
+      <form action="/<%= userType %>/patient/vitals/<%= patient.id %>?_method=PATCH" method="post" id="new_pat_vital">
         <div class="container-fluid p-3 bg-white rounded-2">
           <h2 class="mt2">Update Patient Vitals</h2>
 
@@ -22,13 +22,13 @@
               <div class="col-lg-6 m-0">
                 <label for="pat_vital_name">Patient Name</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_name" placeholder="Name" value="<%= patient.full_name %>" disabled />
+                <input type="text" class="form-control rounded-4" id="pat_vital_name" placeholder="Name" value="<%= patient.full_name %>" readonly />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="pat_vital_ailment">Patient Ailment</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_ailment" placeholder="Ailment" value="<%= patient.ailment %>" disabled />
+                <input type="text" class="form-control rounded-4" id="pat_vital_ailment" placeholder="Ailment" value="<%= patient.ailment %>" readonly />
               </div>
             </div>
 
@@ -37,7 +37,7 @@
               <div class="m-0">
                 <label for="pat_vital_id">Patient ID</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_id" placeholder="ID no." value="<%= patient.id %>" disabled />
+                <input type="text" class="form-control rounded-4" id="pat_vital_id" placeholder="ID no." value="<%= patient.id %>" readonly />
               </div>
             </div>
 
@@ -49,21 +49,21 @@
               <div class="m-0 col-lg-4">
                 <label for="pat_vital_pulse">Heart Rate (Pulse)</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_pulse" placeholder="Beats per minute (bpm)" value="<%= lab.heart_rate %>" />
+                <input type="text" class="form-control rounded-4" id="pat_vital_pulse" placeholder="Beats per minute (bpm)" value="<%= lab.heart_rate %>" name="hr" />
               </div>
 
               <!-- Blood Pressure -->
               <div class="m-0 col-lg-4">
                 <label for="pat_vital_bp">Blood Pressure</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_bp" placeholder="Millimeters of mercury (mmHg)" value="<%= lab.blood_pressure %>" />
+                <input type="text" class="form-control rounded-4" id="pat_vital_bp" placeholder="Millimeters of mercury (mmHg)" value="<%= lab.blood_pressure %>" name="bp" />
               </div>
 
               <!-- Temperature -->
               <div class="m-0 col-lg-4">
                 <label for="pat_vital_temp">Temperature</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_temp" placeholder="Degrees Fahrenheit (°F)" value="<%= lab.temperature %>" />
+                <input type="text" class="form-control rounded-4" id="pat_vital_temp" placeholder="Degrees Fahrenheit (°F)" value="<%= lab.temperature %>" name="temp" />
               </div>
             </div>
 
@@ -73,14 +73,14 @@
               <div class="m-0 col-lg-6">
                 <label for="pat_vital_resp">Respiratory Rate</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_resp" placeholder="Breaths per minute (bpm)" value="<%= lab.respiratory_rate %>" />
+                <input type="text" class="form-control rounded-4" id="pat_vital_resp" placeholder="Breaths per minute (bpm)" value="<%= lab.respiratory_rate %>" name="resp" />
               </div>
 
               <!-- Oxygen Saturation (SpO2) -->
               <div class="m-0 col-lg-6">
                 <label for="pat_vital_spo2">Oxygen Saturation (SpO2)</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_spo2" placeholder="Percentage (%)" value="<%= lab.oxygen_saturation %>" />
+                <input type="text" class="form-control rounded-4" id="pat_vital_spo2" placeholder="Percentage (%)" value="<%= lab.oxygen_saturation %>" name="spo2" />
               </div>
             </div>
 

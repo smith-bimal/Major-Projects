@@ -12,7 +12,7 @@
   <section class="main">
     <div class="add-pres-content">
       <!-- Add new Prescription -->
-      <form action="#" id="new_patient_presc">
+      <form action="/<%= userType %>/prescription/add/<%= patient.id %>" method="post" id="new_patient_presc">
         <div class="container-fluid p-3 bg-white rounded-3">
           <h2 class="mt-2">Add Patient Prescription</h2>
 
@@ -22,13 +22,13 @@
               <div class="col-lg-6 m-0">
                 <label for="patient_presc_name">Patient's Name</label><br />
 
-                <input type="text" class="form-control rounded-4" id="patient_presc_name" placeholder="Name" value="<%= patient.full_name %>" disabled />
+                <input type="text" class="form-control rounded-4" id="patient_presc_name" placeholder="Name" value="<%= patient.full_name %>" name="name" readonly />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="patient_presc_age">Patient's Age</label><br />
 
-                <input type="number" class="form-control rounded-4" id="patient_presc_age" placeholder="Age" value="<%= patient.age %>" disabled />
+                <input type="number" class="form-control rounded-4" id="patient_presc_age" placeholder="Age" value="<%= patient.age %>" name="age" readonly />
               </div>
             </div>
 
@@ -37,19 +37,19 @@
               <div class="col-lg-4 m-0">
                 <label for="patient_presc_id">Patient ID</label><br />
 
-                <input type="text" class="form-control rounded-4" id="patient_presc_id" placeholder="ID no." value="<%= patient.id %>" disabled />
+                <input type="text" class="form-control rounded-4" id="patient_presc_id" placeholder="ID no." value="<%= patient.id %>" name="id" readonly />
               </div>
 
               <div class="col-lg-4 m-0">
                 <label for="patient_presc_address">Patient Address</label><br />
 
-                <input class="form-control rounded-4" type="text" aria-label="Address" id="patient_presc_address" placeholder="Address" value="<%= patient.address %>" disabled />
+                <input class="form-control rounded-4" type="text" aria-label="Address" id="patient_presc_address" placeholder="Address" value="<%= patient.address %>" name="address" readonly />
               </div>
 
               <div class="col-lg-4">
                 <label for="patient_presc_type">Patient Type</label><br />
 
-                <input type="text" class="form-select rounded-4" aria-label="Type" id="patient_presc_type" value="<%= patient.type %>" disabled />
+                <input type="text" class="form-select rounded-4" aria-label="Type" id="patient_presc_type" value="<%= patient.type %>" name="type" readonly />
               </div>
             </div>
 
@@ -58,7 +58,7 @@
               <div class="m-0">
                 <label for="patient_presc_ailment">Patient Ailment</label><br />
 
-                <input type="text" class="form-control rounded-4" id="patient_presc_ailment" placeholder="Disease Name / Symptoms Name" />
+                <input type="text" class="form-control rounded-4" id="patient_presc_ailment" placeholder="Disease Name / Symptoms Name" name="ailment" />
               </div>
             </div>
 
@@ -66,7 +66,8 @@
             <div class="row">
               <label for="add_presc_notes">Prescription Notes</label>
 
-              <div id="add_presc_notes"></div>
+              <div id="add_presc_notes" class=""></div>
+              <input type="hidden" name="notes" id="presc_notes_input">
             </div>
 
             <!-- Add Patient Prescription button -->
@@ -101,6 +102,10 @@
       },
       theme: "snow",
     });
+
+    document.querySelector("#new_patient_presc").addEventListener("submit", (e) => {
+      document.querySelector("#presc_notes_input").value = presc_editor.root.innerHTML;
+    })
   </script>
 
   <!-- Main js file -->

@@ -8,7 +8,7 @@
   <section class="main">
     <!-- Add Doctor content -->
     <div class="add-doc-content">
-      <form action="#" id="add_doc_form">
+      <form action="/<%= userType %>/doctor/q" method="post" id="add_doc_form">
         <div class="container-fluid p-3 bg-white rounded-2">
           <h2>Add Doctor Details</h2>
 
@@ -18,13 +18,13 @@
               <div class="col-lg-6 m-0">
                 <label for="doc_name">Full Name</label><br />
 
-                <input type="text" placeholder="Doctor Name" class="form-control rounded-4" id="doc_name" />
+                <input type="text" placeholder="Doctor Name" class="form-control rounded-4" id="doc_name" name="name" />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="doc_mail_id">Email</label><br />
 
-                <input type="email" placeholder="Email ID" class="form-control rounded-4" id="doc_mail_id" />
+                <input type="email" placeholder="Email ID" class="form-control rounded-4" id="doc_mail_id" name="email" />
               </div>
             </div>
 
@@ -33,22 +33,22 @@
               <div class="col-lg-4 m-0">
                 <label for="doc_contact_number">Contact Details</label><br />
 
-                <input class="form-control rounded-4" type="text" minlength="10" maxlength="10" aria-label="Contact Number" id="doc_contact_number" placeholder="Contact Number" />
+                <input class="form-control rounded-4" type="text" minlength="10" maxlength="10" aria-label="Contact Number" id="doc_contact_number" placeholder="Contact Number" name="contact" />
               </div>
               <div class="col-lg-4 m-0">
                 <label for="doc_dob">Date of Birth</label><br />
 
-                <input type="date" class="form-control rounded-4" id="doc_dob" />
+                <input type="date" class="form-control rounded-4" id="doc_dob" name="dob" />
               </div>
 
               <div class="col-lg-4">
                 <label for="doc_gender">Gender</label><br />
 
-                <select class="form-select rounded-4" aria-label="Gender">
+                <select class="form-select rounded-4" aria-label="Gender" name="gender">
                   <option selected>------Select------</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Others</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
@@ -58,13 +58,13 @@
               <div class="col-lg-6 m-0">
                 <label for="doc_address">Address</label><br />
 
-                <input type="text" class="form-control rounded-4" aria-label="Address" id="doc_address" placeholder="Doctor's Address"></input>
+                <input type="text" class="form-control rounded-4" aria-label="Address" id="doc_address" placeholder="Doctor's Address" name="address" />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="doc_pincode">Pincode</label><br />
 
-                <input type="number" minlength="6" class="form-control rounded-4" id="doc_pincode" placeholder="Area pincode" />
+                <input type="number" minlength="6" class="form-control rounded-4" id="doc_pincode" placeholder="Area pincode" name="pincode" />
               </div>
             </div>
 
@@ -75,13 +75,13 @@
               <div class="col-lg-6">
                 <label for="doc_id_num">Doctor ID</label><br />
 
-                <input type="text" id="doc_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." />
+                <input type="text" id="doc_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." name="id" />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="doc_specialization">Specialization</label><br />
 
-                <input type="text" class="form-control rounded-4" id="doc_specialization" />
+                <input type="text" class="form-control rounded-4" id="doc_specialization" name="spec" />
               </div>
             </div>
 
@@ -90,13 +90,13 @@
               <div class="col-lg-6">
                 <label for="doc_qualifi">Qualification</label><br />
 
-                <input type="text" class="form-control rounded-4" aria-label="Qualification" />
+                <input type="text" class="form-control rounded-4" aria-label="Qualification" name="qual" />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="doc_exp">Years of Experience</label><br />
 
-                <input type="number" class="form-control rounded-4" id="doc_exp" />
+                <input type="number" class="form-control rounded-4" id="doc_exp" name="exp" />
               </div>
             </div>
 
@@ -107,13 +107,13 @@
               <div class="col-lg-6 m-0">
                 <label for="doc_uid">Username</label><br />
 
-                <input type="text" class="form-control rounded-4" id="doc_uid" placeholder="New username">
+                <input type="text" class="form-control rounded-4" id="doc_uid" placeholder="New username" name="username" />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="doc_pwd">Password</label><br />
 
-                <input type="password" minlength="8" class="form-control rounded-4" id="doc_pwd" placeholder="New password"></input>
+                <input type="password" minlength="8" class="form-control rounded-4" id="doc_pwd" placeholder="New password" name="pwd" />
               </div>
             </div>
 
@@ -122,13 +122,13 @@
               <div class="col-lg-6 m-0">
                 <label for="doc_addition_notes">Additional Notes</label><br />
 
-                <textarea class="form-control rounded-4" aria-label="Additional Notes" id="doc_addition_notes" placeholder="Any additional notes..."></textarea>
+                <textarea class="form-control rounded-4" aria-label="Additional Notes" id="doc_addition_notes" placeholder="Any additional notes..." name="notes"></textarea>
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="doc_pic">Profile Picture</label><br />
 
-                <input type="file" class="form-control rounded-4" id="doc_pic">
+                <input type="file" class="form-control rounded-4" id="doc_pic" name="pic">
               </div>
             </div>
 

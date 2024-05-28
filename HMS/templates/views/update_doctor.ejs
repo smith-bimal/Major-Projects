@@ -7,7 +7,7 @@
 
   <section class="main">
     <!-- Update Doctor content -->
-    <form action="#" id="update_doc_form">
+    <form action="/admin/doctor/manage/<%= doctor.id %>?_method=PATCH" method="post" id="update_doc_form">
       <div class="container-fluid p-3 bg-white rounded-2">
         <h2 class="mt-2">Update Doctor Details</h2>
 
@@ -17,13 +17,13 @@
             <div class="col-lg-6 m-0">
               <label for="update_doc_name">Full Name</label><br />
 
-              <input type="text" placeholder="Doctor Name" class="form-control rounded-4" id="update_doc_name" value="<%= doctor.full_name %>" />
+              <input type="text" placeholder="Doctor Name" class="form-control rounded-4" id="update_doc_name" value="<%= doctor.full_name %>" name="name" />
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_doc_mail_id">Email</label><br />
 
-              <input type="email" placeholder="Email ID" class="form-control rounded-4" id="update_doc_mail_id" value="<%= doctor.email %>" />
+              <input type="email" placeholder="Email ID" class="form-control rounded-4" id="update_doc_mail_id" value="<%= doctor.email %>" name="email" />
             </div>
           </div>
 
@@ -32,22 +32,22 @@
             <div class="col-lg-4 m-0">
               <label for="update_doc_contact_number">Contact Details</label><br />
 
-              <input class="form-control rounded-4" type="text" minlength="10" maxlength="10" aria-label="Contact Number" id="update_doc_contact_number" placeholder="Contact Number" value="<%= doctor.contact_number %>" />
+              <input class="form-control rounded-4" type="text" minlength="10" maxlength="10" aria-label="Contact Number" id="update_doc_contact_number" placeholder="Contact Number" value="<%= doctor.contact_number %>" name="contact" />
             </div>
             <div class="col-lg-4 m-0">
               <label for="update_doc_dob">Date of Birth</label><br />
 
-              <input type="date" class="form-control rounded-4" id="update_doc_dob" value="<%= doctor.dob %>" />
+              <input type="date" class="form-control rounded-4" id="update_doc_dob" value="<%= doctor.dob %>" name="dob" />
             </div>
 
             <div class="col-lg-4">
               <label for="update_doc_gender">Gender</label><br />
 
-              <select class="form-select rounded-4" aria-label="Gender">
+              <select class="form-select rounded-4" aria-label="Gender" name="gender">
                 <option disabled>------Select------</option>
-                <option <%= doctor.gender === 'Male' ? 'selected' : '' %>>Male</option>
-                <option <%= doctor.gender === 'Female' ? 'selected' : '' %>>Female</option>
-                <option <%= doctor.gender === 'Others' ? 'selected' : '' %>>Others</option>
+                <option value="Male" <%= doctor.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%= doctor.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                <option value="Other" <%= doctor.gender === 'Other' ? 'selected' : '' %>>Other</option>
               </select>
             </div>
           </div>
@@ -57,13 +57,13 @@
             <div class="col-lg-6 m-0">
               <label for="update_doc_address">Address</label><br />
 
-              <input type="text" class="form-control rounded-4" aria-label="Address" id="update_doc_address" placeholder="Doctor's Address" value="<%= doctor.address %>" />
+              <input type="text" class="form-control rounded-4" aria-label="Address" id="update_doc_address" placeholder="Doctor's Address" value="<%= doctor.address %>" name="address" />
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_doc_pincode">Pincode</label><br />
 
-              <input type="number" minlength="6" class="form-control rounded-4" id="update_doc_pincode" placeholder="Area pincode" value="<%= doctor.pincode %>" />
+              <input type="number" minlength="6" class="form-control rounded-4" id="update_doc_pincode" placeholder="Area pincode" value="<%= doctor.pincode %>" name="pincode" />
             </div>
           </div>
 
@@ -74,13 +74,13 @@
             <div class="col-lg-6">
               <label for="update_doc_id_num">Doctor ID</label><br />
 
-              <input type="text" id="update_doc_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." value="<%= doctor.id %>" />
+              <input type="text" id="update_doc_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." value="<%= doctor.id %>" name="id" />
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_doc_specialization">Specialization</label><br />
 
-              <input type="text" class="form-control rounded-4" id="update_doc_specialization" value="<%= doctor.specialty %>" />
+              <input type="text" class="form-control rounded-4" id="update_doc_specialization" value="<%= doctor.specialty %>" name="spec" />
             </div>
           </div>
 
@@ -89,13 +89,13 @@
             <div class="col-lg-6">
               <label for="update_doc_qualifi">Qualification</label><br />
 
-              <input type="text" class="form-control rounded-4" id="update_doc_qualifi" value="<%= doctor.qualification %>" />
+              <input type="text" class="form-control rounded-4" id="update_doc_qualifi" value="<%= doctor.qualification %>" name="qual" />
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_doc_exp">Years of Experience</label><br />
 
-              <input type="number" class="form-control rounded-4" id="update_doc_exp" value="<%= doctor.experience %>" />
+              <input type="number" class="form-control rounded-4" id="update_doc_exp" value="<%= doctor.experience %>" name="exp" />
             </div>
           </div>
 
@@ -106,13 +106,13 @@
             <div class="col-lg-6 m-0">
               <label for="update_doc_uid">Username</label><br />
 
-              <input type="text" class="form-control rounded-4" id="update_doc_uid" placeholder="New username" value="<%= doctor.username %>">
+              <input type="text" class="form-control rounded-4" id="update_doc_uid" placeholder="New username" value="<%= doctor.username %>" name="username">
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_doc_pwd">Password</label><br />
 
-              <input type="password" minlength="8" class="form-control rounded-4" id="update_doc_pwd" placeholder="New password" value="<%= doctor.password %>">
+              <input type="password" minlength="8" class="form-control rounded-4" id="update_doc_pwd" placeholder="New password" value="<%= doctor.password %>" name="pwd">
             </div>
           </div>
 
@@ -121,13 +121,13 @@
             <div class="col-lg-6 m-0">
               <label for="update_doc_addition_notes">Additional Notes</label><br />
 
-              <textarea class="form-control rounded-4" aria-label="Additional Notes" id="update_doc_addition_notes" placeholder="Any additional notes..."></textarea>
+              <textarea class="form-control rounded-4" aria-label="Additional Notes" id="update_doc_addition_notes" placeholder="Any additional notes..." name="note"></textarea>
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_doc_pic">Profile Picture</label><br />
 
-              <input type="file" class="form-control rounded-4" id="update_doc_pic">
+              <input type="file" class="form-control rounded-4" id="update_doc_pic" name="pic">
             </div>
           </div>
 

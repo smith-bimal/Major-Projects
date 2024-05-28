@@ -12,7 +12,7 @@
   <section class="main">
     <div>
       <!-- Add new Lab test -->
-      <form id="new_lab_test">
+      <form id="new_lab_test" action="/<%= userType %>/lab/tests/<%= lab.id %>?_method=PATCH" method="post">
         <div class="container-fluid p-3 bg-white rounded-2">
           <h2 class="mt-2">Add New Lab Test</h2>
 
@@ -22,13 +22,13 @@
               <div class="col-lg-6 m-0">
                 <label for="lab_test_name">Patient Name</label><br />
 
-                <input type="text" class="form-control rounded-4" id="lab_test_name" name="user" placeholder="Name" value="<%= lab.full_name %>" disabled />
+                <input type="text" class="form-control rounded-4" id="lab_test_name" name="user" placeholder="Name" value="<%= lab.full_name %>" name="name" readonly />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="lab_test_ailment">Patient Ailment</label><br />
 
-                <input type="text" class="form-control rounded-4" id="lab_test_ailment" placeholder="Ailment" value="<%= lab.ailment %>" disabled />
+                <input type="text" class="form-control rounded-4" id="lab_test_ailment" placeholder="Ailment" value="<%= lab.ailment %>" name="ailment" readonly />
               </div>
             </div>
 
@@ -37,7 +37,7 @@
               <div class="m-0">
                 <label for="lab_test_id">Patient ID</label><br />
 
-                <input type="text" class="form-control rounded-4 mb-4" id="lab_test_id" placeholder="ID no." value="<%= lab.id %>" disabled />
+                <input type="text" class="form-control rounded-4 mb-4" id="lab_test_id" placeholder="ID no." value="<%= lab.id %>" name="id" readonly />
               </div>
             </div>
 
@@ -46,6 +46,7 @@
               <label for="lab_test_notes">Laboratory Tests</label>
 
               <div id="lab_test_notes"></div>
+              <input type="hidden" name="tests" id="lab_tests_input">
             </div>
 
             <!-- Add lab test button -->
@@ -80,6 +81,12 @@
       },
       theme: "snow",
     });
+
+    lab_test_editor.root.innerHTML = `<%- lab.lab_tests %>`;
+
+    document.querySelector("#new_lab_test").addEventListener("submit", (e) => {
+      document.querySelector("#lab_tests_input").value = lab_test_editor.root.innerHTML;
+    })
   </script>
 
   <!-- Main js file -->

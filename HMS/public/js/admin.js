@@ -428,7 +428,7 @@ if (window.innerWidth < 768) {
         if (type === 'success-message') {
             swal({
                 title: 'Congratulations!',
-                text: message || 'You entered the correct answer',
+                text: message || 'The information got stored successfully.',
                 icon: 'success',
                 type: 'success',
                 button: {
@@ -483,7 +483,7 @@ if (window.innerWidth < 768) {
         if (formElement) {
             formElement.addEventListener('submit', function (event) {
                 // Prevent the default form submission behavior
-                event.preventDefault();
+                // event.preventDefault();
 
                 // const formData = new FormData(this);
                 // const requestData = {};

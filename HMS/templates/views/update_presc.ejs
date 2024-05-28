@@ -11,7 +11,7 @@
 
   <section class="main">
     <!-- Update Prescription -->
-    <form action="#" id="update_patient_presc">
+    <form action="/<%= userType %>/prescription/manage/<%= patient.id %>?_method=PATCH" method="post" id="update_patient_presc">
       <div class="container-fluid p-3 bg-white rounded-3">
         <h2 class="mt-2">Update Patient Prescription</h2>
 
@@ -21,13 +21,13 @@
             <div class="col-lg-6 m-0">
               <label for="update_patient_presc_name">Patient's Name</label><br />
 
-              <input type="text" class="form-control rounded-4" id="update_patient_presc_name" placeholder="Name" value="<%= patient.full_name %>" disabled />
+              <input type="text" class="form-control rounded-4" id="update_patient_presc_name" placeholder="Name" value="<%= patient.full_name %>" name="name" readonly />
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_patient_presc_age">Patient's Age</label><br />
 
-              <input type="number" class="form-control rounded-4" id="update_patient_presc_age" placeholder="Age" value="<%= patient.age %>" disabled />
+              <input type="number" class="form-control rounded-4" id="update_patient_presc_age" placeholder="Age" value="<%= patient.age %>" name="age" readonly />
             </div>
           </div>
 
@@ -36,19 +36,19 @@
             <div class="col-lg-4 m-0">
               <label for="update_patient_presc_id">Patient ID</label><br />
 
-              <input type="text" class="form-control rounded-4" id="update_patient_presc_id" placeholder="ID no." value="<%= patient.id %>" disabled />
+              <input type="text" class="form-control rounded-4" id="update_patient_presc_id" placeholder="ID no." value="<%= patient.id %>" name="id" readonly />
             </div>
 
             <div class="col-lg-4 m-0">
               <label for="update_patient_presc_address">Patient Address</label><br />
 
-              <input class="form-control rounded-4" type="text" aria-label="Address" id="update_patient_presc_address" placeholder="Address" value="<%= patient.address %>" disabled />
+              <input class="form-control rounded-4" type="text" aria-label="Address" id="update_patient_presc_address" placeholder="Address" value="<%= patient.address %>" name="address" readonly />
             </div>
 
             <div class="col-lg-4">
               <label for="update_patient_presc_type">Patient Type</label><br />
 
-              <input type="text" class="form-select rounded-4" aria-label="Type" id="update_patient_presc_type" value="<%= patient.type %>" disabled />
+              <input type="text" class="form-select rounded-4" aria-label="Type" id="update_patient_presc_type" value="<%= patient.type %>" name="type" readonly />
             </div>
           </div>
 
@@ -57,7 +57,7 @@
             <div class="m-0">
               <label for="update_patient_presc_ailment">Patient Ailment</label><br />
 
-              <input type="text" class="form-control rounded-4" id="update_patient_presc_ailment" placeholder="Disease Name / Symptoms Name" value="<%= patient.ailment %>" />
+              <input type="text" class="form-control rounded-4" id="update_patient_presc_ailment" placeholder="Disease Name / Symptoms Name" value="<%= patient.ailment %>" name="ailment" />
             </div>
           </div>
 
@@ -65,7 +65,8 @@
           <div class="row">
             <label for="update_presc_notes">Prescription Notes</label>
 
-            <div id="update_presc_notes"><%= presc.prescription_notes %></div>
+            <div id="update_presc_notes"></div>
+            <input type="hidden" name="notes" id="presc_notes_input">
           </div>
 
           <!-- Add Patient Prescription button -->
@@ -93,12 +94,18 @@
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.5/dist/quill.js"></script>
   <script src="/js/quill.js"></script>
   <script>
-    const pharm_editor = new Quill("#update_presc_notes", {
+    const presc_editor = new Quill("#update_presc_notes", {
       modules: {
         toolbar: toolbarOptions,
       },
       theme: "snow",
     });
+
+    presc_editor.root.innerHTML = `<%- presc.prescription_notes %>`;
+
+    document.querySelector("#update_patient_presc").addEventListener("submit", (e) => {
+      document.querySelector("#presc_notes_input").value = presc_editor.root.innerHTML;
+    })
   </script>
 
   <!-- Main js file -->

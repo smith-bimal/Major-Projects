@@ -1,253 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('includes/head') %>
+<%- include('includes/head') %>
 
-  <body>
-    <%- include('includes/navbar') %>
+<body>
+  <%- include('includes/navbar') %>
 
-    <section class="main">
-      <!-- Update Employee content -->
-      <form action="#" id="update_emp_form">
-        <div class="container-fluid p-3 bg-white rounded-2">
-          <h2 class="mt-2">Update Employee Details</h2>
+  <section class="main">
+    <!-- Update Employee content -->
+    <form action="#" id="update_emp_form">
+      <div class="container-fluid p-3 bg-white rounded-2">
+        <h2 class="mt-2">Update Employee Details</h2>
 
-          <div class="update-emp-container">
-            <div class="row mt-4">
-              <!-- name and number -->
-              <div class="col-lg-6 m-0">
-                <label for="update_emp_name">Full Name</label><br />
+        <div class="update-emp-container">
+          <div class="row mt-4">
+            <!-- name and number -->
+            <div class="col-lg-6 m-0">
+              <label for="update_emp_name">Full Name</label><br />
 
-                <input
-                  type="text"
-                  placeholder="Employee Name"
-                  class="form-control rounded-4"
-                  id="update_emp_name"
-                  value="<%= employee.full_name %>"
-                />
-              </div>
-
-              <div class="col-lg-6 m-0">
-                <label for="update_emp_mail_id">Email</label><br />
-
-                <input
-                  type="email"
-                  placeholder="Email ID"
-                  class="form-control rounded-4"
-                  id="update_emp_mail_id"
-                  value="<%= employee.email %>"
-                />
-              </div>
+              <input type="text" placeholder="Employee Name" class="form-control rounded-4" id="update_emp_name" value="<%= employee.full_name %>" />
             </div>
 
-            <div class="row mt-4">
-              <!-- Contact, DOB and gender -->
-              <div class="col-lg-4 m-0">
-                <label for="update_emp_contact_number">Contact Details</label
-                ><br />
+            <div class="col-lg-6 m-0">
+              <label for="update_emp_mail_id">Email</label><br />
 
-                <input
-                  class="form-control rounded-4"
-                  type="text"
-                  minlength="10"
-                  maxlength="10"
-                  aria-label="Contact Number"
-                  id="update_emp_contact_number"
-                  placeholder="Contact Number"
-                  value="<%= employee.contact_number %>"
-                />
-              </div>
-              <div class="col-lg-4 m-0">
-                <label for="update_emp_dob">Date of Birth</label><br />
+              <input type="email" placeholder="Email ID" class="form-control rounded-4" id="update_emp_mail_id" value="<%= employee.email %>" />
+            </div>
+          </div>
 
-                <input
-                  type="date"
-                  class="form-control rounded-4"
-                  id="update_emp_dob"
-                  value="<%= employee.date_of_birth%>"
-                />
-              </div>
+          <div class="row mt-4">
+            <!-- Contact, DOB and gender -->
+            <div class="col-lg-4 m-0">
+              <label for="update_emp_contact_number">Contact Details</label><br />
 
-              <div class="col-lg-4">
-                <label for="update_emp_gender">Gender</label><br />
+              <input class="form-control rounded-4" type="text" minlength="10" maxlength="10" aria-label="Contact Number" id="update_emp_contact_number" placeholder="Contact Number" value="<%= employee.contact_number %>" />
+            </div>
+            <div class="col-lg-4 m-0">
+              <label for="update_emp_dob">Date of Birth</label><br />
 
-                <select
-                  class="form-select rounded-4"
-                  aria-label="Gender"
-                  id="update_emp_gender"
-                >
+              <input type="date" class="form-control rounded-4" id="update_emp_dob" value="<%= employee.date_of_birth%>" />
+            </div>
+
+            <div class="col-lg-4">
+              <label for="update_emp_gender">Gender</label><br />
+
+              <select class="form-select rounded-4" aria-label="Gender" id="update_emp_gender">
                 <option value="" disabled>------Select------</option>
                 <option value="male" <%= employee.gender === 'Male' ? 'selected' : '' %>>Male</option>
                 <option value="female" <%= employee.gender === 'Female' ? 'selected' : '' %>>Female</option>
                 <option value="other" <%= employee.gender === 'Other' ? 'selected' : '' %>>Others</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- address & pincode -->
-            <div class="row mt-4">
-              <div class="col-lg-6 m-0">
-                <label for="update_emp_address">Address</label><br />
-
-                <input
-                  type="text"
-                  class="form-control rounded-4"
-                  aria-label="Address"
-                  id="update_emp_address"
-                  placeholder="Employee's Address"
-                  value="<%= employee.address %>"
-                />
-              </div>
-
-              <div class="col-lg-6 m-0">
-                <label for="update_emp_pincode">Pincode</label><br />
-
-                <input
-                  type="number"
-                  minlength="6"
-                  class="form-control rounded-4"
-                  id="update_emp_pincode"
-                  placeholder="Area pincode"
-                  value="<%= employee.pincode %>"
-                />
-              </div>
-            </div>
-
-            <hr />
-
-            <!-- ID no., Department & Position -->
-            <div class="row mt-4">
-              <div class="col-lg-4">
-                <label for="update_emp_id_num">Employee ID</label><br />
-
-                <input
-                  type="text"
-                  id="update_emp_id_num"
-                  class="form-control rounded-4"
-                  aria-label="ID"
-                  placeholder="ID No."
-                  value="<%= employee.employee_id %>"
-                />
-              </div>
-
-              <div class="col-lg-4 m-0">
-                <label for="update_emp_dept">Department</label><br />
-
-                <select
-                  class="form-select rounded-4"
-                  aria-label="Department"
-                  id="update_emp_dept"
-                >
-                  <option value="" disabled>------Select------</option>
-                  <option <%= employee.department === 'Administration' ? 'selected' : '' %>>Administration</option>
-                  <option <%= employee.department === 'Nursing' ? 'selected' : '' %>>Nursing</option>
-                  <option <%= employee.department === 'Pharmacy' ? 'selected' : '' %>>Pharmacy</option>
-                  <option <%= employee.department === 'Laboratory' ? 'selected' : '' %>>Laboratory</option>
-                  <option <%= employee.department === 'Medical Records' ? 'selected' : '' %>>Medical Records</option>
-                  <option <%= employee.department === 'Maintenance and Housekeeping' ? 'selected' : '' %>>Maintenance and Housekeeping</option>
-                </select>
-              </div>
-
-              <div class="col-lg-4">
-                <label for="update_emp_pos">Postion</label><br />
-
-                <input
-                  type="text"
-                  id="update_emp_pos"
-                  class="form-control rounded-4"
-                  aria-label="Position"
-                  placeholder="Employee Position"
-                  value="<%= employee.position %>"
-                />
-              </div>
-            </div>
-
-            <!-- Qualification & Experience-->
-            <div class="row mt-4">
-              <div class="col-lg-6">
-                <label for="update_emp_qualifi">Qualification</label><br />
-
-                <select
-                  class="form-select rounded-4"
-                  aria-label="Qualification"
-                  id="update_emp_qualifi"
-                >
-                <option value="" disabled>------Select------</option>
-                  <option <%= employee.qualification === '12th Pass' ? 'selected' : '' %>>12th Pass</option>
-                  <option <%= employee.qualification === 'Diploma or Equivalent' ? 'selected' : '' %>>Diploma or Equivalent</option>
-                  <option <%= employee.qualification === 'Graduate' ? 'selected' : '' %>>Graduate</option>
-                  <option <%= employee.qualification === 'Post Graduate' ? 'selected' : '' %>>Post Graduate</option>
-                </select>
-              </div>
-
-              <div class="col-lg-6 m-0">
-                <label for="update_emp_exp">Years of Experience</label><br />
-
-                <input
-                  type="number"
-                  class="form-control rounded-4"
-                  id="update_emp_exp"
-                  value="<%= employee.experience %>"
-                />
-              </div>
-            </div>
-
-            <hr />
-
-            <!-- profile picture and additional notes  -->
-            <div class="row mt-4 mb-5">
-              <div class="col-lg-6 m-0">
-                <label for="update_emp_addition_notes">Additional Notes</label
-                ><br />
-
-                <textarea
-                  class="form-control rounded-4"
-                  aria-label="Additional Notes"
-                  id="update_emp_addition_notes"
-                  placeholder="Any additional notes..."
-                ></textarea>
-              </div>
-
-              <div class="col-lg-6 m-0">
-                <label for="update_emp_pic">Profile Picture</label><br />
-
-                <input
-                  type="file"
-                  class="form-control rounded-4"
-                  id="update_emp_pic"
-                />
-              </div>
-            </div>
-
-            <!-- create and reset buttons -->
-            <div
-              class="row d-flex align-items-center justify-content-center mt-4 mb-4"
-            >
-              <button type="submit" class="btn btn-primary col-lg-2 m-2">
-                Update
-              </button>
-
-              <a
-                href="/admin/employee/manage"
-                class="btn btn-secondary col-lg-2 m-2"
-                id="cancel_btn"
-              >
-                Cancel
-              </a>
+              </select>
             </div>
           </div>
+
+          <!-- address & pincode -->
+          <div class="row mt-4">
+            <div class="col-lg-6 m-0">
+              <label for="update_emp_address">Address</label><br />
+
+              <input type="text" class="form-control rounded-4" aria-label="Address" id="update_emp_address" placeholder="Employee's Address" value="<%= employee.address %>" />
+            </div>
+
+            <div class="col-lg-6 m-0">
+              <label for="update_emp_pincode">Pincode</label><br />
+
+              <input type="number" minlength="6" class="form-control rounded-4" id="update_emp_pincode" placeholder="Area pincode" value="<%= employee.pincode %>" />
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- ID no., Department & Position -->
+          <div class="row mt-4">
+            <div class="col-lg-4">
+              <label for="update_emp_id_num">Employee ID</label><br />
+
+              <input type="text" id="update_emp_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." value="<%= employee.employee_id %>" />
+            </div>
+
+            <div class="col-lg-4 m-0">
+              <label for="update_emp_dept">Department</label><br />
+
+              <select class="form-select rounded-4" aria-label="Department" id="update_emp_dept">
+                <option value="" disabled>------Select------</option>
+                <option <%= employee.department === 'Administration' ? 'selected' : '' %>>Administration</option>
+                <option <%= employee.department === 'Nursing' ? 'selected' : '' %>>Nursing</option>
+                <option <%= employee.department === 'Pharmacy' ? 'selected' : '' %>>Pharmacy</option>
+                <option <%= employee.department === 'Laboratory' ? 'selected' : '' %>>Laboratory</option>
+                <option <%= employee.department === 'Medical Records' ? 'selected' : '' %>>Medical Records</option>
+                <option <%= employee.department === 'Maintenance and Housekeeping' ? 'selected' : '' %>>Maintenance and Housekeeping</option>
+              </select>
+            </div>
+
+            <div class="col-lg-4">
+              <label for="update_emp_pos">Postion</label><br />
+
+              <input type="text" id="update_emp_pos" class="form-control rounded-4" aria-label="Position" placeholder="Employee Position" value="<%= employee.position %>" />
+            </div>
+          </div>
+
+          <!-- Qualification & Experience-->
+          <div class="row mt-4">
+            <div class="col-lg-6">
+              <label for="update_emp_qualifi">Qualification</label><br />
+
+              <select class="form-select rounded-4" aria-label="Qualification" id="update_emp_qualifi">
+                <option value="" disabled>------Select------</option>
+                <option <%= employee.qualification === '12th Pass' ? 'selected' : '' %>>12th Pass</option>
+                <option <%= employee.qualification === 'Diploma or Equivalent' ? 'selected' : '' %>>Diploma or Equivalent</option>
+                <option <%= employee.qualification === 'Graduate' ? 'selected' : '' %>>Graduate</option>
+                <option <%= employee.qualification === 'Post Graduate' ? 'selected' : '' %>>Post Graduate</option>
+              </select>
+            </div>
+
+            <div class="col-lg-6 m-0">
+              <label for="update_emp_exp">Years of Experience</label><br />
+
+              <input type="number" class="form-control rounded-4" id="update_emp_exp" value="<%= employee.experience %>" />
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- profile picture and additional notes  -->
+          <div class="row mt-4 mb-5">
+            <div class="col-lg-6 m-0">
+              <label for="update_emp_addition_notes">Additional Notes</label><br />
+
+              <textarea class="form-control rounded-4" aria-label="Additional Notes" id="update_emp_addition_notes" placeholder="Any additional notes..."></textarea>
+            </div>
+
+            <div class="col-lg-6 m-0">
+              <label for="update_emp_pic">Profile Picture</label><br />
+
+              <input type="file" class="form-control rounded-4" id="update_emp_pic" />
+            </div>
+          </div>
+
+          <!-- create and reset buttons -->
+          <div class="row d-flex align-items-center justify-content-center mt-4 mb-4">
+            <button type="submit" class="btn btn-primary col-lg-2 m-2">
+              Update
+            </button>
+
+            <a href="/admin/employee/manage" class="btn btn-secondary col-lg-2 m-2" id="cancel_btn">
+              Cancel
+            </a>
+          </div>
         </div>
-      </form>
-    </section>
+      </div>
+    </form>
+  </section>
 
-    <!-- bootstrap cdn -->
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <!-- Main js file -->
-    <script defer src="/js/admin.js"></script>
-  </body>
+  <!-- sweet alert cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
 </html>

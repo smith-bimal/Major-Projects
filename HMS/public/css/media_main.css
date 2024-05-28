@@ -365,6 +365,17 @@
   .btn.btn-secondary {
     margin-inline: 10px !important;
   }
+
+  .acc-img-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .acc-img-container img {
+    height: 250px;
+    width: 250px;
+  }
 }
 
 @media screen and (max-width: 580px) {

@@ -7,7 +7,7 @@
 
   <section class="main">
     <!-- Update Employee Payroll -->
-    <form action="#" id="manage_emp_pay_form">
+    <form action="/admin/payroll/manage/<%= emp.employee_id %>?_method=PATCH" method="post" id="manage_emp_pay_form">
       <div class="container-fluid p-3 bg-white rounded-2">
         <h2>Update Employee Payroll</h2>
 
@@ -17,19 +17,19 @@
             <div class="col-lg-4 m-0">
               <label for="manage_pay_emp_id">Employee ID</label><br />
 
-              <input type="text" class="form-control rounded-4" id="manage_pay_emp_id" placeholder="ID no." value="<%= emp.employee_id %>" disabled />
+              <input type="text" class="form-control rounded-4" id="manage_pay_emp_id" placeholder="ID no." value="<%= emp.employee_id %>" name="id" readonly />
             </div>
 
             <div class="col-lg-4 m-0">
               <label for="manage_pay_emp_name">Employee Name</label><br />
 
-              <input class="form-control rounded-4" type="text" aria-label="Name" id="manage_pay_emp_name" placeholder="Name" value="<%= emp.full_name %>" disabled />
+              <input class="form-control rounded-4" type="text" aria-label="Name" id="manage_pay_emp_name" placeholder="Name" value="<%= emp.full_name %>" name="name" readonly />
             </div>
 
             <div class="col-lg-4">
               <label for="manage_pay_emp_mail">Employee Email</label><br />
 
-              <input class="form-control rounded-4" type="email" aria-label="Email" id="manage_pay_emp_mail" placeholder="Email" value="<%= emp.email %>" disabled />
+              <input class="form-control rounded-4" type="email" aria-label="Email" id="manage_pay_emp_mail" placeholder="Email" value="<%= emp.email %>" name="email" readonly />
             </div>
           </div>
 
@@ -38,16 +38,16 @@
             <div class="col-lg-6 m-0">
               <label for="manage_pay_emp_sal">Salary (INR)</label><br />
 
-              <input type="number" class="form-control rounded-4" id="manage_pay_emp_sal" placeholder="" value="<%= emp.salary %>" required />
+              <input type="number" class="form-control rounded-4" id="manage_pay_emp_sal" placeholder="" value="<%= emp.salary %>" name="salary" required />
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="manage_pay_emp_stat">Payroll Status</label><br />
 
-              <select class="form-select rounded-4" id="manage_pay_emp_stat">
+              <select class="form-select rounded-4" id="manage_pay_emp_stat" name="status">
                 <option value="">------Select------</option>
-                <option value="paid">Paid</option>
-                <option value="unpaid">Unpaid</option>
+                <option value="Paid">Paid</option>
+                <option value="Unpaid">Unpaid</option>
               </select>
             </div>
           </div>
@@ -57,6 +57,7 @@
             <label for="manage_pay_emp_notes">Payroll Description</label>
 
             <div id="manage_pay_emp_notes"></div>
+            <input type="hidden" name="notes" id="pay_notes_input">
           </div>
 
           <!-- Add Employee Payroll -->
@@ -90,6 +91,12 @@
       },
       theme: "snow",
     });
+
+    manage_payroll_editor.root.innerHTML = `<%- emp.salary%>`;
+
+    document.querySelector("#manage_emp_pay_form").addEventListener("submit", (e) => {
+      document.querySelector("#pay_notes_input").value = manage_payroll_editor.root.innerHTML;
+    })
   </script>
 
   <!-- Main js file -->

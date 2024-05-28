@@ -11,7 +11,7 @@
 
   <section class="main">
     <!-- Update Appointment Form -->
-    <form action="#" id="update_app_form">
+    <form action="/<%= userType %>/appointment/manage/<%= app.appointment_id %>?_method=PATCH" method="post" id="update_app_form">
       <div class="container-fluid p-3 bg-white rounded-2">
         <h2 class="mt-2">Update Appointment</h2>
 
@@ -21,19 +21,19 @@
             <div class="col-lg-4 m-0">
               <label for="update_patient_name">Patient's Name</label><br />
 
-              <input type="text" placeholder="Name of the patient" class="form-control rounded-4" id="update_patient_name" value="<%= app.patient_name %>" />
+              <input type="text" placeholder="Name of the patient" class="form-control rounded-4" id="update_patient_name" value="<%= app.patient_name %>" name="name" />
             </div>
 
             <div class="col-lg-4 m-0">
               <label for="update_patient_email">Patient Email</label><br />
 
-              <input type="email" placeholder="Email Address" class="form-control rounded-4" id="update_patient_email" value="<%= app.patient_email %>" />
+              <input type="email" placeholder="Email Address" class="form-control rounded-4" id="update_patient_email" value="<%= app.patient_email %>" name="email" />
             </div>
 
             <div class="col-lg-4 m-0">
               <label for="update_patient_contact_number">Contact Details</label><br />
 
-              <input type="text" maxlength="10" minlength="10" placeholder="Contact number" class="form-control rounded-4" id="update_patient_contact_number" value="<%= app.contact_number %>" />
+              <input type="text" maxlength="10" minlength="10" placeholder="Contact number" class="form-control rounded-4" id="update_patient_contact_number" value="<%= app.contact_number %>" name="contact" />
             </div>
           </div>
 
@@ -42,22 +42,22 @@
             <div class="col-lg-4 m-0">
               <label for="update_patient_dob">Date of Birth</label><br />
 
-              <input type="date" class="form-control rounded-4" id="update_patient_dob" value="<%= app.date_of_birth %>" />
+              <input type="date" class="form-control rounded-4" id="update_patient_dob" value="<%= app.date_of_birth %>" name="dob" />
             </div>
 
             <div class="col-lg-4 m-0">
               <label for="update_patient_age">Age</label><br />
 
-              <input class="form-control rounded-4" type="number" aria-label="Age" id="update_patient_age" placeholder="Patient's age" value="<%= app.age %>" />
+              <input class="form-control rounded-4" type="number" aria-label="Age" id="update_patient_age" placeholder="Patient's age" value="<%= app.age %>" name="age" />
             </div>
 
             <div class="col-lg-4">
               <label for="update_patient_gender">Gender</label><br />
-              <select class="form-select rounded-4" aria-label="Gender" id="update_patient_gender">
+              <select class="form-select rounded-4" aria-label="Gender" id="update_patient_gender" name="gender">
                 <option value="" disabled>------Select------</option>
-                <option value="male" <%= app.gender === 'Male' ? 'selected' : '' %>>Male</option>
-                <option value="female" <%= app.gender === 'Female' ? 'selected' : '' %>>Female</option>
-                <option value="other" <%= app.gender === 'Other' ? 'selected' : '' %>>Others</option>
+                <option value="Male" <%= app.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%= app.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                <option value="Others" <%= app.gender === 'Other' ? 'selected' : '' %>>Others</option>
               </select>
             </div>
 
@@ -68,13 +68,13 @@
             <div class="col-lg-6 m-0">
               <label for="update_patient_address">Address</label><br />
 
-              <textarea class="form-control rounded-4" aria-label="Address" id="update_patient_address" placeholder="Patient's Address"><%= app.address %></textarea>
+              <textarea class="form-control rounded-4" aria-label="Address" id="update_patient_address" placeholder="Patient's Address" name="address"><%= app.address %></textarea>
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_patient_pincode">Pincode</label><br />
 
-              <input type="number" minlength="6" class="form-control rounded-4" id="update_patient_pincode" placeholder="Area pincode" value="<%= app.pincode %>" />
+              <input type="number" minlength="6" class="form-control rounded-4" id="update_patient_pincode" placeholder="Area pincode" value="<%= app.pincode %>" name="pincode" />
             </div>
           </div>
 
@@ -84,7 +84,7 @@
           <div class="row mt-4">
             <div class="col-lg-6">
               <label for="update_appointment_doc_name">Preferred Doctor</label><br />
-              <select class="form-select rounded-4" id="update_appointment_doc_name" aria-label="Preferred Doctor">
+              <select class="form-select rounded-4" id="update_appointment_doc_name" aria-label="Preferred Doctor" name="app_doc">
                 <option value="" disabled selected>------Select------</option>
                 <% for(doc of doctors){ %>
                 <option value="<%= doc.full_name %>" <%= app.preferred_doctor === doc.full_name ? 'selected' : '' %>>
@@ -98,7 +98,7 @@
             <div class="col-lg-6 m-0">
               <label for="update_appointment_date_time">Preferred Date and Time</label><br />
 
-              <input type="datetime-local" class="form-control rounded-4" id="update_appointment_date_time" value="<%= app.preferred_date_time %>" />
+              <input type="datetime-local" class="form-control rounded-4" id="update_appointment_date_time" value="<%= app.preferred_date_time %>" name="app_date" />
             </div>
           </div>
 
@@ -107,13 +107,13 @@
             <div class="col-lg-6 m-0">
               <label for="update_appointment_reason">Appointment Reason</label><br />
 
-              <textarea class="form-control rounded-4" aria-label="Appointment Reason" id="update_appointment_reason" placeholder="Reason for appointment..."><%= app.appointment_reason %></textarea>
+              <textarea class="form-control rounded-4" aria-label="Appointment Reason" id="update_appointment_reason" placeholder="Reason for appointment..." name="reason"><%= app.appointment_reason %></textarea>
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="update_appointment_notes">Additional Notes</label><br />
 
-              <textarea class="form-control rounded-4" aria-label="Additional Notes" id="update_appointment_notes" placeholder="Any additional notes..."><%= app.additional_notes  %></textarea>
+              <textarea class="form-control rounded-4" aria-label="Additional Notes" id="update_appointment_notes" placeholder="Any additional notes..." name="notes"><%= app.additional_notes  %></textarea>
             </div>
           </div>
 
@@ -122,11 +122,11 @@
             <div class="col-lg-6">
               <label for="update_app_status">Status</label><br />
 
-              <select class="form-select rounded-4" aria-label="Status" id="update_app_status">
+              <select class="form-select rounded-4" aria-label="Status" id="update_app_status" name="app_sts">
                 <option value="" disabled>------Select------</option>
-                <option value="complete" <%= app.status === 'Complete' ? 'selected' : '' %>>Completed</option>
-                <option value="pending" <%= app.status === 'Pending' ? 'selected' : '' %>>Pending</option>
-                <option value="cancel" <%= app.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                <option value="Completed" <%= app.status === 'Complete' ? 'selected' : '' %>>Completed</option>
+                <option value="Pending" <%= app.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                <option value="Cancelled" <%= app.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
               </select>
             </div>
           </div>

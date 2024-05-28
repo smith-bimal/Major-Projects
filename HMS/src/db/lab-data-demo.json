@@ -3,12 +3,7 @@
     "id": "PA-39-9940859",
     "full_name": "Amit Kumar",
     "ailment": "insomnia",
-    "lab_tests": [
-      "Polysomnography (Sleep Study)",
-      "Actigraphy",
-      "Blood Tests",
-      "Urine Tests"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Polysomnography (Sleep Study),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Actigraphy,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Blood Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Urine Tests</li></ol>",
     "lab_results": [
       "Mild sleep apnea detected",
       "Irregular sleep patterns observed",
@@ -25,12 +20,7 @@
     "id": "PA-82-7040026",
     "full_name": "Sita Sharma",
     "ailment": "fatigue",
-    "lab_tests": [
-      "Complete Blood Count (CBC)",
-      "Thyroid Function Tests",
-      "Blood Glucose Tests",
-      "Electrolyte Panel"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Thyroid Function Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Blood Glucose Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Electrolyte Panel</li></ol>",
     "lab_results": ["Anemia detected", "Normal", "Normal", "Normal"],
     "heart_rate": 78,
     "blood_pressure": "115/75",
@@ -42,12 +32,7 @@
     "id": "PA-51-5583244",
     "full_name": "Ravi Verma",
     "ailment": "allergies",
-    "lab_tests": [
-      "Allergy Skin Tests",
-      "IgE Antibody Blood Test",
-      "Complete Blood Count (CBC)",
-      "Nasal Smear"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Allergy Skin Tests</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>IgE Antibody Blood Test</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC)</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Nasal Smear</li></ol>",
     "lab_results": [
       "Positive for pollen and dust mites",
       "Elevated IgE levels",
@@ -64,12 +49,7 @@
     "id": "PA-30-0417402",
     "full_name": "Lakshmi Nair",
     "ailment": "sore throat",
-    "lab_tests": [
-      "Throat Swab Culture",
-      "Rapid Strep Test",
-      "Complete Blood Count (CBC)",
-      "Monospot Test"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Throat Swab Culture,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Rapid Strep Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Monospot Test</li></ol>",
     "lab_results": [
       "Streptococcus pyogenes detected",
       "Positive",
@@ -86,12 +66,7 @@
     "id": "PA-95-0067684",
     "full_name": "Ramesh Gupta",
     "ailment": "allergies",
-    "lab_tests": [
-      "Allergy Skin Tests",
-      "IgE Antibody Blood Test",
-      "Complete Blood Count (CBC)",
-      "Nasal Smear"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Allergy Skin Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>IgE Antibody Blood Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Nasal Smear</li></ol>",
     "lab_results": [
       "Positive for pollen and dust mites",
       "Elevated IgE levels",
@@ -108,12 +83,7 @@
     "id": "PA-04-7961598",
     "full_name": "Anita Singh",
     "ailment": "allergies",
-    "lab_tests": [
-      "Allergy Skin Tests",
-      "IgE Antibody Blood Test",
-      "Complete Blood Count (CBC)",
-      "Nasal Smear"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Allergy Skin Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>IgE Antibody Blood Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Nasal Smear</li></ol>",
     "lab_results": [
       "Positive for pollen and dust mites",
       "Elevated IgE levels",
@@ -130,12 +100,7 @@
     "id": "PA-83-4918209",
     "full_name": "Kavita Joshi",
     "ailment": "headache",
-    "lab_tests": [
-      "Magnetic Resonance Imaging (MRI)",
-      "Computed Tomography (CT) Scan",
-      "Blood Tests",
-      "Eye Exam"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Magnetic Resonance Imaging (MRI),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Computed Tomography (CT) Scan,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Blood Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Eye Exam</li></ol>",
     "lab_results": [
       "No abnormalities detected",
       "No abnormalities detected",
@@ -152,12 +117,7 @@
     "id": "PA-28-8523048",
     "full_name": "Manoj Patel",
     "ailment": "sore throat",
-    "lab_tests": [
-      "Throat Swab Culture",
-      "Rapid Strep Test",
-      "Complete Blood Count (CBC)",
-      "Monospot Test"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Throat Swab Culture,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Rapid Strep Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Monospot Test</li></ol>",
     "lab_results": [
       "Streptococcus pyogenes detected",
       "Positive",
@@ -174,12 +134,7 @@
     "id": "PA-55-7237124",
     "full_name": "Bharat Desai",
     "ailment": "fever",
-    "lab_tests": [
-      "Complete Blood Count (CBC)",
-      "Blood Culture",
-      "Urinalysis",
-      "Chest X-Ray"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Blood Culture,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Urinalysis,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Chest X-Ray</li></ol>",
     "lab_results": [
       "Elevated white blood cells",
       "No growth",
@@ -196,12 +151,7 @@
     "id": "PA-77-9181409",
     "full_name": "Geeta Mehta",
     "ailment": "sore throat",
-    "lab_tests": [
-      "Throat Swab Culture",
-      "Rapid Strep Test",
-      "Complete Blood Count (CBC)",
-      "Monospot Test"
-    ],
+    "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Throat Swab Culture,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Rapid Strep Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Monospot Test</li></ol>",
     "lab_results": [
       "Streptococcus pyogenes detected",
       "Positive",

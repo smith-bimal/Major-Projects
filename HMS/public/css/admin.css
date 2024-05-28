@@ -799,3 +799,11 @@ table tbody tr a {
 #print-button {
   min-width: 150px;
 }
+
+.acc-img-container {
+  width: 50%;
+}
+
+.acc-img-container img {
+  width: 100%;
+}

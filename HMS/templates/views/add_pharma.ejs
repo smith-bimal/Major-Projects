@@ -12,7 +12,7 @@
   <section class="main">
     <!-- Add Pharmaceutical content -->
     <div class="add-pharma-content">
-      <form action="#">
+      <form action="/<%= userType %>/pharmacy/add" method="post" id="add_pharma">
         <div class="container-fluid p-3 bg-white rounded-2">
           <div class="add-pharma-heading d-flex justify-content-between pt-2 pb-3">
             <h2>Add Pharmaceuticals</h2>
@@ -23,13 +23,13 @@
             <div class="col-lg-6 m-0">
               <label for="pharma_name">Pharmaceutical Name</label><br />
 
-              <input type="text" class="form-control rounded-4" id="pharma_name" />
+              <input type="text" class="form-control rounded-4" id="pharma_name" name="name" />
             </div>
 
             <div class="col-lg-6 m-0">
               <label for="pharma_number">Pharmaceutical Quantity(Cartons)</label><br />
 
-              <input type="number" placeholder="Quantity in Cartons" class="form-control rounded-4" id="pharma_number" />
+              <input type="number" placeholder="Quantity in Cartons" class="form-control rounded-4" id="pharma_number" name="quantity" />
             </div>
           </div>
 
@@ -38,24 +38,24 @@
             <div class="col-lg-6 m-0">
               <label for="pharma_category">Pharmaceutical Category</label><br />
 
-              <select class="form-control rounded-4" id="pharma_category">
+              <select class="form-control rounded-4" id="pharma_category" name="category">
                 <option selected>------Select------</option>
-                <option value="">Analgesics</option>
-                <option value="">Antibiotics</option>
-                <option value="">Hormonal medications</option>
-                <option value="">Vaccines</option>
+                <option value="Analgesics">Analgesics</option>
+                <option value="Antibiotics">Antibiotics</option>
+                <option value="Hormonal medications">Hormonal medications</option>
+                <option value="Vaccines">Vaccines</option>
               </select>
             </div>
 
-            <div class="col-lg-6 m-0">
+            <div class=" col-lg-6 m-0">
               <label for="pharma_vendor">Pharmaceutical Vendor</label><br />
 
-              <select class="form-control rounded-4" id="pharma_vendor">
+              <select class="form-control rounded-4" id="pharma_vendor" name="vendor">
                 <option selected>------Select------</option>
-                <option value="pharm_sol">PharmaSolutions</option>
-                <option value="medvis_pharm">MedVista Pharmaceuticals</option>
-                <option value="apex_sol">Apex Pharma Solutions</option>
-                <option value="pharm_globe">PharmaGlobe</option>
+                <option value="PharmaSolutions">PharmaSolutions</option>
+                <option value="MedVista Pharmaceuticals">MedVista Pharmaceuticals</option>
+                <option value="Apex Pharma Solutions">Apex Pharma Solutions</option>
+                <option value="PharmaGlobe">PharmaGlobe</option>
               </select>
             </div>
           </div>
@@ -63,13 +63,14 @@
           <!-- Barcode Number -->
           <div class="row m-0 mb-4">
             <label for="pharm_bc_num" class="p-0">Pharmaceutical Barcode</label>
-            <input type="text" placeholder="Barcode Number" class="form-control rounded-4" id="pharm_bc_num" />
+            <input type="text" placeholder="Barcode Number" class="form-control rounded-4" id="pharm_bc_num" name="barcode" />
           </div>
 
           <!--category description -->
           <div class="row">
             <label for="pharm_cat_desc">Pharmaceutical Category Description</label>
-            <div id="pharm_cat_desc"></div>
+            <div id="pharm_cat_desc" class="quill-editor"></div>
+            <input type="hidden" name="desc" id="desc_conent_input">
           </div>
 
           <!-- add category button -->
@@ -85,6 +86,10 @@
 
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+  <!-- sweet alert cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+
   <script defer src="/js/admin.js"></script>
 
   <!-- Quill Editor -->
@@ -97,7 +102,13 @@
       },
       theme: "snow",
     });
+
+    document.querySelector("#add_pharma").addEventListener("submit", (e) => {
+      document.querySelector("#desc_conent_input").value = pharm_editor.root.innerHTML;
+    })
   </script>
+
+
 </body>
 
 </html>

@@ -71,25 +71,31 @@ app.get("/login", (req, res) => {
 });
 
 // admin section start-----------------------------------------
-app.get("/admin/dashboard", (req, res) => {
-    const userType = req.session.userType;
-    res.render("admin", { employees, patients, appointments, doctors, pharmacies, userType });
-});
+app.route("/admin/dashboard")
+    .get((req, res) => {
+        const userType = req.session.userType;
+        res.render("admin", { employees, patients, appointments, doctors, pharmacies, userType });
+    })
+    .post(async (req, res) => {
+        try {
+            let { username, password } = req.body;
+            console.log(username, password);
+            res.redirect("/admin/dashboard");
+        } catch (error) {
+            res.status(400).send("Admin login failed");
+        }
+    });
 
-app.post("/admin/dashboard", async (req, res) => {
-    try {
-        let { username, password } = req.body;
-        console.log(username, password);
-        res.redirect("/admin/dashboard");
-    } catch (error) {
-        res.status(400).send("Admin login failed");
-    }
-});
-
-app.get("/admin/appointment/create", (req, res) => {
+app.route("/admin/appointment/create").get((req, res) => {
     const userType = req.session.userType;
     res.render("create_app", { doctors, userType });
-});
+}).post((req, res) => {
+    let { name, email, contact, dob, age, gender, address, pincode, app_doc, app_date, reason, notes } = req.body;
+    console.log(name, email, contact, dob, age, gender, address, pincode, app_doc, app_date, reason, notes);
+    setTimeout(() => {
+        res.redirect("/admin/appointment/manage");
+    }, 2000);
+})
 
 app.get("/admin/appointment/manage", (req, res) => {
     const userType = req.session.userType;
@@ -103,9 +109,15 @@ app.get("/admin/appointment/manage/:id", (req, res) => {
     res.render("update_app", { app, doctors, userType });
 });
 
-app.get("/admin/pharmacy/add", (req, res) => {
+app.route("/admin/pharmacy/add").get((req, res) => {
     const userType = req.session.userType;
     res.render("add_pharma", { userType });
+}).post((req, res) => {
+    let { name, quantity, category, vendor, barcode, desc } = req.body;
+    console.log(name, quantity, category, vendor, barcode, desc);
+    // setTimeout(() => {
+    //     res.redirect("/admin/pharmacy/manage");
+    // }, 2000);
 });
 
 app.get("/admin/pharmacy/manage", (req, res) => {
@@ -401,12 +413,19 @@ app.route("/doctor/dashboard")
 
 
 
-app.get("/doctor/appointment/create", async (req, res) => {
+app.route("/doctor/appointment/create").get(async (req, res) => {
     const userType = req.session.userType;
     const userEmail = req.session.userEmail;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("create_app", { doctors, userType, doctor });
-});
+}).post((req, res) => {
+    let { name, email, contact, dob, age, gender, address, pincode, app_doc, app_date, reason, notes } = req.body;
+    console.log(name, email, contact, dob, age, gender, address, pincode, app_doc, app_date, reason, notes);
+    setTimeout(() => {
+        res.redirect("/doctor/appointment/manage");
+    }, 2000);
+})
+
 
 app.get("/doctor/appointment/manage", async (req, res) => {
     const userType = req.session.userType;
@@ -474,11 +493,17 @@ app.get("/doctor/prescription/manage/:id", async (req, res) => {
     res.render("update_presc", { patient, presc, userType, doctor });
 });
 
-app.get("/doctor/pharmacy/add", async (req, res) => {
+app.route("/doctor/pharmacy/add").get(async (req, res) => {
     const userType = req.session.userType;
     const userEmail = req.session.userEmail;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("add_pharma", { userType, doctor });
+}).post((req, res) => {
+    let { name, quantity, category, vendor, barcode, desc } = req.body;
+    console.log(name, quantity, category, vendor, barcode, desc);
+    // setTimeout(() => {
+    //     res.redirect("/doctor/pharmacy/manage");
+    // }, 2000);
 });
 
 app.get("/doctor/pharmacy/manage", async (req, res) => {
@@ -664,9 +689,11 @@ app.get("/doctor/survey", async (req, res) => {
 });
 
 app.get("/doctor/profile", async (req, res) => {
+    const userType = req.session.userType;
     const userEmail = req.session.userEmail;
     const doctor = await fetchDoctorDetails(userEmail);
-    res.send(fetchDoctorDetails(userEmail));
+    // res.send(doctor);
+    res.render("doc_profile_acc", { doctor, userType });
 });
 
 // doctor section end ------------------------------------------

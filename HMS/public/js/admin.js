@@ -411,7 +411,6 @@ if (window.innerWidth < 768) {
         document.querySelector(".navigation").classList.toggle("slide-in");
     })
 
-
     // Close the nav menus if clicked outside
     document.addEventListener("click", (e) => {
 
@@ -423,106 +422,105 @@ if (window.innerWidth < 768) {
 }
 
 //Show success popup according to the status code of the request
-(function ($) {
-    function showSwal(type, message = '') {
-        if (type === 'success-message') {
-            swal({
-                title: 'Congratulations!',
-                text: message || 'The information got stored successfully.',
-                icon: 'success',
-                type: 'success',
-                button: {
-                    text: "Continue",
-                    value: true,
-                    visible: true,
-                    className: "btn btn-primary"
-                }
-            });
-        } else if (type === 'error-message') {
-            swal({
-                title: 'Error occurred!',
-                text: message || 'There was a problem with the submission.',
-                icon: 'error',
-                type: 'error',
-                button: {
-                    text: "Retry",
-                    value: true,
-                    visible: true,
-                    className: "btn btn-danger"
-                }
-            });
-        }
-    }
-
-    // Array of form IDs
-    var formIds = [
-        'create_app',
-        'add_pharma',
-        'new_patient_presc',
-        'new_lab_test',
-        'new_lab_result',
-        'new_pat_vital',
-        'add_doc_form',
-        'add_emp_form',
-        'pat_reg_form',
-        'pat_discharge_form',
-        'manage_emp_pay_form',
-        'new_emp_pay',
-        'update_app_form',
-        'update_doc_form',
-        'update_emp_form',
-        'update_pharma_form',
-        'update_patient_presc',
-        'update_pat_form',
-        'doc_acc_profile'
-    ];
-
-    // Loop through each form ID and attach the event listener
-    formIds.forEach(function (formId) {
-        let formElement = document.getElementById(formId);
-        if (formElement) {
-            formElement.addEventListener('submit', function (event) {
-                // Prevent the default form submission behavior
-                // event.preventDefault();
-
-                // const formData = new FormData(this);
-                // const requestData = {};
-
-                // // Convert form data to JSON
-                // formData.forEach(function (value, key) {
-                //     requestData[key] = value;
-                // });
-
-                // // Send data to server
-                // fetch('/insertData', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify(requestData)
-                // })
-                // .then(response => response.json())
-                // .then(data => {
-                //     if (data.success) {
-                // showSwal('success-message', data.message);
-                showSwal('success-message');
-                //         this.reset(); // Reset form
-                //     } else {
-                //         showSwal('error-message', data.message);
-                //     }
-                // })
-                // .catch(error => {
-                //     console.error('Error:', error);
-                //     showSwal('error-message', 'There was an error submitting the form.');
-                // });
-            });
-        }
-    });
-
-})(jQuery);
-
 
 try {
+    (function ($) {
+        function showSwal(type, message = '') {
+            if (type === 'success-message') {
+                swal({
+                    title: 'Congratulations!',
+                    text: message || 'The information got stored successfully.',
+                    icon: 'success',
+                    type: 'success',
+                    button: {
+                        text: "Continue",
+                        value: true,
+                        visible: true,
+                        className: "btn btn-primary"
+                    }
+                });
+            } else if (type === 'error-message') {
+                swal({
+                    title: 'Error occurred!',
+                    text: message || 'There was a problem with the submission.',
+                    icon: 'error',
+                    type: 'error',
+                    button: {
+                        text: "Retry",
+                        value: true,
+                        visible: true,
+                        className: "btn btn-danger"
+                    }
+                });
+            }
+        }
+
+        // Array of form IDs
+        var formIds = [
+            'create_app',
+            'add_pharma',
+            'new_patient_presc',
+            'new_lab_test',
+            'new_lab_result',
+            'new_pat_vital',
+            'add_doc_form',
+            'add_emp_form',
+            'pat_reg_form',
+            'pat_discharge_form',
+            'manage_emp_pay_form',
+            'new_emp_pay',
+            'update_app_form',
+            'update_doc_form',
+            'update_emp_form',
+            'update_pharma_form',
+            'update_patient_presc',
+            'update_pat_form',
+            'doc_acc_profile'
+        ];
+
+        // Loop through each form ID and attach the event listener
+        formIds.forEach(function (formId) {
+            let formElement = document.getElementById(formId);
+            if (formElement) {
+                formElement.addEventListener('submit', function (event) {
+                    // Prevent the default form submission behavior
+                    // event.preventDefault();
+
+                    // const formData = new FormData(this);
+                    // const requestData = {};
+
+                    // // Convert form data to JSON
+                    // formData.forEach(function (value, key) {
+                    //     requestData[key] = value;
+                    // });
+
+                    // // Send data to server
+                    // fetch('/insertData', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json'
+                    //     },
+                    //     body: JSON.stringify(requestData)
+                    // })
+                    // .then(response => response.json())
+                    // .then(data => {
+                    //     if (data.success) {
+                    // showSwal('success-message', data.message);
+                    showSwal('success-message');
+                    //         this.reset(); // Reset form
+                    //     } else {
+                    //         showSwal('error-message', data.message);
+                    //     }
+                    // })
+                    // .catch(error => {
+                    //     console.error('Error:', error);
+                    //     showSwal('error-message', 'There was an error submitting the form.');
+                    // });
+                });
+            }
+        });
+
+    })(jQuery);
 } catch (error) {
-    console.log(error);
+    console.log("jQuery not found");
 }

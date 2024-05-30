@@ -14,9 +14,8 @@ const pharmacies = require("./src/db/Pharma-demo.json");
 const prescriptions = require("./src/db/Patients-presc-demo.json");
 const labReports = require("./src/db/lab-data-demo.json");
 
-require("./src/db/conn");
-const AdminLogin = require("./src/models/admin_login");
-const DoctorLogin = require("./src/models/doctor_login");
+// require("./src/db/conn");
+// const Admin = require("./src/models/admin_login");
 
 let port = process.env.PORT || 5000;
 

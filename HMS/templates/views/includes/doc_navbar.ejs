@@ -14,20 +14,23 @@
           <i class="fa-solid fa-bell"></i>
         </div>
 
-        <img src="/Assets/pngwing.com.png" />
+        <% if (doctor) { %>
+        <img src="<%= doctor.image %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
 
         <div class="username">
-          <% if (doctor) { %>
           <h3><%= doctor.full_name %></h3>
           <p>Doctor</p>
           <% } else { %>
-          <h3>Username</h3>
-          <p>Doctor</p>
-          <% } %>
+          <img src="/Assets/pngwing.com.png" />
+
+          <div class="username">
+            <h3>Username</h3>
+            <p>Doctor</p>
+            <% } %>
+          </div>
+          <i class="fa-solid fa-caret-down"></i>
         </div>
-        <i class="fa-solid fa-caret-down"></i>
       </div>
-    </div>
   </header>
 </section>
 

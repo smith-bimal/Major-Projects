@@ -2,10 +2,14 @@
 
 * {
   box-sizing: border-box;
+  user-select: none;
 }
 
 body {
-  background: #fafcff;
+  background: url("/Assets/Untitled design.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -235,4 +239,11 @@ input {
 
 .container.right-panel-active .overlay-right {
   transform: translateX(20%);
+}
+
+@media screen and (max-width: 540px) {
+  .overlay-panel,
+  form {
+    padding: 0 10px;
+  }
 }

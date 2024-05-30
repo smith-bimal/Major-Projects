@@ -40,6 +40,7 @@ a {
 }
 .nav-hamburger {
   display: none;
+  z-index: 5;
 }
 
 .btn {
@@ -103,6 +104,11 @@ p {
 li {
   list-style: none !important;
 }
+
+a[href="#contact"] {
+  display: inline-block;
+}
+
 /* ----------Main page---------- */
 
 .container {
@@ -131,6 +137,7 @@ nav {
 .logo span {
   font-family: "Madimi One", sans-serif;
   font-size: 3rem;
+  z-index: 5;
 }
 
 .logo span {

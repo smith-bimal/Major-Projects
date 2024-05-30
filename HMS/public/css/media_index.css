@@ -32,16 +32,15 @@
 
   .center-nav,
   .login-sec {
-    background-color: #d6efff;
     backdrop-filter: blur(50px);
     position: absolute;
-    right: -30rem;
+    right: 0;
+    top: -30vh;
     opacity: 0;
     z-index: 2;
-    width: 25rem;
+    width: 100%;
     padding: 20px;
     margin: 0;
-    border-left: 2px solid #8e8f9185;
     transition: 0.5s ease;
     -webkit-transition: 0.5s ease;
     -moz-transition: 0.5s ease;
@@ -52,8 +51,7 @@
   .center-nav {
     text-align: center;
     display: block;
-    border-top-left-radius: 1rem;
-    top: 10vh;
+    background: linear-gradient(0deg, #d6effe, #f6fbff);
   }
 
   .center-nav li {
@@ -61,22 +59,27 @@
   }
 
   .login-sec {
-    top: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
     padding-bottom: 2rem;
-    box-shadow: 1px 2px 0px 0px #0000006e;
+    background-color: #d6effe;
+    box-shadow: 0 2px 2px -2px #0000006e;
+  }
+
+  .nav-slide-in,
+  .log-slide-in {
+    opacity: 1;
   }
 
   .nav-slide-in {
-    opacity: 1;
-    right: 0rem;
+    top: 75px;
   }
-  .nav-slide-out {
-    opacity: 0;
-    right: -30rem;
+
+  .log-slide-in {
+    top: 250px;
   }
 
   main {
@@ -159,11 +162,6 @@
 @media screen and (max-width: 768px) {
   main {
     display: block !important;
-  }
-
-  .center-nav,
-  .login-sec {
-    width: 20rem;
   }
 
   .left-sec {

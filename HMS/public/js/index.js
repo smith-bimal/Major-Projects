@@ -3,21 +3,17 @@ const loginBtn = document.querySelector(".login-sec");
 const navMenuBtn = document.querySelector(".fa-bars");
 
 if (window.innerWidth <= 992) {
-    let isNavOpen = false;
+    let isNavOpen = true;
 
     navMenuBtn.addEventListener("click", (e) => {
-        if (isNavOpen) {
-            navigations.classList.add("nav-slide-out");
-            loginBtn.classList.add("nav-slide-out");
+        if (!isNavOpen) {
             navigations.classList.remove("nav-slide-in");
-            loginBtn.classList.remove("nav-slide-in");
+            loginBtn.classList.remove("log-slide-in");
         } else {
             navigations.classList.add("nav-slide-in");
-            loginBtn.classList.add("nav-slide-in");
-            navigations.classList.remove("nav-slide-out");
-            loginBtn.classList.remove("nav-slide-out");
+            loginBtn.classList.add("log-slide-in");
         }
-        isNavOpen = !isNavOpen;
         e.stopPropagation();
+        isNavOpen = !isNavOpen;
     });
 }

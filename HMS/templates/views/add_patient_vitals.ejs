@@ -12,7 +12,7 @@
   <section class="main">
     <div>
       <!-- Add patient vitals section -->
-      <form action="/<%= userType %>/patient/vitals/<%= patient.id %>?_method=PATCH" method="post" id="new_pat_vital">
+      <form action="/<%= userType %>/patient/vitals/<%= lab.id %>?_method=PATCH" method="post" id="new_pat_vital">
         <div class="container-fluid p-3 bg-white rounded-2">
           <h2 class="mt2">Update Patient Vitals</h2>
 
@@ -22,13 +22,13 @@
               <div class="col-lg-6 m-0">
                 <label for="pat_vital_name">Patient Name</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_name" placeholder="Name" value="<%= patient.full_name %>" readonly />
+                <input type="text" class="form-control rounded-4" id="pat_vital_name" placeholder="Name" value="<%= lab.name %>" readonly />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="pat_vital_ailment">Patient Ailment</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_ailment" placeholder="Ailment" value="<%= patient.ailment %>" readonly />
+                <input type="text" class="form-control rounded-4" id="pat_vital_ailment" placeholder="Ailment" value="<%= lab.ailment %>" readonly />
               </div>
             </div>
 
@@ -37,7 +37,7 @@
               <div class="m-0">
                 <label for="pat_vital_id">Patient ID</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_id" placeholder="ID no." value="<%= patient.id %>" readonly />
+                <input type="text" class="form-control rounded-4" id="pat_vital_id" placeholder="ID no." value="<%= lab.patient_id %>" readonly />
               </div>
             </div>
 
@@ -73,14 +73,14 @@
               <div class="m-0 col-lg-6">
                 <label for="pat_vital_resp">Respiratory Rate</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_resp" placeholder="Breaths per minute (bpm)" value="<%= lab.respiratory_rate %>" name="resp" />
+                <input type="text" class="form-control rounded-4" id="pat_vital_resp" placeholder="Breaths per minute (bpm)" value="<%= lab.resp_rate %>" name="resp" />
               </div>
 
               <!-- Oxygen Saturation (SpO2) -->
               <div class="m-0 col-lg-6">
                 <label for="pat_vital_spo2">Oxygen Saturation (SpO2)</label><br />
 
-                <input type="text" class="form-control rounded-4" id="pat_vital_spo2" placeholder="Percentage (%)" value="<%= lab.oxygen_saturation %>" name="spo2" />
+                <input type="text" class="form-control rounded-4" id="pat_vital_spo2" placeholder="Percentage (%)" value="<%= lab.oxygen_sat %>" name="spo2" />
               </div>
             </div>
 
@@ -104,7 +104,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
   <!-- sweet alert cdn -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
   <!-- Main js file -->

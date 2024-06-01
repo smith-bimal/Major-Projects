@@ -1,325 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('includes/head') %>
+<%- include('includes/head') %>
 
-  <body>
-    <%- include('includes/navbar') %>
+<body>
+  <%- include('includes/navbar') %>
 
-    <section class="main">
-      <!-- dashboard content -->
-      <div class="dashboard-content container-fluid p-3">
-        <div class="card-container d-flex justify-content-center">
-          <div class="card border-0 d-flex flex-column justify-content-between">
-            <div class="d-flex">
-              <div
-                class="card-logo-container doctor-logo rounded-circle d-flex align-items-center justify-content-center"
-              >
-                <i class="fa-solid fa-user-doctor"></i>
-              </div>
-
-              <div class="ms-3">
-                <h2 id="doc_count"><%= doctors.length; %></h2>
-                <p>Doctors</p>
-              </div>
+  <section class="main">
+    <!-- dashboard content -->
+    <div class="dashboard-content container-fluid p-3">
+      <div class="card-container d-flex justify-content-center">
+        <div class="card border-0 d-flex flex-column justify-content-between">
+          <div class="d-flex">
+            <div class="card-logo-container doctor-logo rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-user-doctor"></i>
             </div>
-            <p class="m-0 mt-2">
-              <span class="cyan">1</span>
-              Doctors joined this week
-            </p>
-          </div>
 
-          <div class="card border-0 d-flex flex-column justify-content-between">
-            <div class="d-flex">
-              <div
-                class="card-logo-container staff-logo rounded-circle d-flex align-items-center justify-content-center"
-              >
-                <i class="fa-solid fa-user-group"></i>
-              </div>
-
-              <div class="ms-3">
-                <h2 id="emp_count"><%= employees.length; %></h2>
-                <p>Staffs</p>
-              </div>
+            <div class="ms-3">
+              <h2 id="doc_count"><%= doctors.length; %></h2>
+              <p>Doctors</p>
             </div>
-            <p class="m-0 mt-2">
-              <span class="orange">0</span>
-              staffs on vacation
-            </p>
           </div>
-
-          <div class="card border-0 d-flex flex-column justify-content-between">
-            <div class="d-flex">
-              <div
-                class="card-logo-container patient-logo rounded-circle d-flex align-items-center justify-content-center"
-              >
-                <i class="fa-brands fa-accessible-icon"></i>
-              </div>
-
-              <div class="ms-3">
-                <h2 id="pat_count"><%= patients.length; %></h2>
-                <p>Patients</p>
-              </div>
-            </div>
-            <p class="m-0 mt-2">
-              <span class="red">2</span>
-              new patients admitted
-            </p>
-          </div>
-
-          <div class="card border-0 d-flex flex-column justify-content-between">
-            <div class="d-flex">
-              <div
-                class="card-logo-container medicine-logo rounded-circle d-flex align-items-center justify-content-center"
-              >
-                <i class="fa-solid fa-pills"></i>
-              </div>
-
-              <div class="ms-3">
-                <h2 id="pharma_count"><%= pharmacies.length %></h2>
-                <p>Pharmacies</p>
-              </div>
-            </div>
-            <p class="m-0 mt-2">
-              <span class="blue">15</span>
-              medicines on reserve
-            </p>
-          </div>
+          <p class="m-0 mt-2">
+            <span class="cyan">1</span>
+            Doctors joined this week
+          </p>
         </div>
 
-        <div class="chart-container d-flex justify-content-center">
-          <div class="card border-0">
-            <div class="card-head">
-              <h2>Hospital Birth & Death Analysis</h2>
+        <div class="card border-0 d-flex flex-column justify-content-between">
+          <div class="d-flex">
+            <div class="card-logo-container staff-logo rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-user-group"></i>
             </div>
 
-            <div class="card-body">
-              <div
-                class="chart d-flex justify-content-center align-items-center"
-              >
-                <canvas id="birth_death_chart"></canvas>
-              </div>
+            <div class="ms-3">
+              <h2 id="emp_count"><%= employees.length; %></h2>
+              <p>Staffs</p>
             </div>
           </div>
+          <p class="m-0 mt-2">
+            <span class="orange">0</span>
+            staffs on vacation
+          </p>
+        </div>
 
-          <div class="card border-0">
-            <div class="card-head">
-              <h2>Patients visited by departments</h2>
+        <div class="card border-0 d-flex flex-column justify-content-between">
+          <div class="d-flex">
+            <div class="card-logo-container patient-logo rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-brands fa-accessible-icon"></i>
             </div>
-            <div class="card-body">
-              <div
-                class="chart d-flex justify-content-center align-items-center"
-              >
-                <canvas id="pat_visit_dept"></canvas>
-              </div>
+
+            <div class="ms-3">
+              <h2 id="pat_count"><%= patients.length; %></h2>
+              <p>Patients</p>
             </div>
           </div>
+          <p class="m-0 mt-2">
+            <span class="red">2</span>
+            new patients admitted
+          </p>
+        </div>
 
-          <div class="card border-0">
-            <div
-              class="card-head d-flex justify-content-between align-items-center"
-            >
-              <h2>Doctor's list</h2>
-              <a href="/admin/doctor/q"><p>View all</p></a>
+        <div class="card border-0 d-flex flex-column justify-content-between">
+          <div class="d-flex">
+            <div class="card-logo-container medicine-logo rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-pills"></i>
             </div>
 
-            <div
-              class="mini-doc-list-container card-body p-0 d-flex flex-column gap-2"
-            >
-              <div
-                class="container mini-doc-list d-flex justify-content-between align-items-center p-2 rounded-pill"
-              >
-                <div
-                  class="d-flex align-items-center justify-content-center p-0"
-                >
-                  <img
-                    class="mini-doc-list-img"
-                    src="<%= doctors[0].image %>"
-                    onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'"
-                  />
-                  <div class="mini-doc-list-name ms-3">
-                    <h3><%= doctors[0].full_name; %></h3>
-                    <p class="m-0"><%= doctors[0].specialty; %></p>
-                  </div>
-                </div>
-              </div>
+            <div class="ms-3">
+              <h2 id="pharma_count"><%= pharmacies.length %></h2>
+              <p>Pharmacies</p>
+            </div>
+          </div>
+          <p class="m-0 mt-2">
+            <span class="blue">15</span>
+            medicines on reserve
+          </p>
+        </div>
+      </div>
 
-              <div
-                class="container mini-doc-list d-flex justify-content-between align-items-center p-2 rounded-pill"
-              >
-                <div
-                  class="d-flex align-items-center justify-content-center p-0"
-                >
-                  <img
-                    class="mini-doc-list-img"
-                    src="<%= doctors[1].image %>"
-                    onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'"
-                  />
-                  <div class="mini-doc-list-name ms-3">
-                    <h3><%= doctors[1].full_name; %></h3>
-                    <p class="m-0"><%= doctors[1].specialty; %></p>
-                  </div>
-                </div>
-              </div>
+      <div class="chart-container d-flex justify-content-center">
+        <div class="card border-0">
+          <div class="card-head">
+            <h2>Appointment Status Analysis</h2>
+          </div>
 
-              <div
-                class="container mini-doc-list d-flex justify-content-between align-items-center p-2 rounded-pill"
-              >
-                <div
-                  class="d-flex align-items-center justify-content-center p-0"
-                >
-                  <img
-                    class="mini-doc-list-img"
-                    src="<%= doctors[2].image %>"
-                    onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'"
-                  />
-                  <div class="mini-doc-list-name ms-3">
-                    <h3><%= doctors[2].full_name; %></h3>
-                    <p class="m-0"><%= doctors[2].specialty; %></p>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="container mini-doc-list d-flex justify-content-between align-items-center p-2 rounded-pill"
-              >
-                <div
-                  class="d-flex align-items-center justify-content-center p-0"
-                >
-                  <img
-                    class="mini-doc-list-img"
-                    src="<%= doctors[3].image %>"
-                    onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'"
-                  />
-                  <div class="mini-doc-list-name ms-3">
-                    <h3><%= doctors[3].full_name; %></h3>
-                    <p class="m-0"><%= doctors[3].specialty; %></p>
-                  </div>
-                </div>
-              </div>
+          <div class="card-body">
+            <div class="chart d-flex justify-content-center align-items-center">
+              <canvas id="appointment_chart"></canvas>
             </div>
           </div>
         </div>
 
-        <div class="appointment-container d-flex justify-content-center">
-          <div class="card border-0">
-            <div
-              class="card-head d-flex justify-content-between align-items-center"
-            >
-              <h2>Appointments Activity</h2>
-              <a href="/admin/appointment/manage"><p>View all</p></a>
-            </div>
-
-            <div class="appointment-list-container">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Patient Name</th>
-                    <th scope="col">Date & Time</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Appoint for</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% for (app of appointments) { %>
-                  <tr>
-                    <td><%= appointments.indexOf(app) + 1 %></td>
-                    <td><%= app.patient_name; %></td>
-                    <td><%= app.preferred_date_time; %></td>
-                    <td><%= app.age; %></td>
-                    <td><%= app.gender; %></td>
-                    <td>Dr. <%= app.preferred_doctor.split(" ")[0]; %></td>
-                  </tr>
-                  <% } %>
-                </tbody>
-              </table>
+        <div class="card border-0">
+          <div class="card-head">
+            <h2>Patients visited by departments</h2>
+          </div>
+          <div class="card-body">
+            <div class="chart d-flex justify-content-center align-items-center">
+              <canvas id="pat_visit_dept"></canvas>
             </div>
           </div>
+        </div>
 
-          <div class="card border-0">
-            <div class="card-head">
-              <h2>Quick Link</h2>
+        <div class="card border-0">
+          <div class="card-head d-flex justify-content-between align-items-center">
+            <h2>Doctor's list</h2>
+            <a href="/admin/doctor/q">
+              <p>View all</p>
+            </a>
+          </div>
+
+          <% if(doctors.length >= 4){ %>
+          <div class="mini-doc-list-container card-body p-0 d-flex flex-column gap-2">
+            <% for(let i=0; i <= 3; i++){ %>
+            <div class="container mini-doc-list d-flex justify-content-between align-items-center p-2 rounded-pill">
+              <div class="d-flex align-items-center justify-content-center p-0">
+                <% if(doctors[i].pic == '' || doctors[i].pic=== undefined){ %>
+                <img class="mini-doc-list-img" src='/Assets/pngwing.com.png' />
+                <% }else{ %>
+                <img class="mini-doc-list-img" src="<%= doctors[i].pic %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
+                <% } %>
+                <div class=" mini-doc-list-name ms-3">
+                  <h3><%= doctors[i].full_name; %></h3>
+                  <p class="m-0"><%= doctors[i].specialty; %></p>
+                </div>
+              </div>
             </div>
-
-            <div
-              class="quick-link-container card-body p-0 d-flex flex-column gap-3"
-            >
-              <a href="/admin/patient/q"
-                ><div
-                  class="quick-link rounded-pill p-2 d-flex align-items-center mt-2"
-                  id="pat-quick-link"
-                >
-                  <div
-                    class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center"
-                  >
-                    <i class="fa-brands fa-accessible-icon"></i>
-                  </div>
-
-                  Patients
-                </div></a
-              >
-
-              <a href="/admin/doctor/q"
-                ><div
-                  class="quick-link rounded-pill p-2 d-flex align-items-center"
-                  id="doc-quick-link"
-                >
-                  <div
-                    class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center"
-                  >
-                    <i class="fa-solid fa-user-doctor"></i>
-                  </div>
-                  Doctors
-                </div></a
-              >
-
-              <a href="/admin/pharmacy/manage"
-                ><div
-                  class="quick-link rounded-pill p-2 d-flex align-items-center"
-                  id="phar-quick-link"
-                >
-                  <div
-                    class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center"
-                  >
-                    <i class="fa-solid fa-pills"></i>
-                  </div>
-                  Pharmacy
-                </div></a
-              >
-
-              <a href="/admin/survey"
-                ><div
-                  class="quick-link rounded-pill p-2 d-flex align-items-center"
-                  id="sur-quick-link"
-                >
-                  <div
-                    class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center"
-                  >
-                    <i class="fa-solid fa-square-poll-vertical"></i>
-                  </div>
-                  Surveys
-                </div></a
-              >
+            <% } %>
+          </div>
+          <% }else if(doctors.length<4 && doctors.length>0){ %>
+          <div class="mini-doc-list-container card-body p-0 d-flex flex-column gap-2">
+            <% for(let i=0; i < doctors.length; i++){ %>
+            <div class="container mini-doc-list d-flex justify-content-between align-items-center p-2 rounded-pill">
+              <div class="d-flex align-items-center justify-content-center p-0">
+                <% if(doctors[i].pic == '' || doctors[i].pic=== undefined){ %>
+                <img class="mini-doc-list-img" src='/Assets/pngwing.com.png' />
+                <% }else{ %>
+                <img class="mini-doc-list-img" src="<%= doctors[i].pic %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
+                <% } %>
+                <div class=" mini-doc-list-name ms-3">
+                  <h3><%= doctors[i].full_name; %></h3>
+                  <p class="m-0"><%= doctors[i].specialty; %></p>
+                </div>
+              </div>
             </div>
+            <% } %>
+          </div>
+          <% }else{ %>
+          <div class="mini-doc-list-container card-body p-0 d-flex flex-column justify-content-center text-center gap-2">
+            <p>No doctors available.</p>
+          </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="appointment-container d-flex justify-content-center">
+        <div class="card border-0">
+          <div class="card-head d-flex justify-content-between align-items-center">
+            <h2>Appointments Activity</h2>
+            <a href="/admin/appointment/manage">
+              <p>View all</p>
+            </a>
+          </div>
+
+          <div class="appointment-list-container">
+            <% if(appointments!=""){ %>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Patient Name</th>
+                  <th scope="col">Date & Time</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Gender</th>
+                  <th scope="col">Appoint for</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (app of appointments) { %>
+                <tr>
+                  <td><%= appointments.indexOf(app) + 1 %></td>
+                  <td><%= app.name; %></td>
+                  <td><%= app.app_date.toLocaleString(); %></td>
+                  <td><%= app.age; %></td>
+                  <td><%= app.gender; %></td>
+                  <td>Dr. <%= app.app_doc.split(" ")[0]; %></td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+            <% }else{ %>
+            <div class="card-body h-100 d-flex flex-column justify-content-center text-center gap-2">
+              <p>No appointments available.</p>
+            </div>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="card border-0">
+          <div class="card-head">
+            <h2>Quick Link</h2>
+          </div>
+
+          <div class="quick-link-container card-body p-0 d-flex flex-column gap-3">
+            <a href="/admin/patient/q">
+              <div class="quick-link rounded-pill p-2 d-flex align-items-center mt-2" id="pat-quick-link">
+                <div class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center">
+                  <i class="fa-brands fa-accessible-icon"></i>
+                </div>
+
+                Patients
+              </div>
+            </a>
+
+            <a href="/admin/doctor/q">
+              <div class="quick-link rounded-pill p-2 d-flex align-items-center" id="doc-quick-link">
+                <div class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center">
+                  <i class="fa-solid fa-user-doctor"></i>
+                </div>
+                Doctors
+              </div>
+            </a>
+
+            <a href="/admin/pharmacy/manage">
+              <div class="quick-link rounded-pill p-2 d-flex align-items-center" id="phar-quick-link">
+                <div class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center">
+                  <i class="fa-solid fa-pills"></i>
+                </div>
+                Pharmacy
+              </div>
+            </a>
+
+            <a href="/admin/survey">
+              <div class="quick-link rounded-pill p-2 d-flex align-items-center" id="sur-quick-link">
+                <div class="quick-link-icon-container me-4 ms-2 d-flex justify-content-center align-items-center">
+                  <i class="fa-solid fa-square-poll-vertical"></i>
+                </div>
+                Surveys
+              </div>
+            </a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- bootstrap cdn -->
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+  <% const appointmentStatusCounts = {'Completed': 0,'Cancelled': 0,'Pending': 0};appointments.forEach(appointment => {appointmentStatusCounts[appointment.status]++;}); %>
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <!-- charts cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <script src="/js/charts.js"></script>
+  <!-- charts cdn -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="/js/charts.js"></script>
+  <script>
+    const ctx1 = document.getElementById('appointment_chart');
 
-    <!-- Main js file -->
-    <script defer src="/js/admin.js"></script>
-  </body>
+    new Chart(ctx1, {
+      type: 'polarArea',
+      data: {
+        labels: ['Completed', 'Cancelled', 'Pending'],
+        datasets: [{
+          label: 'Counts',
+          data: [
+            <%= appointmentStatusCounts['Completed'] %>,
+            <%= appointmentStatusCounts['Cancelled'] %>,
+            <%= appointmentStatusCounts['Pending'] %>
+          ],
+          borderWidth: 3,
+          backgroundColor: ['#059BFFc0', '#FF4069c0', '#FF9F40c0'] // Specify the colors here
+        }]
+      },
+      options: {
+        cutoutPercentage: 70, // Adjust this value to control the size of the center hole
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              rotation: Math.PI / 2,
+              // Adjust padding if necessary
+              // padding: 20
+            }
+          }
+        },
+        elements: {
+          arc: {
+            borderWidth: 0
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 1.5, // Increase the aspect ratio to make the chart wider
+        datasets: {
+          weight: 1 // Increase the weight to make the doughnut thicker
+        }
+      }
+    });
+  </script>
+
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+</body>
+
 </html>

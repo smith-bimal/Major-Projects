@@ -9,114 +9,101 @@ async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/hms_database');
 };
 
+
+
+
 const adminSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+
+
     },
     username: {
         type: String,
-        required: true,
-        unique: true
+
+
     },
     password: {
         type: String,
-        required: true
+
     }
 });
 
 const doctorSchema = new mongoose.Schema({
     doc_id: {
         type: String,
-        unique: true,
-        required: true
     },
     full_name: {
         type: String,
-        required: true
     },
     email: {
         type: String,
-        required: true,
-        unique: true
     },
     contact_number: {
         type: String,
-        required: true,
-        unique: true
     },
     dob: {
         type: Date,
-        required: true
-    },
-    age: {
-        type: Number,
-        min: 15
     },
     gender: {
         type: String,
-        required: true
     },
     address: {
         type: String,
-        required: true
     },
     pincode: {
         type: Number,
-        required: true
     },
     specialty: {
         type: String,
-        required: true
     },
     experience: {
         type: Number,
-        required: true
     },
     username: {
         type: String,
-        required: true,
-        unique: true
     },
     password: {
         type: String,
-        required: true
     },
     status: {
         type: String,
-        required: true
+        default: "Offline",
     },
     qualification: {
         type: String,
-        required: true
+    },
+    notes: {
+        type: String,
+    },
+    bio: {
+        type: String,
+        default: "No Bio"
+    },
+    pic: {
+        type: String,
+        default: "default.jpg"
     }
 });
 
 const appointmentSchema = new mongoose.Schema({
-    app_id: {
-        type: String,
-        unique: true,
-        required: true
-    },
     name: {
         type: String,
-        required: true
+
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+
+
     },
     contact: {
         type: String,
         minLength: 10,
-        unique: true,
-        required: true
+
     },
     dob: {
         type: Date,
@@ -156,23 +143,21 @@ const appointmentSchema = new mongoose.Schema({
 const empSchema = new mongoose.Schema({
     employee_id: {
         type: String,
-        unique: true,
-        required: true
+
     },
     full_name: {
         type: String,
-        required: true,
+
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+
+
     },
     contact_number: {
         type: String,
         minLength: 10,
-        unique: true,
-        required: true
+
     },
     date_of_birth: {
         type: Date,
@@ -212,22 +197,24 @@ const empSchema = new mongoose.Schema({
 const labSchema = new mongoose.Schema({
     patient_id: {
         type: String,
-        unique: true,
-        required: true
     },
     name: {
         type: String,
-        required: true
     },
     ailment: {
         type: String,
-        required: true
+    },
+    type: {
+        type: String,
     },
     lab_tests: {
         type: String,
     },
     lab_results: {
         type: String,
+    },
+    result_date: {
+        type: Date,
     },
     heart_rate: {
         type: Number,
@@ -249,17 +236,16 @@ const labSchema = new mongoose.Schema({
 const patientSchema = new mongoose.Schema({
     patient_id: {
         type: String,
-        unique: true,
-        required: true
+
     },
     name: {
         type: String,
-        required: true,
+
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+
+
     },
     dob: {
         type: Date,
@@ -274,8 +260,7 @@ const patientSchema = new mongoose.Schema({
     contact: {
         type: String,
         minLength: 10,
-        unique: true,
-        required: true
+
     },
     emergency_contact: {
         type: String,
@@ -306,11 +291,20 @@ const prescriptionSchema = new mongoose.Schema({
     patient_id: {
         type: String,
         unique: true,
-        required: true
+
     },
     name: {
         type: String,
-        required: true,
+
+    },
+    age: {
+        type: Number,
+    },
+    address: {
+        type: String,
+    },
+    type: {
+        type: String,
     },
     ailment: {
         type: String,
@@ -323,11 +317,11 @@ const prescriptionSchema = new mongoose.Schema({
 const pharmacySchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+
     },
     quantity: {
         type: Number,
-        required: true
+
     },
     category: {
         type: String,
@@ -337,8 +331,8 @@ const pharmacySchema = new mongoose.Schema({
     },
     barcode_number: {
         type: String,
-        required: true,
-        unique: true
+
+
     },
     description: {
         type: String,
@@ -1175,3 +1169,5 @@ const pharmacyData = [
 Pharmacy.insertMany(pharmacyData).then(() => {
     console.log("Prescription Data inserted successfully");
 }).catch(err => { console.log("Error inserting Pharmacy:", err) });
+
+

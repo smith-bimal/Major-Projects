@@ -36,16 +36,16 @@
               <% for (app of appointments) { %>
               <tr>
                 <td><%= appointments.indexOf(app) + 1 %></td>
-                <td><%= app.patient_name; %></td>
-                <td><%= app.preferred_date_time; %></td>
+                <td><%= app.name; %></td>
+                <td><%= app.app_date.toLocaleString(); %></td>
                 <td><%= app.age; %></td>
                 <td><%= app.gender; %></td>
-                <td><%= app.appointment_reason; %></td>
+                <td><%= app.reason; %></td>
                 <td>
                   <span class="app-status p-1 rounded-3"><%= app.status; %></span>
                 </td>
                 <td>
-                  <i class="fa-solid fa-ellipsis-vertical p-3" data-id="/<%= userType %>/appointment/manage/<%= app.appointment_id %>"></i>
+                  <i class="fa-solid fa-ellipsis-vertical p-3" data-id="/<%= userType %>/appointment/manage/<%= app._id %>"></i>
                 </td>
               </tr>
               <% } %>

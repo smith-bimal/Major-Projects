@@ -37,7 +37,7 @@
             <div class="col-lg-4 m-0">
               <label for="update_doc_dob">Date of Birth</label><br />
 
-              <input type="date" class="form-control rounded-4" id="update_doc_dob" value="<%= doctor.dob %>" name="dob" />
+              <input type="date" class="form-control rounded-4" id="update_doc_dob" value="<%= doctor.dob.getFullYear() + '-' + String(doctor.dob.getMonth() + 1).padStart(2, '0') + '-' + String(doctor.dob.getDate()).padStart(2, '0'); %>" name="dob" />
             </div>
 
             <div class="col-lg-4">
@@ -74,7 +74,7 @@
             <div class="col-lg-6">
               <label for="update_doc_id_num">Doctor ID</label><br />
 
-              <input type="text" id="update_doc_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." value="<%= doctor.id %>" name="id" />
+              <input type="text" id="update_doc_id_num" class="form-control rounded-4" aria-label="ID" placeholder="ID No." value="<%= doctor.doc_id %>" name="id" />
             </div>
 
             <div class="col-lg-6 m-0">
@@ -121,7 +121,7 @@
             <div class="col-lg-6 m-0">
               <label for="update_doc_addition_notes">Additional Notes</label><br />
 
-              <textarea class="form-control rounded-4" aria-label="Additional Notes" id="update_doc_addition_notes" placeholder="Any additional notes..." name="note"></textarea>
+              <textarea class="form-control rounded-4" aria-label="Additional Notes" id="update_doc_addition_notes" placeholder="Any additional notes..." name="note"><%= doctor.notes %></textarea>
             </div>
 
             <div class="col-lg-6 m-0">
@@ -149,7 +149,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
   <!-- sweet alert cdn -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
   <!-- Main js file -->

@@ -11,7 +11,7 @@
 
   <section class="main">
     <!-- Update Pharmaceutical content -->
-    <form action="/<%= userType %>/pharmacy/manage/<%= pharma.pharmaceutical_barcode %>?_method=PATCH" method="post" id="update_pharma_form">
+    <form action="/<%= userType %>/pharmacy/manage/<%= pharma._id %>?_method=PATCH" method="post" id="update_pharma_form">
       <div class="container-fluid p-3 bg-white rounded-2">
         <div class="update-pharma-heading d-flex justify-content-between pt-2 pb-3">
           <h2>Update Pharmaceuticals</h2>
@@ -22,13 +22,13 @@
           <div class="col-lg-6 m-0">
             <label for="update_pharma_name">Pharmaceutical Name</label><br />
 
-            <input type="text" class="form-control rounded-4" id="update_pharma_name" value="<%= pharma.pharmaceutical_name %>" name="name" />
+            <input type="text" class="form-control rounded-4" id="update_pharma_name" value="<%= pharma.name %>" name="name" />
           </div>
 
           <div class="col-lg-6 m-0">
             <label for="update_pharma_quant">Pharmaceutical Quantity(Cartons)</label><br />
 
-            <input type="number" placeholder="Quantity in Cartons" class="form-control rounded-4" id="update_pharma_quant" value="<%= pharma.quantity_cartons %>" name="quant" />
+            <input type="number" placeholder="Quantity in Cartons" class="form-control rounded-4" id="update_pharma_quant" value="<%= pharma.quantity %>" name="quant" />
           </div>
         </div>
 
@@ -39,10 +39,10 @@
 
             <select class="form-control rounded-4" id="update_pharma_category" name="categ">
               <option disabled>------Select------</option>
-              <option value="Analgesics" <%= pharma.pharmaceutical_category === 'Analgesics' ? 'selected' : '' %>>Analgesics</option>
-              <option value="Antibiotics" <%= pharma.pharmaceutical_category === 'Antibiotics' ? 'selected' : '' %>>Antibiotics</option>
-              <option value="Hormonal medications" <%= pharma.pharmaceutical_category === 'Hormonal medications' ? 'selected' : '' %>>Hormonal medications</option>
-              <option value="Vaccines" <%= pharma.pharmaceutical_category === 'Vaccines' ? 'selected' : '' %>>Vaccines</option>
+              <option value="Analgesics" <%= pharma.category === 'Analgesics' ? 'selected' : '' %>>Analgesics</option>
+              <option value="Antibiotics" <%= pharma.category === 'Antibiotics' ? 'selected' : '' %>>Antibiotics</option>
+              <option value="Hormonal medications" <%= pharma.category === 'Hormonal medications' ? 'selected' : '' %>>Hormonal medications</option>
+              <option value="Vaccines" <%= pharma.category === 'Vaccines' ? 'selected' : '' %>>Vaccines</option>
             </select>
           </div>
 
@@ -51,10 +51,10 @@
 
             <select class="form-control rounded-4" id="update_pharma_vendor" name="vendor">
               <option disabled>------Select------</option>
-              <option value="PharmaSolutions" <%= pharma.pharmaceutical_vendor === 'PharmaSolutions' ? 'selected' : '' %>>PharmaSolutions</option>
-              <option value="MedVista Pharmaceuticals" <%= pharma.pharmaceutical_vendor === 'MedVista Pharmaceuticals' ? 'selected' : '' %>>MedVista Pharmaceuticals</option>
-              <option value="Apex Pharma Solutions" <%= pharma.pharmaceutical_vendor === 'Apex Pharma Solutions' ? 'selected' : '' %>>Apex Pharma Solutions</option>
-              <option value="PharmaGlobe" <%= pharma.pharmaceutical_vendor === 'PharmaGlobe' ? 'selected' : '' %>>PharmaGlobe</option>
+              <option value="PharmaSolutions" <%= pharma.vendor === 'PharmaSolutions' ? 'selected' : '' %>>PharmaSolutions</option>
+              <option value="MedVista Pharmaceuticals" <%= pharma.vendor === 'MedVista Pharmaceuticals' ? 'selected' : '' %>>MedVista Pharmaceuticals</option>
+              <option value="Apex Pharma Solutions" <%= pharma.vendor === 'Apex Pharma Solutions' ? 'selected' : '' %>>Apex Pharma Solutions</option>
+              <option value="PharmaGlobe" <%= pharma.vendor === 'PharmaGlobe' ? 'selected' : '' %>>PharmaGlobe</option>
             </select>
           </div>
         </div>
@@ -62,14 +62,14 @@
         <!-- Barcode Number -->
         <div class="row m-0 mb-4">
           <label for="update_pharm_bc_num" class="p-0">Pharmaceutical Barcode</label>
-          <input type="text" placeholder="Barcode Number" class="form-control rounded-4" id="update_pharm_bc_num" value="<%= pharma.pharmaceutical_barcode %>" name="bc" />
+          <input type="text" placeholder="Barcode Number" class="form-control rounded-4" id="update_pharm_bc_num" value="<%= pharma.barcode_number %>" name="bc" />
         </div>
 
         <!--category description -->
         <div class="row">
           <label for="update_pharm_cat_desc">Pharmaceutical Category Description</label>
           <div id="update_pharm_cat_desc" class="quill-editor custom-editor"></div>
-          <input type="hidden" name="desc" id="desc_conent_input">
+          <input type="hidden" name="description" id="desc_conent_input">
         </div>
 
         <!-- add category button -->
@@ -89,7 +89,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
   <!-- sweet alert cdn -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
   <!-- quill editor cdn -->
@@ -103,7 +103,7 @@
       theme: "snow",
     });
 
-    pharm_editor.root.innerHTML = `<%- pharma.pharmaceutical_category_description %>`;
+    pharm_editor.root.innerHTML = `<%- pharma.description %>`;
 
     document.querySelector("#update_pharma_form").addEventListener("submit", (e) => {
       document.querySelector("#desc_conent_input").value = pharm_editor.root.innerHTML;

@@ -35,13 +35,13 @@
               <% for(pharma of pharmacies) { %>
               <tr>
                 <td><%= pharmacies.indexOf(pharma) +1 %></td>
-                <td><%= pharma.pharmaceutical_name %></td>
-                <td><%= pharma.pharmaceutical_barcode %></td>
-                <td><%= pharma.pharmaceutical_vendor %></td>
-                <td><%= pharma.pharmaceutical_category %></td>
-                <td><%= pharma.quantity_cartons %> Cartons</td>
+                <td><%= pharma.name %></td>
+                <td><%= pharma.barcode_number %></td>
+                <td><%= pharma.vendor %></td>
+                <td><%= pharma.category %></td>
+                <td><%= pharma.quantity %> Cartons</td>
                 <td>
-                  <i class="fa-solid fa-ellipsis-vertical p-3" data-id="/<%= userType %>/pharmacy/manage/<%= pharma.pharmaceutical_barcode %>"></i>
+                  <i class="fa-solid fa-ellipsis-vertical p-3" data-id="/<%= userType %>/pharmacy/manage/<%= pharma._id %>"></i>
                 </td>
               </tr>
               <% } %>

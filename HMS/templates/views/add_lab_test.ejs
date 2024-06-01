@@ -12,7 +12,7 @@
   <section class="main">
     <div>
       <!-- Add new Lab test -->
-      <form id="new_lab_test" action="/<%= userType %>/lab/tests/<%= lab.id %>?_method=PATCH" method="post">
+      <form id="new_lab_test" action="/<%= userType %>/lab/tests/<%= lab.patient_id %>?_method=PATCH" method="post">
         <div class="container-fluid p-3 bg-white rounded-2">
           <h2 class="mt-2">Add New Lab Test</h2>
 
@@ -22,13 +22,13 @@
               <div class="col-lg-6 m-0">
                 <label for="lab_test_name">Patient Name</label><br />
 
-                <input type="text" class="form-control rounded-4" id="lab_test_name" name="user" placeholder="Name" value="<%= lab.full_name %>" name="name" readonly />
+                <input type="text" class="form-control rounded-4" id="lab_test_name" name="name" placeholder="Name" value="<%= patient.name %>" name="name" readonly />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="lab_test_ailment">Patient Ailment</label><br />
 
-                <input type="text" class="form-control rounded-4" id="lab_test_ailment" placeholder="Ailment" value="<%= lab.ailment %>" name="ailment" readonly />
+                <input type="text" class="form-control rounded-4" id="lab_test_ailment" placeholder="Ailment" value="<%= patient.ailment %>" name="ailment" readonly />
               </div>
             </div>
 
@@ -37,7 +37,7 @@
               <div class="m-0">
                 <label for="lab_test_id">Patient ID</label><br />
 
-                <input type="text" class="form-control rounded-4 mb-4" id="lab_test_id" placeholder="ID no." value="<%= lab.id %>" name="id" readonly />
+                <input type="text" class="form-control rounded-4 mb-4" id="lab_test_id" placeholder="ID no." value="<%= patient.patient_id %>" name="id" readonly />
               </div>
             </div>
 
@@ -68,7 +68,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
   <!-- sweet alert cdn -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
   <!-- quill editor cdn -->

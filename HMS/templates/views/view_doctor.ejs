@@ -1,62 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('includes/head') %>
+<%- include('includes/head') %>
 
-  <body>
-    <%- include('includes/navbar') %>
+<body>
+  <%- include('includes/navbar') %>
 
-    <section class="main">
-      <!-- View Doctor content -->
-      <div class="view-doc-content">
-        <div class="container-fluid p-3 bg-white rounded-2">
-          <div
-            class="view-doc-heading d-flex justify-content-between pt-2 pb-3"
-          >
-            <h2>View Doctors</h2>
-          </div>
+  <section class="main">
+    <!-- View Doctor content -->
+    <div class="view-doc-content">
+      <div class="container-fluid p-3 bg-white rounded-2">
+        <div class="view-doc-heading d-flex justify-content-between pt-2 pb-3">
+          <h2>View Doctors</h2>
+        </div>
 
-          <div class="overflow-auto">
-            <table id="view_doc" class="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Doctor Name</th>
-                  <th scope="col">Doctor ID</th>
-                  <th scope="col">Email Address</th>
-                  <th scope="col">Specialization</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% for (doctor of doctors) { %>
-                <tr>
-                  <td><%= doctors.indexOf(doctor) + 1 %></td>
-                  <td><%= doctor.full_name; %></td>
-                  <td><%= doctor.id; %></td>
-                  <td><%= doctor.email; %></td>
-                  <td><%= doctor.specialty; %></td>
-                  <td>
-                    <span class="doc-status p-1 rounded-3"
-                      ><%= doctor.status; %></span
-                    >
-                  </td>
-                  <td>
-                    <a
-                      href="/admin/doctor/q/<%= doctor.id %>"
-                      class="text-decoration-none"
-                      >View</a
-                    >
-                  </td>
-                </tr>
-                <% } %>
-              </tbody>
-            </table>
-          </div>
+        <div class="overflow-auto">
+          <table id="view_doc" class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Doctor Name</th>
+                <th scope="col">Doctor ID</th>
+                <th scope="col">Email Address</th>
+                <th scope="col">Specialization</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (doctor of doctors) { %>
+              <tr>
+                <td><%= doctors.indexOf(doctor) + 1 %></td>
+                <td><%= doctor.full_name; %></td>
+                <td><%= doctor.doc_id; %></td>
+                <td><%= doctor.email; %></td>
+                <td><%= doctor.specialty; %></td>
+                <td>
+                  <span class="doc-status p-1 rounded-3"><%= doctor.status; %></span>
+                </td>
+                <td>
+                  <a href="/admin/doctor/q/<%= doctor.id %>" class="text-decoration-none">View</a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
 
-      <!-- doctor profile content
+    <!-- doctor profile content
       <div
         class="doc-profile m-lg-auto m-4 p-0 bg-white col-lg-6 border shadow-sm position-absolute"
       >
@@ -129,26 +121,19 @@
           </div>
         </div>
       </div> -->
-    </section>
+  </section>
 
-    <!-- bootstrap cdn -->
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+  <!-- bootstrap cdn -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <!-- datatable cdn -->
-    <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script
-      defer
-      src="https://cdn.datatables.net/2.0.3/js/dataTables.js"
-    ></script>
-    <script defer src="/js/datatable_table.js"></script>
+  <!-- datatable cdn -->
+  <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script defer src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+  <script defer src="/js/datatable_table.js"></script>
 
-    <!-- Main js file -->
-    <script defer src="/js/admin.js"></script>
-    <!-- <script defer src="/js/view_doctor.js"></script> -->
-  </body>
+  <!-- Main js file -->
+  <script defer src="/js/admin.js"></script>
+  <!-- <script defer src="/js/view_doctor.js"></script> -->
+</body>
+
 </html>

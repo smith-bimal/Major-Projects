@@ -30,15 +30,15 @@
               </tr>
             </thead>
             <tbody>
-              <% for (patient of patients) { %>
+              <% for (lab of labs) { %>
               <tr>
-                <td><%= patients.indexOf(patient) + 1 %></td>
-                <td><%= patient.full_name; %></td>
-                <td><%= patient.id; %></td>
-                <td><%= patient.ailment; %></td>
-                <td><%= patient.type; %></td>
+                <td><%= labs.indexOf(lab) + 1 %></td>
+                <td><%= lab.name; %></td>
+                <td><%= lab.patient_id; %></td>
+                <td><%= lab.ailment; %></td>
+                <td><%= lab.type; %></td>
                 <td>
-                  <a href="/<%= userType %>/patient/vitals/<%= patient.id; %>" class="text-decoration-none">Update</a>
+                  <a href="/<%= userType %>/patient/vitals/<%= lab.id; %>" class="text-decoration-none">Update</a>
                 </td>
               </tr>
               <% } %>

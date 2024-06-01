@@ -59,7 +59,7 @@
                   <span id="emp_profile_gender"><%= employee.gender %></span>
                 </p>
                 <p>
-                  <span id="emp_profile_dob"><%= employee.date_of_birth %></span>
+                  <span id="emp_profile_dob"><%= employee.date_of_birth.toDateString() %></span>
                 </p>
                 <p>
                   <span id="emp_profile_qual"><%= employee.qualification %></span>
@@ -76,7 +76,7 @@
 
             <h2 class="mb-4">Additional Notes</h2>
             <div class="notes-container d-flex gap-lg-5 border p-4 pb-3 rounded-2">
-              ----
+              <%= employee.notes %>
             </div>
           </div>
         </div>

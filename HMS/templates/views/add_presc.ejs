@@ -34,13 +34,13 @@
               <% for (patient of patients) { %>
               <tr>
                 <td><%= patients.indexOf(patient) + 1 %></td>
-                <td><%= patient.full_name; %></td>
-                <td><%= patient.id; %></td>
+                <td><%= patient.name; %></td>
+                <td><%= patient.patient_id; %></td>
                 <td><%= patient.address; %></td>
                 <td><%= patient.age; %></td>
                 <td><%= patient.type; %></td>
                 <td>
-                  <a href="/<%= userType %>/prescription/add/<%= patient.id %>" class="text-decoration-none">Add</a>
+                  <a href="/<%= userType %>/prescription/add/<%= patient.patient_id %>" class="text-decoration-none">Add</a>
                 </td>
               </tr>
               <% } %>

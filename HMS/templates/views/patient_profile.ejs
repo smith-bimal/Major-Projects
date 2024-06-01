@@ -25,13 +25,13 @@
             <div class="pat-img-container rounded-circle"></div>
             <div class="pat-name-id-container pt-lg-4 text-center">
               <p>
-                <span id="pat_profile_name"><%= patient.full_name %>,</span>
+                <span id="pat_profile_name"><%= patient.name %>,</span>
                 <span id="pat_profile_age"><%= patient.age %> yrs</span>
               </p>
-              <p><span id="pat_profile_id"><%= patient.id %></span></p>
+              <p><span id="pat_profile_id"><%= patient.patient_id %></span></p>
               <p><span id="pat_profile_type"><%= patient.type %></span></p>
               <p>
-                <span id="pat_profile_contact"><%= patient.contact_number %></span>
+                <span id="pat_profile_contact"><%= patient.contact %></span>
               </p>
               <p>
                 <span id="pat_profile_mail"><%= patient.email %></span>
@@ -64,10 +64,10 @@
                   <span id="pat_profile_temp"><%= lab.temperature %> °F</span>
                 </p>
                 <p>
-                  <span id="pat_profile_respi"><%= lab.respiratory_rate %> bpm</span>
+                  <span id="pat_profile_respi"><%= lab.resp_rate %> bpm</span>
                 </p>
                 <p>
-                  <span id="pat_profile_oxy"><%= lab.oxygen_saturation %>%</span>
+                  <span id="pat_profile_oxy"><%= lab.oxygen_sat %>%</span>
                 </p>
               </div>
             </div>
@@ -86,13 +86,13 @@
                   <span id="pat_profile_gender"><%= patient.gender %></span>
                 </p>
                 <p>
-                  <span id="pat_profile_dob"><%= patient.date_of_birth %></span>
+                  <span id="pat_profile_dob"><%= patient.dob.toLocaleDateString() %></span>
                 </p>
                 <p>
                   <span id="pat_profile_marital"><%= patient.marital_status %></span>
                 </p>
                 <p>
-                  <span id="pat_profile_emergency"><%= patient.emergency_contact_number %></span>
+                  <span id="pat_profile_emergency"><%= patient.emergency_contact %></span>
                 </p>
                 <p>
                   <span id="pat_profile_address"><%= patient.address %></span>

@@ -26,7 +26,7 @@
                   <span id="doc_profile_name"><%= doctor.full_name %></span>
                 </h1>
                 <p class="m-0 mb-2">
-                  <span id="doc_profile_id"><%= doctor.id %></span>
+                  <span id="doc_profile_id"><%= doctor.doc_id %></span>
                 </p>
                 <p class="m-0 mb-2">
                   <span id="doc_profile_qual"><%= doctor.qualification %></span>
@@ -60,13 +60,13 @@
             <div class="left-bot-sec col-lg-6">
               <div class="row p-4 pb-2">
                 <h2>Bio</h2>
-                <p><span id="doc_profile_bio">----</span></p>
+                <p><span id="doc_profile_bio"><%= doctor.bio %></span></p>
               </div>
 
               <div class="row p-4">
                 <h2>Additional notes</h2>
                 <p>
-                  <span id="doc_profile_notes" class=""> ---- </span>
+                  <span id="doc_profile_notes" class=""><%= doctor.notes %></span>
                 </p>
               </div>
             </div>
@@ -82,7 +82,7 @@
                     <p>
                       <span id="doc_profile_contact"><%= doctor.contact_number %></span>
                     </p>
-                    <p><span id="doc_profile_dob"><%= doctor.dob %></span></p>
+                    <p><span id="doc_profile_dob"><%= doctor.dob.toLocaleDateString() %></span></p>
                   </div>
 
                   <div class="row ps-4">

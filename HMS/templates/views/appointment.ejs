@@ -27,16 +27,16 @@
             <div class="row">
               <ul class="list-unstyled">
                 <li>
-                  Patient Name: &nbsp;&nbsp;<span><%= app.patient_name %></span>
+                  Patient Name: &nbsp;&nbsp;<span><%= app.name %></span>
                 </li>
                 <li>
-                  Patient Email: &nbsp;&nbsp;<span><%= app.patient_email %></span>
+                  Patient Email: &nbsp;&nbsp;<span><%= app.email %></span>
                 </li>
                 <li>
-                  Patient Contact Number: &nbsp;&nbsp;<span><%= app.contact_number %></span>
+                  Patient Contact Number: &nbsp;&nbsp;<span><%= app.contact %></span>
                 </li>
                 <li>
-                  Date of Birth: &nbsp;&nbsp;<span><%= app.date_of_birth %></span>
+                  Date of Birth: &nbsp;&nbsp;<span><%= app.dob.toDateString(); %></span>
                 </li>
                 <li>Patient Age: &nbsp;&nbsp;<span><%= app.age %></span></li>
                 <li>
@@ -50,7 +50,7 @@
                 <li>
                   Doctor Name: &nbsp;&nbsp;<span>Dr. <%= doc.full_name %></span>
                 </li>
-                <li>Doctor ID: &nbsp;&nbsp;<span><%= doc.id %></span></li>
+                <li>Doctor ID: &nbsp;&nbsp;<span><%= doc.doc_id %></span></li>
                 <li>
                   Doctor Contact Number: &nbsp;&nbsp;<span><%= doc.contact_number %></span>
                 </li>
@@ -60,16 +60,16 @@
             <div class="row">
               <ul class="list-unstyled">
                 <li>
-                  Appointment Date & Time: &nbsp;&nbsp;<span><%= app.preferred_date_time %></span>
+                  Appointment Date & Time: &nbsp;&nbsp;<span><%= app.app_date.toLocaleString() %></span>
                 </li>
                 <li>
                   Appointment Status: &nbsp;&nbsp;<span class="app-status p-1 rounded-2"><%= app.status %></span>
                 </li>
                 <li>
-                  Reason for Appointment: &nbsp;&nbsp;<span><%= app.appointment_reason %></span>
+                  Reason for Appointment: &nbsp;&nbsp;<span><%= app.reason %></span>
                 </li>
                 <br />
-                <li>Appointment Notes: <br /><span>--</span></li>
+                <li>Appointment Notes: <br /><span><%= app.notes %></span></li>
               </ul>
             </div>
           </div>

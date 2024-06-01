@@ -25,13 +25,13 @@
             <div class="pat-img-container rounded-circle"></div>
             <div class="pat-name-id-container pt-lg-4 text-center">
               <p>
-                <span id="pat_profile_name"><%= patient.full_name %>,</span>
-                <span id="pat_profile_age"><%= patient.age %> yrs</span>
+                <span id="pat_profile_name"><%= presc.name %>,</span>
+                <span id="pat_profile_age"><%= presc.age %> yrs</span>
               </p>
-              <p><span id="pat_profile_id"><%= patient.id %></span></p>
-              <p><span id="pat_profile_type"><%= patient.type %></span></p>
+              <p><span id="pat_profile_id"><%= presc.patient_id %></span></p>
+              <p><span id="pat_profile_type"><%= presc.type %></span></p>
               <p>
-                <span id="pat_profile_contact"><%= patient.contact_number %></span>
+                <span id="pat_profile_contact"><%= patient.contact %></span>
               </p>
               <p>
                 <span id="pat_profile_mail"><%= patient.email %></span>
@@ -42,7 +42,7 @@
               </p>
               <p>
                 Ailment :
-                <span id="pat_profile_ailment"><%= patient.ailment %></span>
+                <span id="pat_profile_ailment"><%= presc.ailment %></span>
               </p>
             </div>
           </div>
@@ -51,7 +51,7 @@
             <h2 class="mb-4">Prescription Notes</h2>
             <div class="presc-notes-container d-flex gap-lg-5 border p-4 pb-3 rounded-2" id="prescription_notes">
               <ul>
-                <%- presc.prescription_notes %>
+                <%- presc.notes %>
               </ul>
             </div>
           </div>

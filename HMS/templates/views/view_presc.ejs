@@ -32,17 +32,17 @@
               </tr>
             </thead>
             <tbody>
-              <% for (patient of patients) { %>
+              <% for (presc of prescriptions) { %>
               <tr>
-                <td><%= patients.indexOf(patient) + 1 %></td>
-                <td><%= patient.full_name; %></td>
-                <td><%= patient.id; %></td>
-                <td><%= patient.address; %></td>
-                <td><%= patient.ailment; %></td>
-                <td><%= patient.age; %></td>
-                <td><%= patient.type; %></td>
+                <td><%= prescriptions.indexOf(presc) + 1 %></td>
+                <td><%= presc.name; %></td>
+                <td><%= presc.patient_id; %></td>
+                <td><%= presc.address; %></td>
+                <td><%= presc.ailment; %></td>
+                <td><%= presc.age; %></td>
+                <td><%= presc.type; %></td>
                 <td>
-                  <a href="/<%= userType %>/prescription/q/<%= patient.id; %>" class="text-decoration-none">View</a>
+                  <a href="/<%= userType %>/prescription/q/<%= presc.patient_id; %>" class="text-decoration-none">View</a>
                 </td>
               </tr>
               <% } %>

@@ -36,17 +36,17 @@
               <% for (patient of patients) { %>
               <tr>
                 <td><%= patients.indexOf(patient) + 1 %></td>
-                <td><%= patient.full_name; %></td>
-                <td><%= patient.id; %></td>
-                <td><%= patient.contact_number; %></td>
+                <td><%= patient.name; %></td>
+                <td><%= patient.patient_id; %></td>
+                <td><%= patient.contact; %></td>
                 <td><%= patient.gender; %></td>
                 <td><%= patient.age; %></td>
                 <td><%= patient.ailment; %></td>
                 <td>
-                  <span class="treatment-status p-1 rounded-3"><%= patient.treatment_status; %></span>
+                  <span class="treatment-status p-1 rounded-3"><%= patient.treat_status; %></span>
                 </td>
                 <td>
-                  <a href="/<%= userType %>/records/patient/<%= patient.id %>" class="text-decoration-none">View</a>
+                  <a href="/<%= userType %>/records/patient/<%= patient.patient_id %>" class="text-decoration-none">View</a>
                 </td>
               </tr>
               <% } %>

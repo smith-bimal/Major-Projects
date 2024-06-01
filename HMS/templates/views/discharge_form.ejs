@@ -12,7 +12,7 @@
   <!-- Discharge Form content -->
   <section class="main">
     <div class="discharge-form-content">
-      <form action="/<%= userType %>/patient/discharge/<%= patient.id %>" method="post" id="pat_discharge_form">
+      <form action="/<%= userType %>/patient/discharge/<%= patient.patient_id %>" method="post" id="pat_discharge_form">
         <div class="me-4 mt-3 fs-4 float-end">
           <a href="/<%= userType %>/patient/discharge"><i class="fa-solid fa-xmark text-secondary"></i></a>
         </div>
@@ -25,13 +25,13 @@
               <div class="col-lg-4 m-0">
                 <label for="patient_id">Patient ID</label><br />
 
-                <input type="text" class="form-control rounded-4" id="patient_id" value="<%= patient.id %>" name="id" required />
+                <input type="text" class="form-control rounded-4" id="patient_id" value="<%= patient.patient_id %>" name="patient_id" required />
               </div>
 
               <div class="col-lg-4 m-0">
                 <label for="patient_name">Patient Name</label><br />
 
-                <input type="text" value="<%= patient.full_name %>" class="form-control rounded-4" id="patient_name" name="name" required />
+                <input type="text" value="<%= patient.name %>" class="form-control rounded-4" id="patient_name" name="name" required />
               </div>
 
               <div class="col-lg-4 m-0">
@@ -46,13 +46,13 @@
               <div class="col-lg-4 m-0">
                 <label for="patient_contact_number">Contact Details</label><br />
 
-                <input type="text" maxlength="10" minlength="10" value="<%= patient.contact_number %>" class="form-control rounded-4" id="patient_contact_number" name="contact" required />
+                <input type="text" maxlength="10" minlength="10" value="<%= patient.contact %>" class="form-control rounded-4" id="patient_contact_number" name="contact" required />
               </div>
 
               <div class="col-lg-4 m-0">
                 <label for="patient_dob">Date of Birth</label><br />
 
-                <input type="date" class="form-control rounded-4" id="patient_dob" value="<%= patient.date_of_birth %>" name="dob" required />
+                <input type="date" class="form-control rounded-4" id="patient_dob" value="<%= patient.dob.getFullYear() + '-' + String(patient.dob.getMonth() + 1).padStart(2, '0') + '-' + String(patient.dob.getDate()).padStart(2, '0'); %>" name="dob" required />
               </div>
 
               <div class="col-lg-4">
@@ -67,7 +67,7 @@
               <div class="col-lg-6 m-0">
                 <label for="patient_em_contact">Emergency Contact Details</label><br />
 
-                <input type="text" minlength="10" class="form-control rounded-4" id="patient_em_contact" value="<%= patient.emergency_contact_number %>" name="em_contact" />
+                <input type="text" minlength="10" class="form-control rounded-4" id="patient_em_contact" value="<%= patient.emergency_contact %>" name="emergency_contact" />
               </div>
 
               <div class="col-lg-6 m-0">
@@ -85,13 +85,13 @@
               <div class="col-lg-6 m-0">
                 <label for="admission_date">Date of Admission</label><br />
 
-                <input type="date" class="form-control rounded-4" id="admission_date" name="admission_date" required />
+                <input type="date" class="form-control rounded-4" id="admission_date" name="admission_date" value="<%= patient.created_at.getFullYear() + '-' + String(patient.created_at.getMonth() + 1).padStart(2, '0') + '-' + String(patient.created_at.getDate()).padStart(2, '0'); %>" name="created_at" required />
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="admission_reason">Reason for Admission</label><br />
 
-                <input type="text" class="form-control rounded-4" placeholder="Admission Reason" id="admission_reason" name="admission_reason" required />
+                <input type="text" class="form-control rounded-4" placeholder="Admission Reason" id="admission_reason" name="admission_reason" value="<%= patient.ailment %>" name="reason" required />
               </div>
             </div>
 
@@ -102,7 +102,7 @@
               <div class="col-lg-6 m-0">
                 <label for="discharge_date_time">Date & Time of Discharge</label><br />
 
-                <input type="datetime-local" class="form-control rounded-4" id="discharge_date_time" name="discharge_td" required />
+                <input type="datetime-local" class="form-control rounded-4" id="discharge_date_time" name="discharge_time" required />
               </div>
             </div>
 
@@ -113,13 +113,13 @@
               <div class="col-lg-6 m-0">
                 <label for="primary_diag">Primary Diagnostics</label><br />
 
-                <textarea class="form-control rounded-4" aria-label="Address" id="primary_diag" placeholder="Primary Diagnostics Notes" name="pri_diag" required></textarea>
+                <textarea class="form-control rounded-4" aria-label="Address" id="primary_diag" placeholder="Primary Diagnostics Notes" name="primary_diag" required></textarea>
               </div>
 
               <div class="col-lg-6 m-0">
                 <label for="secondary_diag">Secondary Diagnostics</label><br />
 
-                <textarea class="form-control rounded-4" aria-label="Address" id="secondary_diag" placeholder="Secondary Diagnostics Notes" name="sec_diag" required></textarea>
+                <textarea class="form-control rounded-4" aria-label="Address" id="secondary_diag" placeholder="Secondary Diagnostics Notes" name="secondary_diag" required></textarea>
               </div>
             </div>
 
@@ -128,7 +128,7 @@
               <div class="col-lg-4 m-0">
                 <label for="treat_summary">Treatment Summary </label><br />
 
-                <textarea class="form-control rounded-4" aria-label="Address" id="treat_summary" placeholder="Summary of Treatments Provided" name="treat_sum" required></textarea>
+                <textarea class="form-control rounded-4" aria-label="Address" id="treat_summary" placeholder="Summary of Treatments Provided" name="treat_summary" required></textarea>
               </div>
 
               <div class="col-lg-4 m-0">
@@ -160,7 +160,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
   <!-- sweet alert cdn -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
   <!-- Main js file -->

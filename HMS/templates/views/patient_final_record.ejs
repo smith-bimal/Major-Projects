@@ -28,22 +28,22 @@
             <div class="row">
               <ul class="list-unstyled">
                 <li>
-                  Patient Name: &nbsp;&nbsp;<span><%= patient.full_name %></span>
+                  Patient Name: &nbsp;&nbsp;<span><%= patient.name %></span>
                 </li>
                 <li>
-                  Patient ID: &nbsp;&nbsp;<span><%= patient.id %></span>
+                  Patient ID: &nbsp;&nbsp;<span><%= patient.patient_id %></span>
                 </li>
                 <li>
                   Patient Email: &nbsp;&nbsp;<span><%= patient.email %></span>
                 </li>
                 <li>
-                  Patient Contact Number: &nbsp;&nbsp;<span><%= patient.contact_number %></span>
+                  Patient Contact Number: &nbsp;&nbsp;<span><%= patient.contact %></span>
                 </li>
                 <li>
-                  Emergency Contact Number: &nbsp;&nbsp;<span><%= patient.emergency_contact_number %></span>
+                  Emergency Contact Number: &nbsp;&nbsp;<span><%= patient.emergency_contact %></span>
                 </li>
                 <li>
-                  Date of Birth: &nbsp;&nbsp;<span><%= patient.date_of_birth %></span>
+                  Date of Birth: &nbsp;&nbsp;<span><%= patient.dob.toLocaleDateString() %></span>
                 </li>
                 <li>
                   Patient Age: &nbsp;&nbsp;<span><%= patient.age %></span>
@@ -65,7 +65,7 @@
                 <li>
                   Doctor Assigned: &nbsp;&nbsp;<span>Dr. <%= doc.full_name %></span>
                 </li>
-                <li>Doctor ID: &nbsp;&nbsp;<span><%= doc.id %></span></li>
+                <li>Doctor ID: &nbsp;&nbsp;<span><%= doc.doc_id %></span></li>
                 <li>
                   Doctor Department: &nbsp;&nbsp;<span><%= doc.specialty %></span>
                 </li>
@@ -73,24 +73,25 @@
                   Reason for Admission: &nbsp;&nbsp;<span><%= patient.ailment %></span>
                 </li>
                 <li>
-                  Treatement Status: &nbsp;&nbsp;<span class="treatment-status p-1 rounded-2"><%= patient.treatment_status %></span>
+                  Treatement Status: &nbsp;&nbsp;<span class="treatment-status p-1 rounded-2"><%= patient.treat_status %></span>
                 </li>
               </ul>
             </div>
           </div>
         </div>
 
+        <% if(discharge == '' || discharge == null){ %>
         <div class="row col-lg-10 m-auto mt-2">
           <ul class="list-unstyled">
             <li>
               Primary Diagnostics:
               <br />
-              <div class="fw-bold">----</div>
+              <div class="fw-bold">--</div>
             </li>
             <br />
             <li>
               Secondary Diagnostics: <br />
-              <div class="fw-bold">----</div>
+              <div class="fw-bold">--</div>
             </li>
             <br />
             <div class="row d-flex justify-content-center">
@@ -109,25 +110,75 @@
             </div>
             <br />
             <li>
-              Date & time of Report: &nbsp;&nbsp;<span class="fw-bold">----</span>
+              Date of Report: &nbsp;&nbsp;<span class="fw-bold"><%= lab.result_date.toLocaleDateString() %></span>
             </li>
             <br />
             <li>
-              Date & Time of Discharge: &nbsp;&nbsp;<span class="fw-bold">----</span>
+              Date & Time of Discharge: &nbsp;&nbsp;<span class="fw-bold">--</span>
             </li>
             <br />
             <li>
               Treatement Summary:
               <br />
-              <div class="fw-bold">----</div>
+              <div class="fw-bold">--</div>
             </li>
             <br />
             <li>
               Discharge Medications: <br />
-              <div class="fw-bold">----</div>
+              <div class="fw-bold">--</div>
             </li>
           </ul>
         </div>
+        <% } else { %>
+        <div class="row col-lg-10 m-auto mt-2">
+          <ul class="list-unstyled">
+            <li>
+              Primary Diagnostics:
+              <br />
+              <div class="fw-bold"><%= discharge.primary_diag %></div>
+            </li>
+            <br />
+            <li>
+              Secondary Diagnostics: <br />
+              <div class="fw-bold"><%= discharge.secondary_diag %></div>
+            </li>
+            <br />
+            <div class="row d-flex justify-content-center">
+              <div class="col-lg-6">
+                Tests Conducted: <br />
+                <div class="p-3 border rounded-2 mt-2">
+                  <%- lab.lab_tests %>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                Test Results: <br />
+                <div class="p-3 border rounded-2 mt-2">
+                  <%- lab.lab_results %>
+                </div>
+              </div>
+            </div>
+            <br />
+            <li>
+              Date of Report: &nbsp;&nbsp;<span class="fw-bold"><%= lab.result_date.toLocaleDateString() %></span>
+            </li>
+            <br />
+            <li>
+              Date & Time of Discharge: &nbsp;&nbsp;<span class="fw-bold"><%= discharge.discharge_time %></span>
+            </li>
+            <br />
+            <li>
+              Treatement Summary:
+              <br />
+              <div class="fw-bold"><%= discharge.treat_summary %></div>
+            </li>
+            <br />
+            <li>
+              Discharge Medications: <br />
+              <div class="fw-bold"><%= discharge.medications%></div>
+            </li>
+          </ul>
+        </div>
+        <% } %>
       </div>
     </div>
   </section>

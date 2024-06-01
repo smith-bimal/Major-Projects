@@ -33,8 +33,8 @@
               <% for (patient of patients) { %>
               <tr>
                 <td><%= patients.indexOf(patient) + 1 %></td>
-                <td><%= patient.full_name; %></td>
-                <td><%= patient.id; %></td>
+                <td><%= patient.name; %></td>
+                <td><%= patient.patient_id; %></td>
                 <td><%= patient.address; %></td>
                 <td><%= patient.type %></td>
                 <td>

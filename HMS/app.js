@@ -2,11 +2,17 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const path = require("path");
-const ejs = require("ejs");
+const fs = require("fs");
 const methodOverride = require('method-override');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const cookieParser = require('cookie-parser');
+
+const config = require('./config/config');
 
 //database files acquiring
 require("./src/db/conn");
+const Admin = require("./src/models/adminModel");
 const Appointment = require("./src/models/appointmentModel");
 const Pharmacy = require("./src/models/pharmacyModel");
 const Prescription = require("./src/models/prescriptionModel");
@@ -24,13 +30,29 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "templates/views"));
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
+
+// Configure express-session middleware
 app.use(session({
-    secret: 'your_secret_key',
+    secret: config.secret_key, // Use the secret key from your config
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
 }));
 
-// Middleware to set user type based on URL path
+// Middleware to log all requests
+app.use((req, res, next) => {
+    const logDetails = `${new Date().toISOString()} - ${req.method} ${req.originalUrl} - ${req.ip}\n`;
+    fs.appendFile(path.join(__dirname, 'log.txt'), logDetails, (err) => {
+        if (err) {
+            console.error("Failed to write to log file:", err);
+        }
+    });
+    next();
+});
+
+//Middleware to set user type based on URL path
 app.use((req, res, next) => {
     if (req.path.startsWith('/admin')) {
         req.session.userType = 'admin';
@@ -40,58 +62,71 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware to fetch doctor information
-app.use(async (req, res, next) => {
-    if (req.session.userEmail) {
-        const userEmail = req.session.userEmail;
-        const doctor = await fetchDoctorDetails(userEmail); // Implement fetchDoctorDetails function
-        res.locals.doctor = doctor; // Make doctor information available in all EJS templates
-    }
-    next();
-});
-
-
-//Function to fetch logged in doctor information
-function fetchDoctorDetails(userEmail) {
-    const doctor = Doctor.find({ email: userEmail });
-    return doctor;
-}
-
 
 app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/login", (req, res) => {
+app.route("/login").get((req, res) => {
     res.render("login");
+});
+
+//login routes-------------------------------------------------
+app.post("/login/admin", async (req, res) => {
+    let admin = await Admin.findOne({ username: req.body.username });
+    if (!admin) {
+        return res.status(404).send("Wrong Credentials.");
+    } else {
+        if (req.body.password != admin.password) {
+            req.session.message = {
+                message: "Wrong Credentials."
+            }
+            return res.status(404).send("Wrong Credentials.");
+        } else {
+            let token = jwt.sign({ email: admin.email, role: 'admin' }, config.secret_key);
+            res.cookie("token", token);
+            res.redirect('/admin/dashboard');
+        }
+    }
+});
+
+app.post("/login/doctor", async (req, res) => {
+    let doctor = await Doctor.findOne({ email: req.body.email });
+    if (!doctor) {
+        return res.status(404).send("Wrong Credentials.");
+    }
+
+    bcrypt.compare(req.body.password, doctor.password, async (err, result) => {
+        if (!result) {
+            return res.status(404).send("Wrong Credentials.");
+        }
+
+        let token = jwt.sign({ email: doctor.email, role: 'doctor' }, config.secret_key);
+        res.cookie("token", token);
+        res.redirect('/doctor/dashboard');
+        await Doctor.findOneAndUpdate({ email: req.body.email }, { status: 'Online' });
+    })
 });
 
 // admin section start-----------------------------------------
 app.route("/admin/dashboard")
-    .get(async (req, res) => {
+    .get(isAdminOrDoctor, async (req, res) => {
         const userType = req.session.userType;
         const appointments = await Appointment.find({});
         const pharmacies = await Pharmacy.find({});
         const patients = await Patient.find({});
+        const ongoingPatients = await Patient.find({ treat_status: "Ongoing" });
         const employees = await Employee.find({});
         const doctors = await Doctor.find({});
-        res.render("admin", { employees, patients, appointments, doctors, pharmacies, userType });
-    })
-    .post(async (req, res) => {
-        try {
-            let { username, password } = req.body;
-            console.log(username, password);
-            res.redirect("/admin/dashboard");
-        } catch (error) {
-            res.status(400).send("Admin login failed");
-        }
+        const activeDoctors = await Doctor.find({ status: "Online" });
+        res.render("admin", { employees, patients, ongoingPatients, appointments, doctors, activeDoctors, pharmacies, userType });
     });
 
-app.route("/admin/appointment/create").get(async (req, res) => {
+app.route("/admin/appointment/create").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const doctors = await Doctor.find({});
     res.render("create_app", { doctors, userType });
-}).post(async (req, res) => {
+}).post(isAdminOrDoctor, async (req, res) => {
     const newAppoint = new Appointment(req.body);
 
     try {
@@ -102,18 +137,18 @@ app.route("/admin/appointment/create").get(async (req, res) => {
     }
 });
 
-app.get("/admin/appointment/manage", async (req, res) => {
+app.get("/admin/appointment/manage", isAdminOrDoctor, async (req, res) => {
     const appointments = await Appointment.find({});
     const userType = req.session.userType;
     res.render("manage_app", { appointments, userType });
 });
 
-app.route("/admin/appointment/manage/:id").get(async (req, res) => {
+app.route("/admin/appointment/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let doctors = await Doctor.find({});
     let app = await Appointment.findById(req.params.id);
     res.render("update_app", { app, doctors, userType });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedAppointment = await Appointment.findByIdAndUpdate(
             req.params.id,
@@ -139,18 +174,25 @@ app.route("/admin/appointment/manage/:id").get(async (req, res) => {
             return res.status(404).send('Appointment not found');
         }
 
-        setTimeout(() => {
-            res.redirect("/admin/appointment/manage");
-        }, 1500);
+        res.redirect("/admin/appointment/manage");
     } catch (error) {
         res.status(500).redirect("/admin/appointment/manage");
     }
+}).delete(isAdminOrDoctor, async (req, res) => {
+    try {
+        const deletedAppointment = await Appointment.findByIdAndDelete(req.params.id);
+        if (!deletedAppointment) {
+            return res.status(404).send('Appointment not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
-app.route("/admin/pharmacy/add").get((req, res) => {
+app.route("/admin/pharmacy/add").get(isAdminOrDoctor, (req, res) => {
     const userType = req.session.userType;
     res.render("add_pharma", { userType });
-}).post(async (req, res) => {
+}).post(isAdminOrDoctor, async (req, res) => {
     const newPharmacy = new Pharmacy(req.body);
     try {
         await newPharmacy.save();
@@ -160,17 +202,17 @@ app.route("/admin/pharmacy/add").get((req, res) => {
     }
 });
 
-app.get("/admin/pharmacy/manage", async (req, res) => {
+app.get("/admin/pharmacy/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const pharmacies = await Pharmacy.find({});
     res.render("manage_pharma", { pharmacies, userType });
 });
 
-app.route("/admin/pharmacy/manage/:id").get(async (req, res) => {
+app.route("/admin/pharmacy/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let pharma = await Pharmacy.findById(req.params.id);
     res.render("update_pharma", { pharma, userType });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedPharmacy = await Pharmacy.findByIdAndUpdate(
             req.params.id,
@@ -189,29 +231,34 @@ app.route("/admin/pharmacy/manage/:id").get(async (req, res) => {
             return res.status(404).send('Pharmacy not found');
         }
 
-        setTimeout(() => {
-            res.redirect("/admin/pharmacy/manage");
-        }, 1500);
+        res.redirect("/admin/pharmacy/manage");
     } catch (error) {
-        setTimeout(() => {
-            res.status(500).redirect("/admin/pharmacy/manage");
-        }, 1500);
+        res.status(500).redirect("/admin/pharmacy/manage");
+    }
+}).delete(isAdminOrDoctor, async (req, res) => {
+    try {
+        const deletedPharmacy = await Pharmacy.findByIdAndDelete(req.params.id);
+        if (!deletedPharmacy) {
+            return res.status(404).send('Pharmacy not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
     }
 });
 
-app.get("/admin/prescription/add", async (req, res) => {
+app.get("/admin/prescription/add", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
     res.render("add_presc", { patients, userType });
 });
 
 app.route("/admin/prescription/add/:id")
-    .get(async (req, res) => {
+    .get(isAdminOrDoctor, async (req, res) => {
         const userType = req.session.userType;
         const patient = await Patient.findOne({ patient_id: req.params.id });
         res.render("add_new_presc", { patient, userType });
     })
-    .post(async (req, res) => {
+    .post(isAdminOrDoctor, async (req, res) => {
         const newPrescription = new Prescription(req.body);
         try {
             await newPrescription.save();
@@ -222,30 +269,32 @@ app.route("/admin/prescription/add/:id")
     });
 
 
-app.get("/admin/prescription/q", async (req, res) => {
+app.get("/admin/prescription/q", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const prescriptions = await Prescription.find({});
-    res.render("view_presc", { prescriptions, userType });
+    const patients = await Patient.find({});
+    res.render("view_presc", { patients, prescriptions, userType });
 });
 
-app.get("/admin/prescription/q/:id", async (req, res) => {
+app.get("/admin/prescription/q/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let patient = await Patient.findOne({ patient_id: req.params.id });
     let presc = await Prescription.findOne({ patient_id: req.params.id });
     res.render("prescription", { patient, presc, userType });
 });
 
-app.get("/admin/prescription/manage", async (req, res) => {
+app.get("/admin/prescription/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let prescriptions = await Prescription.find({});
-    res.render("manage_presc", { prescriptions, userType });
+    let patients = await Patient.find({});
+    res.render("manage_presc", { patients, prescriptions, userType });
 });
 
-app.route("/admin/prescription/manage/:id").get(async (req, res) => {
+app.route("/admin/prescription/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let presc = await Prescription.findById(req.params.id);
     res.render("update_presc", { presc, userType });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedPrescription = await Prescription.findByIdAndUpdate(
             req.params.id,
@@ -264,26 +313,33 @@ app.route("/admin/prescription/manage/:id").get(async (req, res) => {
             return res.status(404).send('prescription not found');
         }
 
-        setTimeout(() => {
-            res.redirect("/admin/prescription/q");
-        }, 1500);
+        res.redirect("/admin/prescription/q");
     } catch (error) {
         res.status(500).send('Error updating prescription');
     }
+}).delete(isAdminOrDoctor, async (req, res) => {
+    try {
+        const deletedPrescription = await Prescription.findByIdAndDelete(req.params.id);
+        if (!deletedPrescription) {
+            return res.status(404).send('Prescription not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
-app.get("/admin/lab/tests", async (req, res) => {
+app.get("/admin/lab/tests", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
-    const patients = await Patient.find({});
+    const patients = await Patient.find({ treat_status: "Ongoing" });
     res.render("patient_lab_test", { patients, userType });
 })
 
-app.route("/admin/lab/tests/:id").get(async (req, res) => {
+app.route("/admin/lab/tests/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findOne({ patient_id: req.params.id });
     const lab = await LabReport.findOne({ patient_id: req.params.id });
     res.render("add_lab_test", { patient, lab, userType });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedVitals = await LabReport.findOneAndUpdate(
             { patient_id: req.params.id },
@@ -293,30 +349,31 @@ app.route("/admin/lab/tests/:id").get(async (req, res) => {
                 patient_id: req.body.id,
                 lab_tests: req.body.tests,
             },
-            { new: false, runValidators: true }
+            { new: true, runValidators: true }
         );
 
         if (!updatedVitals) {
             return res.status(404).send('Vitals data not found');
         }
 
-        res.redirect("/admin/patient/vitals");
+        res.redirect("/admin/lab/tests");
     } catch (error) {
         res.status(500).send('Error updating Vitals data');
     }
 });
 
-app.get("/admin/lab/results", async (req, res) => {
+app.get("/admin/lab/results", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const labs = await LabReport.find({});
-    res.render("patient_lab_result", { labs, userType });
+    const patients = await Patient.find({ treat_status: "Ongoing" });
+    res.render("patient_lab_result", { patients, labs, userType });
 })
 
-app.route("/admin/lab/results/:id").get(async (req, res) => {
+app.route("/admin/lab/results/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const lab = await LabReport.findById(req.params.id);
     res.render("add_lab_result", { lab, userType });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedLabResult = await LabReport.findByIdAndUpdate(
             req.params.id,
@@ -324,32 +381,31 @@ app.route("/admin/lab/results/:id").get(async (req, res) => {
                 result_date: req.body.result_date,
                 lab_results: req.body.results
             },
-            { new: false, runValidators: true }
+            { new: true, runValidators: true }
         );
 
         if (!updatedLabResult) {
             return res.status(404).send('Lab Results not found');
         }
 
-        setTimeout(() => {
-            res.redirect("/admin/lab/results");
-        }, 1500);
+        res.redirect("/admin/lab/results");
     } catch (error) {
         res.status(500).send('Error updating Lab Results');
     }
 });
 
-app.get("/admin/patient/vitals", async (req, res) => {
+app.get("/admin/patient/vitals", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const labs = await LabReport.find({});
-    res.render("patient_vitals", { labs, userType });
+    const patients = await Patient.find({ treat_status: "Ongoing" });
+    res.render("patient_vitals", { patients, labs, userType });
 });
 
-app.route("/admin/patient/vitals/:id").get(async (req, res) => {
+app.route("/admin/patient/vitals/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const lab = await LabReport.findById(req.params.id);
     res.render("add_patient_vitals", { lab, userType });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedLabTest = await LabReport.findByIdAndUpdate(
             req.params.id,
@@ -360,107 +416,154 @@ app.route("/admin/patient/vitals/:id").get(async (req, res) => {
                 resp_rate: req.body.resp,
                 oxygen_sat: req.body.spo2
             },
-            { new: false, runValidators: true }
+            { new: true, runValidators: true }
         );
 
         if (!updatedLabTest) {
             return res.status(404).send('Lab tests not found');
         }
 
-        setTimeout(() => {
-            res.redirect("/admin/patient/vitals");
-        }, 1500);
+        res.redirect("/admin/patient/vitals");
     } catch (error) {
         res.status(500).send('Error updating Lab Tests');
     }
 });
 
-app.get("/admin/lab/reports", async (req, res) => {
+app.get("/admin/lab/reports", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const labs = await LabReport.find({});
-    res.render("lab_reports", { labs, userType });
+    const patients = await Patient.find({ treat_status: "Ongoing" });
+    res.render("lab_reports", { patients, labs, userType });
 });
 
-app.get("/admin/lab/reports/:id", async (req, res) => {
+app.get("/admin/lab/reports/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let lab = await LabReport.findOne({ patient_id: req.params.id });
     let patient = await Patient.findOne({ patient_id: req.params.id });
     res.render("view_lab_report", { lab, patient, userType });
 });
 
-app.get("/admin/doctor/add", (req, res) => {
+app.get("/admin/doctor/add", isAdminOrDoctor, (req, res) => {
     const userType = req.session.userType;
     res.render("add_doctor", { userType });
 });
 
-app.route("/admin/doctor/q").get(async (req, res) => {
+app.route("/admin/doctor/q").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const doctors = await Doctor.find({});
     res.render("view_doctor", { doctors, userType });
-}).post(async (req, res) => {
-    const newDoctor = new Doctor(req.body);
-    try {
-        await newDoctor.save();
-        res.status(201).redirect("/admin/doctor/q")
-    } catch (error) {
-        res.status(400).redirect("/admin/doctor/add");
-    }
+}).post(isAdminOrDoctor, async (req, res) => {
+    const { full_name,
+        email, contact_number, dob, gender, address, pincode, doc_id, specialty, qualification, experience, username, password, notes, pic } = req.body;
+
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) return res.status(500).send("error generating salt");
+
+        bcrypt.hash(password, salt, async (err, hash) => {
+            const newDoctor = new Doctor({
+                full_name,
+                email,
+                contact_number,
+                dob,
+                gender,
+                address,
+                pincode,
+                doc_id,
+                specialty,
+                qualification,
+                experience,
+                username,
+                password: hash,
+                notes,
+                pic
+            });
+
+            try {
+                await newDoctor.save();
+                res.status(201).redirect("/admin/doctor/q")
+            } catch (error) {
+                res.status(400).redirect("/admin/doctor/add");
+            }
+        })
+    })
 });
 
-app.get("/admin/doctor/q/:id", async (req, res) => {
+app.get("/admin/doctor/q/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let doctor = await Doctor.findById(req.params.id);
     res.render("doctor_profile", { doctor, userType });
 });
 
-app.get("/admin/doctor/manage", async (req, res) => {
+app.get("/admin/doctor/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const doctors = await Doctor.find({});
     res.render("manage_doctor", { doctors, userType });
 });
 
-app.route("/admin/doctor/manage/:id").get(async (req, res) => {
-    const userType = req.session.userType;
-    const doctor = await Doctor.findById(req.params.id)
-    res.render("update_doctor", { doctor, userType });
-}).patch(async (req, res) => {
-    try {
-        const updatedDoctor = await Doctor.findByIdAndUpdate(
-            req.params.id,
-            {
-                full_name: req.body.name,
-                email: req.body.email,
-                contact_number: req.body.contact,
-                dob: req.body.dob,
-                gender: req.body.gender,
-                address: req.body.address,
-                pincode: req.body.pincode,
-                doc_id: req.body.id,
-                specialty: req.body.spec,
-                qualification: req.body.qual,
-                experience: req.body.exp,
-                username: req.body.username,
-                password: req.body.pwd,
-                notes: req.body.note,
-                pic: req.body.pic,
-            },
-            { new: true, runValidators: true }
-        );
-
-        if (!updatedDoctor) {
-            return res.status(404).send('Lab tests not found');
+app.route("/admin/doctor/manage/:id")
+    .get(isAdminOrDoctor, async (req, res) => {
+        try {
+            const doctor = await Doctor.findById(req.params.id);
+            if (!doctor) {
+                return res.status(404).send('Doctor not found');
+            }
+            res.render("update_doctor", { doctor, userType: req.session.userType });
+        } catch (error) {
+            console.error("Error fetching doctor:", error);
+            res.status(500).send('Internal Server Error');
         }
+    })
+    .patch(isAdminOrDoctor, async (req, res) => {
+        try {
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-        res.redirect("/admin/doctor/manage");
-    } catch (error) {
-        res.status(500).send('Error updating Lab Tests');
-    }
-});
+            const updatedDoctor = await Doctor.findByIdAndUpdate(
+                req.params.id,
+                {
+                    full_name: req.body.name,
+                    email: req.body.email,
+                    contact_number: req.body.contact,
+                    dob: req.body.dob,
+                    gender: req.body.gender,
+                    address: req.body.address,
+                    pincode: req.body.pincode,
+                    doc_id: req.body.id,
+                    specialty: req.body.spec,
+                    qualification: req.body.qual,
+                    experience: req.body.exp,
+                    username: req.body.username,
+                    password: hashedPassword,
+                    notes: req.body.note,
+                    pic: req.body.pic,
+                },
+                { new: true, runValidators: true }
+            );
 
-app.route("/admin/patient/register").get((req, res) => {
+            if (!updatedDoctor) {
+                return res.status(404).send('Doctor not found');
+            }
+
+            res.redirect("/admin/doctor/manage");
+        } catch (error) {
+            console.error("Error updating doctor:", error);
+            res.status(500).send('Internal Server Error');
+        }
+    }).delete(isAdminOrDoctor, async (req, res) => {
+        try {
+            const deletedDoctor = await Doctor.findByIdAndDelete(req.params.id);
+            if (!deletedDoctor) {
+                return res.status(404).send('Doctor not found');
+            }
+        } catch (err) {
+            res.status(500).json({ success: false, message: err.message });
+        }
+    });
+
+app.route("/admin/patient/register").get(isAdminOrDoctor, (req, res) => {
     const userType = req.session.userType;
     res.render("register_patient", { userType });
-}).post(async (req, res) => {
+}).post(isAdminOrDoctor, async (req, res) => {
     const newPatient = new Patient(req.body);
     try {
         await newPatient.save();
@@ -470,31 +573,31 @@ app.route("/admin/patient/register").get((req, res) => {
     }
 });
 
-app.get("/admin/patient/q", async (req, res) => {
+app.get("/admin/patient/q", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
     res.render("view_patient", { patients, userType });
 });
 
-app.get("/admin/patient/q/:id", async (req, res) => {
+app.get("/admin/patient/q/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findOne({ patient_id: req.params.id });
     const lab = await LabReport.findOne({ patient_id: req.params.id });
     res.render("patient_profile", { patient, lab, userType });
 });
 
-app.get("/admin/patient/manage", async (req, res) => {
+app.get("/admin/patient/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
     res.render("manage_patient", { patients, userType });
 });
 
-app.route("/admin/patient/manage/:id").get(async (req, res) => {
+app.route("/admin/patient/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findById(req.params.id);
     const doctors = await Doctor.find({});
     res.render("update_patient", { patient, doctors, userType });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedPatient = await Patient.findByIdAndUpdate(
             req.params.id,
@@ -525,37 +628,52 @@ app.route("/admin/patient/manage/:id").get(async (req, res) => {
     } catch (error) {
         res.status(500).send('Error updating Patient details');
     }
+}).delete(isAdminOrDoctor, async (req, res) => {
+    try {
+        const deletedPatient = await Patient.findByIdAndDelete(req.params.id);
+        await LabReport.findOneAndDelete({ patient_id: deletedPatient.patient_id });
+
+        if (!deletedPatient) {
+            return res.status(404).send('Patient not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
-app.get("/admin/patient/discharge", async (req, res) => {
+app.get("/admin/patient/discharge", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
     res.render("discharge_patient", { patients, userType });
 });
 
-app.route("/admin/patient/discharge/:id").get(async (req, res) => {
+app.route("/admin/patient/discharge/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findOne({ patient_id: req.params.id });
     res.render("discharge_form", { patient, userType });
-}).post(async (req, res) => {
+}).post(isAdminOrDoctor, async (req, res) => {
     const newDischarge = new Discharge(req.body);
     try {
         await newDischarge.save();
         await Patient.findOneAndUpdate(
             { patient_id: req.params.id },
-            { treat_status: "Completed" },
+            {
+                treat_status: "Completed",
+                is_discharged: 1,
+            },
             { new: true, runValidators: true }
         );
+
         res.status(201).redirect("/admin/patient/discharge");
     } catch (error) {
         res.status(400).redirect("/admin/patient/discharge");
     }
 });
 
-app.route("/admin/employee/add").get((req, res) => {
+app.route("/admin/employee/add").get(isAdminOrDoctor, (req, res) => {
     const userType = req.session.userType;
     res.render("add_employee", { userType });
-}).post(async (req, res) => {
+}).post(isAdminOrDoctor, async (req, res) => {
     const newEmployee = new Employee(req.body);
     try {
         await newEmployee.save();
@@ -565,29 +683,29 @@ app.route("/admin/employee/add").get((req, res) => {
     }
 });
 
-app.get("/admin/employee/q", async (req, res) => {
+app.get("/admin/employee/q", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
     res.render("view_employee", { employees, userType });
 });
 
-app.get("/admin/employee/q/:id", async (req, res) => {
+app.get("/admin/employee/q/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employee = await Employee.findById(req.params.id);
     res.render("employee_profile", { employee, userType });
 });
 
-app.get("/admin/employee/manage", async (req, res) => {
+app.get("/admin/employee/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
     res.render("manage_employee", { employees, userType });
 });
 
-app.route("/admin/employee/manage/:id").get(async (req, res) => {
+app.route("/admin/employee/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employee = await Employee.findById(req.params.id);
     res.render("update_employee", { employee, userType });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedEmployee = await Employee.findByIdAndUpdate(
             req.params.id,
@@ -619,15 +737,24 @@ app.route("/admin/employee/manage/:id").get(async (req, res) => {
     } catch (error) {
         res.status(500).send('Error updating Employee details');
     }
+}).delete(isAdminOrDoctor, async (req, res) => {
+    try {
+        const deletedEmployee = await Employee.findByIdAndDelete(req.params.id);
+        if (!deletedEmployee) {
+            return res.status(404).send('Employee not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
-app.get("/admin/records/appointment", async (req, res) => {
+app.get("/admin/records/appointment", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const appointments = await Appointment.find({});
     res.render("appointment_records", { appointments, userType });
 });
 
-app.get("/admin/records/appointment/:id", async (req, res) => {
+app.get("/admin/records/appointment/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let app = await Appointment.findById(req.params.id);
     let doctorName = app.app_doc;
@@ -635,13 +762,13 @@ app.get("/admin/records/appointment/:id", async (req, res) => {
     res.render("appointment", { app, doc, userType });
 });
 
-app.get("/admin/records/patient", async (req, res) => {
+app.get("/admin/records/patient", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
     res.render("patient_records", { patients, userType });
 });
 
-app.get("/admin/records/patient/:id", async (req, res) => {
+app.get("/admin/records/patient/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let patient = await Patient.findOne({ patient_id: req.params.id });
     let doctorName = patient.doc_assign;
@@ -651,17 +778,17 @@ app.get("/admin/records/patient/:id", async (req, res) => {
     res.render("patient_final_record", { patient, doc, lab, discharge, userType });
 });
 
-app.get("/admin/payroll/add", async (req, res) => {
+app.get("/admin/payroll/add", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
     res.render("add_payroll", { employees, userType });
 });
 
-app.route("/admin/payroll/add/:id").get(async (req, res) => {
+app.route("/admin/payroll/add/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const emp = await Employee.findById(req.params.id);
     res.render("add_new_payroll", { emp, userType });
-}).post(async (req, res) => {
+}).post(isAdminOrDoctor, async (req, res) => {
     const newPayroll = new Payroll(req.body);
     try {
         await newPayroll.save();
@@ -671,17 +798,17 @@ app.route("/admin/payroll/add/:id").get(async (req, res) => {
     }
 });
 
-app.get("/admin/payroll/manage", async (req, res) => {
+app.get("/admin/payroll/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const payrolls = await Payroll.find({});
     res.render("manage_payroll", { payrolls, userType });
 });
 
-app.route("/admin/payroll/manage/:id").get(async (req, res) => {
+app.route("/admin/payroll/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let payroll = await Payroll.findById(req.params.id);
     res.render("update_payroll", { payroll, userType });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedPayroll = await Payroll.findByIdAndUpdate(
             req.params.id,
@@ -704,86 +831,92 @@ app.route("/admin/payroll/manage/:id").get(async (req, res) => {
     } catch (error) {
         res.status(500).send('Error updating Employee payroll details');
     }
+}).delete(isAdminOrDoctor, async (req, res) => {
+    try {
+        const deletedPayroll = await Payroll.findByIdAndDelete(req.params.id);
+        if (!deletedPayroll) {
+            return res.status(404).send('Payroll not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
-app.get("/admin/payroll/generate", async (req, res) => {
+app.get("/admin/payroll/generate", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employees = await Payroll.find({});
     res.render("generate_payroll", { employees, userType });
 });
 
-app.get("/admin/payroll/generate/:id", async (req, res) => {
+app.get("/admin/payroll/generate/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const payroll = await Payroll.findById(req.params.id);
     res.render("employee_payslip", { payroll, userType });
 });
 
-app.get("/admin/survey", (req, res) => {
+app.get("/admin/survey", isAdminOrDoctor, (req, res) => {
     const userType = req.session.userType;
     res.render("survey", { userType });
 });
 // admin section end -------------------------------------------
 
+
+
+//Function to fetch logged in doctor information
+async function fetchDoctorDetails(userEmail) {
+    const doctor = await Doctor.findOne({ email: userEmail });
+    return doctor;
+};
+
+
 // doctor section start -----------------------------------------
-app.route("/doctor/dashboard")
-    .post(async (req, res) => {
-        try {
-            let { email, password } = req.body;
-            console.log(email, password); // Consider validating the email and password
-            req.session.userEmail = email;
-            req.session.userType = 'doctor';
-            res.redirect("/doctor/dashboard");
-        } catch (error) {
-            res.status(400).send("Doctor login failed");
-        }
-    })
-    .get(async (req, res) => {
-        const appointments = await Appointment.find({});
-        const patients = await Patient.find({});
-        const pharmacies = await Pharmacy.find({});
-        const labReports = await LabReport.find({});
-        const userType = req.session.userType;
-        const userEmail = req.session.userEmail;
-        const doctor = await fetchDoctorDetails(userEmail);
-        res.render("doctor", { userType, patients, appointments, pharmacies, labReports, doctor });
-    });
-
-
-
-app.route("/doctor/appointment/create").get(async (req, res) => {
+app.route("/doctor/dashboard").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    const appointments = await Appointment.find({});
+    const patients = await Patient.find({});
+    const pharmacies = await Pharmacy.find({});
+    const labReports = await LabReport.find({});
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
+    const doctor = await fetchDoctorDetails(userEmail);
+    res.render("doctor", { userType, patients, appointments, pharmacies, labReports, doctor });
+});
+
+
+
+app.route("/doctor/appointment/create").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    const userType = req.session.userType;
+    const userEmail = req.user.email;
+    const doctors = await Doctor.find({});
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("create_app", { doctors, userType, doctor });
-}).post(async (req, res) => {
+}).post(isAdminOrDoctor, async (req, res) => {
     const newAppoint = new Appointment(req.body);
 
     try {
         await newAppoint.save();
-        setTimeout(() => {
-            res.status(201).redirect("/doctor/appointment/manage");
-        }, 1500);
+        res.status(201).redirect('/doctor/appointment/manage');
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).redirect('/doctor/appointment/create');
     }
 });
 
 
-app.get("/doctor/appointment/manage", async (req, res) => {
+app.get("/doctor/appointment/manage", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     const appointments = await Appointment.find({});
     res.render("manage_app", { appointments, userType, doctor });
 });
 
-app.route("/doctor/appointment/manage/:id").get(async (req, res) => {
+app.route("/doctor/appointment/manage/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     let app = await Appointment.findById(req.params.id);
+    const doctors = await Doctor.find({});
     res.render("update_app", { app, doctors, userType, doctor });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     try {
         const updatedAppointment = await Appointment.findByIdAndUpdate(
             req.params.id,
@@ -809,106 +942,142 @@ app.route("/doctor/appointment/manage/:id").get(async (req, res) => {
             return res.status(404).send('Appointment not found');
         }
 
-        setTimeout(() => {
-            res.redirect("/doctor/appointment/manage");
-        }, 1500);
+        res.redirect("/doctor/appointment/manage");
     } catch (error) {
         res.status(500).send('Error updating appointment');
     }
+}).delete(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const deletedAppointment = await Appointment.findByIdAndDelete(req.params.id);
+        if (!deletedAppointment) {
+            return res.status(404).send('Appointment not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
-app.get("/doctor/prescription/add", async (req, res) => {
+app.get("/doctor/prescription/add", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
+    const patients = await Patient.find({});
     res.render("add_presc", { patients, userType, doctor });
 });
 
-app.route("/doctor/prescription/add/:id").get(async (req, res) => {
+app.route("/doctor/prescription/add/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    let patient = patients.find(p => p.id === id);
+    const patient = await Patient.findOne({ patient_id: req.params.id });
     res.render("add_new_presc", { patient, userType, doctor });
-}).post((req, res) => {
-    console.log(req.body);
-    setTimeout(() => {
-        res.redirect("/doctor/prescription/add");
-    }, 1500);
-})
-
-app.get("/doctor/prescription/q", async (req, res) => {
-    const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
-    const doctor = await fetchDoctorDetails(userEmail);
-    res.render("view_presc", { patients, userType, doctor });
+}).post(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    const newPrescription = new Prescription(req.body);
+    try {
+        await newPrescription.save();
+        res.status(201).redirect("/doctor/prescription/q");
+    } catch (error) {
+        res.status(400).redirect("/doctor/prescription/add");
+    }
 });
 
-app.get("/doctor/prescription/q/:id", async (req, res) => {
+app.get("/doctor/prescription/q", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    let patient = patients.find(p => p.id === id);
-    const userEmail = req.session.userEmail;
-    let presc = prescriptions.find(p => p.patient_id === id);
+    const userEmail = req.user.email;
+    const doctor = await fetchDoctorDetails(userEmail);
+    const prescriptions = await Prescription.find({});
+    const patients = await Patient.find({});
+    res.render("view_presc", { patients, prescriptions, userType, doctor });
+});
+
+app.get("/doctor/prescription/q/:id", isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    const userType = req.session.userType;
+    let patient = await Patient.findOne({ patient_id: req.params.id });
+    let presc = await Prescription.findOne({ patient_id: req.params.id });
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("prescription", { patient, presc, userType, doctor });
 });
 
-app.get("/doctor/prescription/manage", async (req, res) => {
+app.get("/doctor/prescription/manage", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    res.render("manage_presc", { patients, userType, doctor });
+    let prescriptions = await Prescription.find({});
+    let patients = await Patient.find({});
+    res.render("manage_presc", { patients, prescriptions, userType, doctor });
 });
 
-app.route("/doctor/prescription/manage/:id").get(async (req, res) => {
+app.route("/doctor/prescription/manage/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    let patient = patients.find(p => p.id === id);
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    let presc = prescriptions.find(p => p.patient_id === id);
-    res.render("update_presc", { patient, presc, userType, doctor });
-}).patch((req, res) => {
-    console.log(req.body);
-    setTimeout(() => {
-        res.redirect("/doctor/prescription/manage");
-    }, 1500);
+    let presc = await Prescription.findById(req.params.id);
+    res.render("update_presc", { presc, userType, doctor });
+}).patch(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const updatedPrescription = await Prescription.findByIdAndUpdate(
+            req.params.id,
+            {
+                name: req.body.name,
+                age: req.body.age,
+                address: req.body.address,
+                type: req.body.type,
+                ailment: req.body.ailment,
+                notes: req.body.notes
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedPrescription) {
+            return res.status(404).send('prescription not found');
+        }
+
+        res.redirect("/doctor/prescription/q");
+    } catch (error) {
+        res.status(500).send('Error updating prescription');
+    }
+}).delete(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const deletedPrescription = await Prescription.findByIdAndDelete(req.params.id);
+        if (!deletedPrescription) {
+            return res.status(404).send('Prescription not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
-app.route("/doctor/pharmacy/add").get(async (req, res) => {
+app.route("/doctor/pharmacy/add").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("add_pharma", { userType, doctor });
-}).post(async (req, res) => {
+}).post(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const newPharmacy = new Pharmacy(req.body);
     try {
         await newPharmacy.save();
-        setTimeout(() => {
-            res.status(201).redirect("/doctor/pharmacy/manage");
-        }, 1500);
+        res.status(201).redirect("/doctor/pharmacy/manage");
     } catch (error) {
         res.status(400).send(error);
     }
 });
 
-app.get("/doctor/pharmacy/manage", async (req, res) => {
+app.get("/doctor/pharmacy/manage", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     const pharmacies = await Pharmacy.find({});
     res.render("manage_pharma", { pharmacies, userType, doctor });
 });
 
-app.route("/doctor/pharmacy/manage/:id").get(async (req, res) => {
+app.route("/doctor/pharmacy/manage/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
     let pharma = await Pharmacy.findById(req.params.id);
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("update_pharma", { pharma, userType, doctor });
-}).patch(async (req, res) => {
+}).patch(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     try {
         const updatedPharmacy = await Pharmacy.findByIdAndUpdate(
             req.params.id,
@@ -927,226 +1096,374 @@ app.route("/doctor/pharmacy/manage/:id").get(async (req, res) => {
             return res.status(404).send('Pharmacy not found');
         }
 
-        setTimeout(() => {
-            res.redirect("/doctor/pharmacy/manage");
-        }, 1500);
+        res.redirect("/doctor/pharmacy/manage");
     } catch (error) {
-        res.status(500).send('Error updating Pharmacy');
+        res.status(500).redirect("/doctor/pharmacy/manage");
+    }
+}).delete(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const deletedPharmacy = await Pharmacy.findByIdAndDelete(req.params.id);
+        if (!deletedPharmacy) {
+            return res.status(404).send('Pharmacy not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
     }
 });
 
-app.get("/doctor/lab/tests", async (req, res) => {
+app.get("/doctor/lab/tests", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
+    const patients = await Patient.find({ treat_status: "Ongoing" });
     res.render("patient_lab_test", { patients, userType, doctor });
 });
 
-app.route("/doctor/lab/tests/:id").get(async (req, res) => {
+app.route("/doctor/lab/tests/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    const userEmail = req.session.userEmail;
-    let lab = labReports.find(r => r.id === id);
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    res.render("add_lab_test", { lab, userType, doctor });
-}).patch((req, res) => {
-    console.log(req.body);
-    setTimeout(() => {
+    const patient = await Patient.findOne({ patient_id: req.params.id });
+    const lab = await LabReport.findOne({ patient_id: req.params.id });
+    res.render("add_lab_test", { patient, lab, userType, doctor });
+}).patch(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const updatedVitals = await LabReport.findOneAndUpdate(
+            { patient_id: req.params.id },
+            {
+                name: req.body.name,
+                ailment: req.body.ailment,
+                patient_id: req.body.id,
+                lab_tests: req.body.tests,
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedVitals) {
+            return res.status(404).send('Vitals data not found');
+        }
+
         res.redirect("/doctor/lab/tests");
-    }, 1500);
+    } catch (error) {
+        res.status(500).send('Error updating Vitals data');
+    }
 });
 
-app.get("/doctor/lab/results", async (req, res) => {
+app.get("/doctor/lab/results", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    res.render("patient_lab_result", { patients, userType, doctor });
+    const labs = await LabReport.find({});
+    const patients = await Patient.find({ treat_status: "Ongoing" });
+    res.render("patient_lab_result", { patients, labs, userType, doctor });
 });
 
-app.route("/doctor/lab/results/:id").get(async (req, res) => {
+app.route("/doctor/lab/results/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    const userEmail = req.session.userEmail;
-    let lab = labReports.find(r => r.id === id);
+    const userEmail = req.user.email;
+    const lab = await LabReport.findById(req.params.id);
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("add_lab_result", { lab, userType, doctor });
-}).patch((req, res) => {
-    console.log(req.body);
-    setTimeout(() => {
+}).patch(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const updatedLabResult = await LabReport.findByIdAndUpdate(
+            req.params.id,
+            {
+                result_date: req.body.result_date,
+                lab_results: req.body.results
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedLabResult) {
+            return res.status(404).send('Lab Results not found');
+        }
+
         res.redirect("/doctor/lab/results");
-    }, 1500);
+    } catch (error) {
+        res.status(500).send('Error updating Lab Results');
+    }
 });
 
-app.get("/doctor/patient/vitals", async (req, res) => {
+app.get("/doctor/patient/vitals", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    res.render("patient_vitals", { patients, userType, doctor });
+    const labs = await LabReport.find({});
+    const patients = await Patient.find({ treat_status: "Ongoing" });
+    res.render("patient_vitals", { patients, labs, userType, doctor });
 });
 
-app.route("/doctor/patient/vitals/:id").get(async (req, res) => {
+app.route("/doctor/patient/vitals/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    let patient = patients.find(p => p.id === id);
-    const userEmail = req.session.userEmail;
+    const lab = await LabReport.findById(req.params.id);
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    let lab = labReports.find(l => l.id === id);
-    res.render("add_patient_vitals", { patient, lab, userType, doctor });
-}).patch((req, res) => {
-    console.log(Date.now());
-    console.log(req.body);
-    setTimeout(() => {
+    res.render("add_patient_vitals", { lab, userType, doctor });
+}).patch(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const updatedLabTest = await LabReport.findByIdAndUpdate(
+            req.params.id,
+            {
+                heart_rate: req.body.hr,
+                blood_pressure: req.body.bp,
+                temperature: req.body.temp,
+                resp_rate: req.body.resp,
+                oxygen_sat: req.body.spo2
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedLabTest) {
+            return res.status(404).send('Lab tests not found');
+        }
+
         res.redirect("/doctor/patient/vitals");
-    }, 1500);
+    } catch (error) {
+        res.status(500).send('Error updating Lab Tests');
+    }
+});
+app.get("/doctor/lab/reports", isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    const userType = req.session.userType;
+    const userEmail = req.user.email;
+    const doctor = await fetchDoctorDetails(userEmail);
+    const labs = await LabReport.find({});
+    const patients = await Patient.find({ treat_status: "Ongoing" });
+    res.render("lab_reports", { patients, labs, userType, doctor });
 });
 
-app.get("/doctor/lab/reports", async (req, res) => {
+app.get("/doctor/lab/reports/:id", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    let lab = await LabReport.findOne({ patient_id: req.params.id });
+    let patient = await Patient.findOne({ patient_id: req.params.id });
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    res.render("lab_reports", { patients, userType, doctor });
-});
-
-app.get("/doctor/lab/reports/:id", async (req, res) => {
-    const userType = req.session.userType;
-    let id = req.params.id;
-    let patient = patients.find(p => p.id === id);
-    const userEmail = req.session.userEmail;
-    const doctor = await fetchDoctorDetails(userEmail);
-    let lab = labReports.find(l => l.id === id);
     res.render("view_lab_report", { patient, lab, userType, doctor });
 });
 
-app.route("/doctor/patient/register").get(async (req, res) => {
+app.route("/doctor/patient/register").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("register_patient", { userType, doctor });
-}).post((req, res) => {
-    console.log(req.body);
-    setTimeout(() => {
-        res.redirect("/doctor/patient/q");
-    }, 1500);
-})
+}).post(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    const newPatient = new Patient(req.body);
+    try {
+        await newPatient.save();
+        res.status(201).redirect("/doctor/patient/q")
+    } catch (error) {
+        res.status(400).redirect("/doctor/patient/q");
+    }
+});
 
-app.get("/doctor/patient/q", async (req, res) => {
+app.get("/doctor/patient/q", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
+    const patients = await Patient.find({});
     res.render("view_patient", { patients, userType, doctor });
 });
 
-app.get("/doctor/patient/q/:id", async (req, res) => {
+app.get("/doctor/patient/q/:id", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    let patient = patients.find(p => p.id === id);
-    const userEmail = req.session.userEmail;
+    const patient = await Patient.findOne({ patient_id: req.params.id });
+    const lab = await LabReport.findOne({ patient_id: req.params.id });
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    let lab = labReports.find(d => d.id === id);
     res.render("patient_profile", { patient, lab, userType, doctor });
 });
 
-app.get("/doctor/patient/manage", async (req, res) => {
+app.get("/doctor/patient/manage", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
+    const patients = await Patient.find({});
     res.render("manage_patient", { patients, userType, doctor });
 });
 
-app.route("/doctor/patient/manage/:id").get(async (req, res) => {
+app.route("/doctor/patient/manage/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    const userEmail = req.session.userEmail;
-    let patient = patients.find(p => p.id === id);
+    const patient = await Patient.findById(req.params.id);
+    const doctors = await Doctor.find({});
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("update_patient", { patient, doctors, userType, doctor });
-}).patch((req, res) => {
-    console.log(req.body);
-    setTimeout(() => {
+}).patch(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const updatedPatient = await Patient.findByIdAndUpdate(
+            req.params.id,
+            {
+                name: req.body.name,
+                patient_id: req.body.id,
+                email: req.body.email,
+                dob: req.body.dob,
+                age: req.body.age,
+                gender: req.body.gender,
+                contact: req.body.contact,
+                emergency_contact: req.body.em_contact,
+                address: req.body.address,
+                marital_status: req.body.marital_sts,
+                ailment: req.body.ailment,
+                type: req.body.type,
+                treat_status: req.body.status,
+                doc_assign: req.body.assign_doc
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedPatient) {
+            return res.status(404).send('Patient details not found');
+        }
+
         res.redirect("/doctor/patient/manage");
-    }, 1500);
+    } catch (error) {
+        res.status(500).send('Error updating Patient details');
+    }
+}).delete(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const deletedPatient = await Patient.findByIdAndDelete(req.params.id);
+        await LabReport.findOneAndDelete({ patient_id: deletedPatient.patient_id });
+
+        if (!deletedPatient) {
+            return res.status(404).send('Patient not found');
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
-app.get("/doctor/patient/discharge", async (req, res) => {
+app.get("/doctor/patient/discharge", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
+    const patients = await Patient.find({});
     res.render("discharge_patient", { patients, userType, doctor });
 });
 
-app.route("/doctor/patient/discharge/:id").get(async (req, res) => {
+app.route("/doctor/patient/discharge/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    const userEmail = req.session.userEmail;
-    let patient = patients.find(p => p.id === id);
+    const patient = await Patient.findOne({ patient_id: req.params.id });
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("discharge_form", { patient, userType, doctor });
-}).post((req, res) => {
-    console.log(req.body);
-    setTimeout(() => {
-        res.redirect("/doctor/patient/discharge");
-    }, 1500);
+}).post(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    const newDischarge = new Discharge(req.body);
+    try {
+        await newDischarge.save();
+        await Patient.findOneAndUpdate(
+            { patient_id: req.params.id },
+            {
+                treat_status: "Completed",
+                is_discharged: 1,
+            },
+            { new: true, runValidators: true }
+        );
+
+        res.status(201).redirect("/doctor/patient/discharge");
+    } catch (error) {
+        res.status(400).redirect("/doctor/patient/discharge");
+    }
 });
 
-app.get("/doctor/records/appointment", async (req, res) => {
+app.get("/doctor/records/appointment", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
+    const appointments = await Appointment.find({});
     res.render("appointment_records", { appointments, userType, doctor });
 });
 
-app.get("/doctor/records/appointment/:id", async (req, res) => {
+app.get("/doctor/records/appointment/:id", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    let app = appointments.find(a => a.appointment_id === id);
-    let doctorName = app.preferred_doctor;
-    const userEmail = req.session.userEmail;
+    let app = await Appointment.findById(req.params.id);
+    let doctorName = app.app_doc;
+    let doc = await Doctor.findOne({ full_name: doctorName });
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    let doc = doctors.find(d => d.full_name === doctorName);
     res.render("appointment", { app, doc, userType, doctor });
 });
 
-app.get("/doctor/records/patient", async (req, res) => {
+app.get("/doctor/records/patient", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
+    const patients = await Patient.find({});
     res.render("patient_records", { patients, userType, doctor });
 });
 
-app.get("/doctor/records/patient/:id", async (req, res) => {
+app.get("/doctor/records/patient/:id", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    let id = req.params.id;
-    let patient = patients.find(p => p.id === id);
-    let doctorName = patient.doctor_assigned;
-    let doc = doctors.find(d => d.full_name === doctorName);
-    const userEmail = req.session.userEmail;
+    let patient = await Patient.findOne({ patient_id: req.params.id });
+    let doctorName = patient.doc_assign;
+    let doc = await Doctor.findOne({ full_name: doctorName });
+    let lab = await LabReport.findOne({ patient_id: req.params.id });
+    let discharge = await Discharge.findOne({ patient_id: req.params.id });
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
-    let lab = labReports.find(r => r.id === id);
-    res.render("patient_final_record", { patient, doc, lab, userType, doctor });
+    res.render("patient_final_record", { patient, doc, lab, discharge, userType, doctor });
 });
 
-app.get("/doctor/survey", async (req, res) => {
+app.get("/doctor/survey", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
+    const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     res.render("survey", { userType, doctor });
 });
 
-app.route("/doctor/profile").get((req, res) => {
+app.route("/doctor/profile").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const userType = req.session.userType;
-    const userEmail = req.session.userEmail;
-    const doctor = fetchDoctorDetails(userEmail);
+    const userEmail = req.user.email;
+    const doctor = await fetchDoctorDetails(userEmail);
     res.render("doc_profile_acc", { doctor, userType });
-}).patch((req, res) => {
-    console.log(req.body);
-    setTimeout(() => {
+}).patch(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.pwd, salt);
+
+        const updatedDoctor = await Doctor.findOneAndUpdate(
+            { email: req.user.email },
+            {
+                bio: req.body.bio,
+                contact_number: req.body.contact,
+                address: req.body.address,
+                pincode: req.body.pincode,
+                username: req.body.username,
+                password: hashedPassword,
+                pic: req.body.pic,
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedDoctor) {
+            return res.status(404).send('Doctor not found');
+        }
+
         res.redirect("/doctor/profile");
-    }, 1500);
+    } catch (error) {
+        console.error("Error updating doctor:", error);
+        res.status(500).send('Internal Server Error');
+    }
+
 })
 
 // doctor section end ------------------------------------------
 
-
+//Logout Route--------------------------------------------------
+app.post("/logout", isAdminOrDoctor, isAuthenticated, async (req, res) => {
+    if (req.user.role === 'doctor') {
+        await Doctor.findOneAndUpdate({ email: req.user.email }, { status: 'Offline' });
+    }
+    res.clearCookie("token");
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).send('Unable to log out');
+        }
+        setTimeout(() => {
+            res.redirect("/login");
+        }, 1500)
+    })
+});
 
 
 // port listening console log
@@ -1160,3 +1477,76 @@ app.get('*', (req, res) => {
     res.render("404", { userType });
 });
 
+//protected url middleware
+function isLoggedIn(requiredRole) {
+    return (req, res, next) => {
+        const token = req.cookies.token;
+
+        if (!token || token === "") {
+            return res.status(401).redirect('/login');
+        }
+
+        try {
+            const data = jwt.verify(token, config.secret_key);
+            if (data.role !== requiredRole) {
+                return res.status(403).redirect('/login');
+            }
+            req.user = data;
+            next();
+        } catch (error) {
+            return res.status(401).redirect('/login');
+        }
+    };
+}
+
+//protected url middleware only for logout
+function isAdminOrDoctor(req, res, next) {
+    const token = req.cookies.token;
+
+    if (!token || token === "") {
+        return res.status(401).redirect('/login');
+    }
+
+    try {
+        const data = jwt.verify(token, config.secret_key);
+        if (data.role !== 'admin' && data.role !== 'doctor') {
+            return res.status(403).redirect('/login');
+        }
+        req.user = data;
+        next();
+    } catch (error) {
+        return res.status(401).redirect('/login');
+    }
+}
+
+
+// Assuming you have a function fetchDoctorDetails to get doctor details from the database
+async function isAuthenticated(req, res, next) {
+    if (req.user.email) {
+        try {
+            const doctor = await fetchDoctorDetails(req.user.email);
+            if (doctor) {
+                res.locals.doctor = doctor;
+                return next(); // User is authenticated and exists in the database
+            } else {
+                // User's credentials have been deleted
+                req.session.destroy((err) => {
+                    if (err) {
+                        console.error('Error destroying session:', err);
+                    }
+                    res.redirect('/login');
+                });
+            }
+        } catch (err) {
+            console.error('Error fetching doctor details:', err);
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error('Error destroying session:', err);
+                }
+                res.redirect('/login');
+            });
+        }
+    } else {
+        res.redirect('/login'); // User is not authenticated
+    }
+}

@@ -3,16 +3,19 @@ const mongoose = require("mongoose");
 const empSchema = new mongoose.Schema({
     employee_id: {
         type: String,
+        unique: true
     },
     full_name: {
         type: String,
     },
     email: {
         type: String,
+        unique: true
     },
     contact_number: {
         type: String,
         minLength: 10,
+        unique: true
     },
     date_of_birth: {
         type: Date,

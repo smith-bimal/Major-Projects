@@ -31,10 +31,11 @@
               </tr>
             </thead>
             <tbody>
+              <% let count=1; %>
               <% for (patient of patients) { %>
               <% if(patient.treat_status != "Completed") { %>
               <tr>
-                <td><%= patients.indexOf(patient) +1; %></td>
+                <td><%= count %></td>
                 <td><%= patient.name; %></td>
                 <td><%= patient.patient_id; %></td>
                 <td><%= patient.address; %></td>
@@ -44,6 +45,7 @@
                   <a href="/<%= userType %>/patient/discharge/<%= patient.patient_id %>" class="text-decoration-none">Discharge</a>
                 </td>
               </tr>
+              <% count++ %>
               <% } %>
               <% } %>
             </tbody>

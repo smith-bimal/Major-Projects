@@ -33,18 +33,22 @@
             </thead>
             <tbody>
               <% for (presc of prescriptions) { %>
+              <% for (patient of patients) { %>
+              <% if (presc.patient_id === patient.patient_id) { %>
               <tr>
                 <td><%= prescriptions.indexOf(presc) + 1 %></td>
                 <td><%= presc.name; %></td>
                 <td><%= presc.patient_id; %></td>
-                <td><%= presc.address; %></td>
+                <td><%= patient.address; %></td>
                 <td><%= presc.ailment; %></td>
-                <td><%= presc.age; %></td>
-                <td><%= presc.type; %></td>
+                <td><%= patient.age; %></td>
+                <td><%= patient.type; %></td>
                 <td>
                   <a href="/<%= userType %>/prescription/q/<%= presc.patient_id; %>" class="text-decoration-none">View</a>
                 </td>
               </tr>
+              <% } %>
+              <% } %>
               <% } %>
             </tbody>
           </table>

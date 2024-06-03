@@ -99,8 +99,8 @@
                 <% for(app of appointments) {%>
                 <tr>
                   <td><%= appointments.indexOf(app) +1 %></td>
-                  <td><%= app.patient_name %></td>
-                  <td><%= app.preferred_date_time %></td>
+                  <td><%= app.name %></td>
+                  <td><%= app.app_date.toLocaleString() %></td>
                   <td><%= app.age %></td>
                   <td><%= app.gender %></td>
                   <td><span class="app-status p-1 rounded-3"><%= app.status %></span></td>
@@ -151,11 +151,11 @@
                 <% for(patient of patients) {%>
                 <tr>
                   <td><%= patients.indexOf(patient) +1 %></td>
-                  <td><%= patient.full_name %></td>
-                  <td><%= patient.id %></td>
+                  <td><%= patient.name %></td>
+                  <td><%= patient.patient_id %></td>
                   <td><%= patient.ailment %></td>
                   <td><%= patient.type %></td>
-                  <td>Dr. <%= patient.doctor_assigned %></td>
+                  <td>Dr. <%= patient.doc_assign.split(" ")[0] %></td>
                 </tr>
                 <% } %>
               </tbody>

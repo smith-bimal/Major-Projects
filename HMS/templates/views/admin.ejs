@@ -21,8 +21,8 @@
             </div>
           </div>
           <p class="m-0 mt-2">
-            <span class="cyan">1</span>
-            Doctors joined this week
+            <span class="cyan"><%=activeDoctors.length;%></span>
+            Doctors currently active
           </p>
         </div>
 
@@ -55,8 +55,8 @@
             </div>
           </div>
           <p class="m-0 mt-2">
-            <span class="red">2</span>
-            new patients admitted
+            <span class="red"><%= ongoingPatients.length %></span>
+            Ongoing treatment patients
           </p>
         </div>
 

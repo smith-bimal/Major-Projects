@@ -30,17 +30,22 @@
               </tr>
             </thead>
             <tbody>
+              <% let count =1; %>
               <% for (lab of labs) { %>
+              <% for( patient of patients) { %>
+              <% if (lab.name == patient.name) { %>
               <tr>
-                <td><%= labs.indexOf(lab) + 1 %></td>
+                <td><%= count %></td>
                 <td><%= lab.name; %></td>
                 <td><%= lab.patient_id; %></td>
                 <td><%= lab.ailment; %></td>
-                <td><%= lab.type; %></td>
+                <td><%= patient.type; %></td>
                 <td>
                   <a href="/<%= userType %>/patient/vitals/<%= lab.id; %>" class="text-decoration-none">Update</a>
                 </td>
               </tr>
+              <% count ++;} %>
+              <% } %>
               <% } %>
             </tbody>
           </table>

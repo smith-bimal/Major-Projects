@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const prescriptionSchema = new mongoose.Schema({
     patient_id: {
         type: String,
+        unique: true
     },
     name: {
         type: String,

@@ -30,9 +30,11 @@
               </tr>
             </thead>
             <tbody>
+              <% let count = 1 %>
               <% for (patient of patients) { %>
+              <% if (!patient.is_discharged) { %>
               <tr>
-                <td><%= patients.indexOf(patient) + 1 %></td>
+                <td><%= count %></td>
                 <td><%= patient.name; %></td>
                 <td><%= patient.patient_id; %></td>
                 <td><%= patient.address; %></td>
@@ -41,6 +43,8 @@
                   <i class="fa-solid fa-ellipsis-vertical p-3" data-id="/<%= userType %>/patient/manage/<%= patient.id; %>"></i>
                 </td>
               </tr>
+              <% count++ %>
+              <% } %>
               <% } %>
             </tbody>
           </table>

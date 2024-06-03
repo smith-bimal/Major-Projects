@@ -313,16 +313,21 @@ function setupDeletePopup(appId) {
             });
 
             document.querySelector("#confirm-delete").addEventListener("click", () => {
-                fetch(`/delete/${appId}`, {
-                    method: 'DELETE',
+                let deleteUrl = appId + "?_method=DELETE";
+                fetch(`${deleteUrl}`, {
+                    method: 'POST',
                 }).then(response => {
                     if (response.ok) {
-                        // Optionally, remove the deleted item from the DOM
-                        document.querySelector(`tr[data-id='${appId}']`).remove();
+                        console.log("Data deleted Successfully.")
                     }
-                    popup.remove();
-                    overlay.remove();
+                }).catch(err => {
+                    console.log(err);
                 });
+
+
+                location.reload();
+                popup.remove();
+                overlay.remove();
             });
         });
     });
@@ -343,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
+const owner = "Golak Bihari Bemal";
 
 // notification panel toggle for all webpages
 
@@ -369,8 +374,8 @@ document.body.addEventListener("click", (e) => {
 const usernameBtn = document.querySelector(".username");
 
 let logout = document.createElement("div");
-logout.setAttribute("class", "logout p-3 rounded-3 bg-white border");
-logout.innerHTML = "Logout&nbsp;&nbsp;<i class='fa-solid fa-right-from-bracket'></i>";
+logout.setAttribute("class", "logout rounded-3 bg-white border");
+logout.innerHTML = "<form action='/logout' method='post' id='logout-form'><button type='submit' class='text-decoration-none border-0 bg-white p-3 rounded-3'>Logout&nbsp;&nbsp;<i class='fa-solid fa-right-from-bracket'></i></button></form>";
 
 let isLogoutVisible = false;
 
@@ -380,6 +385,45 @@ usernameBtn.addEventListener("click", (e) => {
         document.body.appendChild(logout);
         isLogoutVisible = true;
         usernameBtn.nextElementSibling.style.transform = "rotate(180deg)";
+
+        //Popup when clicked on logout
+
+        const logoutBtn = document.querySelector("#logout-form button");
+        try {
+            logoutBtn.addEventListener("click", () => {
+                let logout_modal = document.createElement("div");
+                logout_modal.setAttribute("class", "logout-popup rounded-3 bg-white border");
+                logout_modal.innerHTML = `<div class="logout-popup-card">
+                    <div class="loader-container">  
+                        <div class="spinner center">
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                            <div class="spinner-blade"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <p class="cookieHeading">Logging Out...</p>
+                    <p class="cookieDescription">We value your time with us.</p>
+                </div>`;
+
+                let overlay = document.createElement("div");
+                overlay.className = "overlay";
+
+                document.body.appendChild(overlay);
+                document.body.appendChild(logout_modal);
+            })
+        } catch (err) {
+            console.log(err);
+        }
     }
 });
 
@@ -391,13 +435,11 @@ document.body.addEventListener("click", (e) => {
     }
 });
 
-
-//Copyright 
 const main = document.querySelector(".main");
-const copyright = document.createElement("p");
-copyright.setAttribute("class", "copyright text-secondary pt-0 pb-0 m-0");
-copyright.innerHTML = "&copy; 2024 Smith Bimal. All rights reserved.";
-main.appendChild(copyright);
+const cr = document.createElement("p");
+cr.setAttribute("class", "copyright text-secondary pt-0 pb-0 m-0");
+cr.innerHTML = `&copy; 2024 ${owner}. All rights reserved.`;
+main.appendChild(cr);
 
 
 

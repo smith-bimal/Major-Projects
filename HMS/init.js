@@ -10,8 +10,6 @@ async function main() {
 };
 
 
-
-
 const adminSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -236,16 +234,12 @@ const labSchema = new mongoose.Schema({
 const patientSchema = new mongoose.Schema({
     patient_id: {
         type: String,
-
     },
     name: {
         type: String,
-
     },
     email: {
         type: String,
-
-
     },
     dob: {
         type: Date,
@@ -260,7 +254,6 @@ const patientSchema = new mongoose.Schema({
     contact: {
         type: String,
         minLength: 10,
-
     },
     emergency_contact: {
         type: String,
@@ -284,6 +277,10 @@ const patientSchema = new mongoose.Schema({
     treat_status: {
         type: String,
         default: "Ongoing",
+    },
+    is_discharged: {
+        type: Boolean,
+        default: 0,
     }
 });
 
@@ -339,7 +336,97 @@ const pharmacySchema = new mongoose.Schema({
     }
 });
 
+const payrollSchema = new mongoose.Schema({
+    employee_id: {
+        type: String,
+        unique: true
+    },
+    full_name: {
+        type: String,
+    },
+    email: {
+        type: String,
+        unique: true
+    },
+    department: {
+        type: String,
+    },
+    position: {
+        type: String,
+    },
+    salary: {
+        type: Number,
+    },
+    payroll_desc: {
+        type: String
+    },
+    payment_status: {
+        type: String,
+        default: "Unpaid"
+    },
+    posted_date: {
+        type: Date,
+        default: Date.now()
+    }
+});
 
+const dischargeSchema = new mongoose.Schema({
+    patient_id: {
+        type: String,
+        unique: true,
+    },
+    name: {
+        type: String,
+    },
+    email: {
+        type: String,
+    },
+    contact: {
+        type: String,
+        minLength: 10,
+    },
+    dob: {
+        type: Date,
+    },
+    gender: {
+        type: String,
+    },
+    emergency_contact: {
+        type: String,
+        minLength: 10,
+    },
+    address: {
+        type: String,
+    },
+    created_at: {
+        type: Date,
+    },
+    reason: {
+        type: String,
+    },
+    discharge_time: {
+        type: Date,
+    },
+    primary_diag: {
+        type: String,
+    },
+    secondary_diag: {
+        type: String,
+    },
+    treat_summary: {
+        type: String,
+    },
+    procedures: {
+        type: String,
+    },
+    medications: {
+        type: String,
+    }
+});
+
+
+const Discharge = mongoose.model("Discharge", dischargeSchema);
+const Payroll = new mongoose.model("Payroll", payrollSchema);
 const Admin = new mongoose.model("Admin", adminSchema);
 const Doctor = new mongoose.model("Doctor", doctorSchema);
 const Appointment = new mongoose.model("Appointment", appointmentSchema);
@@ -372,7 +459,7 @@ const doctorData = [
     {
         doc_id: "DO-9593898",
         full_name: "Aarav Mehta",
-        email: "aarav.mehta@example.com",
+        email: "aarav.mehta@hms.com",
         contact_number: "+91-9876543210",
         dob: "1980-10-23",
         age: 43,
@@ -382,14 +469,14 @@ const doctorData = [
         specialty: "Cardiology",
         experience: 20,
         username: "aarav.mehta",
-        password: "tH0#1EEnUw",
-        status: "Online",
+        password: "",
+        status: "Offline",
         qualification: "MD (Doctor of Medicine)"
     },
     {
         doc_id: "DO-4640764",
         full_name: "Maya Iyer",
-        email: "maya.iyer@example.com",
+        email: "maya.iyer@hms.com",
         contact_number: "+91-9876543211",
         dob: "1985-02-06",
         age: 39,
@@ -399,14 +486,14 @@ const doctorData = [
         specialty: "Neurology",
         experience: 15,
         username: "maya.iyer",
-        password: "cE1`Iwnuvyt4",
+        password: "",
         status: "Offline",
         qualification: "MS (Master of Surgery)"
     },
     {
         doc_id: "DO-8500282",
         full_name: "Rohan Singh",
-        email: "rohan.singh@example.com",
+        email: "rohan.singh@hms.com",
         contact_number: "+91-9876543212",
         dob: "1977-02-16",
         age: 47,
@@ -416,14 +503,14 @@ const doctorData = [
         specialty: "Orthopedics",
         experience: 25,
         username: "rohan.singh",
-        password: "qK0)iEbO)5n9z(",
-        status: "Online",
+        password: "",
+        status: "Offline",
         qualification: "MBBS (Bachelor of Medicine, Bachelor of Surgery)"
     },
     {
         doc_id: "DO-4434571",
         full_name: "Anita Chatterjee",
-        email: "anita.chatterjee@example.com",
+        email: "anita.chatterjee@hms.com",
         contact_number: "+91-9876543213",
         dob: "1975-03-18",
         age: 49,
@@ -433,14 +520,14 @@ const doctorData = [
         specialty: "Pediatrics",
         experience: 20,
         username: "anita.chatterjee",
-        password: "wZ8@KPxG<!&mq",
+        password: "",
         status: "Offline",
         qualification: "DNB (Diplomate of National Board)"
     },
     {
         doc_id: "DO-3663647",
         full_name: "Ishaan Bhatt",
-        email: "ishaan.bhatt@example.com",
+        email: "ishaan.bhatt@hms.com",
         contact_number: "+91-9876543214",
         dob: "1983-05-19",
         age: 41,
@@ -450,8 +537,8 @@ const doctorData = [
         specialty: "Dermatology",
         experience: 18,
         username: "ishaan.bhatt",
-        password: "tH4+\"_SYvKq6Q",
-        status: "Online",
+        password: "",
+        status: "Offline",
         qualification: "DM (Doctorate of Medicine)"
     }
 ];
@@ -873,7 +960,7 @@ const patientData = [
         "ailment": "fatigue",
         "type": "In-patient",
         "doc_assign": "Maya Iyer",
-        "treat_status": "Completed"
+        "treat_status": "Ongoing"
     },
     {
         "patient_id": "PA-51-5583244",
@@ -905,7 +992,7 @@ const patientData = [
         "ailment": "sore throat",
         "type": "In-patient",
         "doc_assign": "Maya Iyer",
-        "treat_status": "Completed"
+        "treat_status": "Ongoing"
     },
     {
         "patient_id": "PA-95-0067684",
@@ -921,7 +1008,7 @@ const patientData = [
         "ailment": "allergies",
         "type": "Out-patient",
         "doc_assign": "Aarav Mehta",
-        "treat_status": "Completed"
+        "treat_status": "Ongoing"
     },
     {
         "patient_id": "PA-04-7961598",
@@ -969,7 +1056,7 @@ const patientData = [
         "ailment": "sore throat",
         "type": "In-patient",
         "doc_assign": "Anita Chatterjee",
-        "treat_status": "Completed"
+        "treat_status": "Ongoing"
     },
     {
         "patient_id": "PA-55-7237124",
@@ -1001,7 +1088,7 @@ const patientData = [
         "ailment": "sore throat",
         "type": "In-patient",
         "doc_assign": "Anita Chatterjee",
-        "treat_status": "Completed"
+        "treat_status": "Ongoing"
     }
 ];
 

@@ -10,6 +10,7 @@ const payrollSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true
     },
     department: {
         type: String,

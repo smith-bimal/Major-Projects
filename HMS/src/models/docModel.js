@@ -3,15 +3,18 @@ const mongoose = require('mongoose');
 const doctorSchema = new mongoose.Schema({
     doc_id: {
         type: String,
+        unique: true
     },
     full_name: {
         type: String,
     },
     email: {
         type: String,
+        unique: true
     },
     contact_number: {
         type: String,
+        unique: true
     },
     dob: {
         type: Date,

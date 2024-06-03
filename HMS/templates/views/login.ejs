@@ -1,75 +1,55 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HMS - Login</title>
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/Assets/favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/Assets/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/Assets/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/Assets/favicon/site.webmanifest" />
-    <link rel="stylesheet" href="css/login.css" />
-  </head>
-  <body>
-    <div class="container" id="container">
-      <div class="form-container sign-up-container">
-        <form action="/admin/dashboard" method="post">
-          <h1>Log In</h1>
 
-          <input type="text" placeholder="Username" name="username" required />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            required
-          />
-          <a href="#">Forgot your password?</a>
-          <button>Login</button>
-        </form>
-      </div>
-      <div class="form-container sign-in-container">
-        <form action="/doctor/dashboard" method="post">
-          <h1>Sign in</h1>
-          <input type="email" placeholder="Email" name="email" required />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            required
-          />
-          <a href="#">Forgot your password?</a>
-          <button>Sign In</button>
-        </form>
-      </div>
-      <div class="overlay-container">
-        <div class="overlay">
-          <div class="overlay-panel overlay-left">
-            <h1>Welcome Back, Admin!</h1>
-            <p>To keep connected with us please login with your credential.</p>
-            <button class="ghost" id="signIn">Doctor Login</button>
-          </div>
-          <div class="overlay-panel overlay-right">
-            <h1>Hello, Doctor!</h1>
-            <p>Enter your details and start checking the information.</p>
-            <button class="ghost" id="signUp">Admin Login</button>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HMS - Login</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/Assets/favicon/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/Assets/favicon/favicon-16x16.png" />
+  <link rel="manifest" href="/Assets/favicon/site.webmanifest" />
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="form-container sign-up-container">
+      <form action="/login/admin" method="post">
+        <h1>Log In</h1>
+
+        <input type="text" placeholder="Username" name="username" required />
+        <input type="password" placeholder="Password" name="password" required />
+        <a href="#">Forgot your password?</a>
+        <button>Login</button>
+      </form>
+    </div>
+    <div class="form-container sign-in-container">
+      <form action="/login/doctor" method="post">
+        <h1>Sign in</h1>
+        <input type="email" placeholder="Email" name="email" required />
+        <input type="password" placeholder="Password" name="password" required />
+        <a href="#">Forgot your password?</a>
+        <button>Sign In</button>
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back, Admin!</h1>
+          <p>To keep connected with us please login with your credential.</p>
+          <button class="ghost" id="signIn">Doctor Login</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Doctor!</h1>
+          <p>Enter your details and start checking the information.</p>
+          <button class="ghost" id="signUp">Admin Login</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="js/login.js"></script>
-  </body>
+
+  <script src="js/login.js"></script>
+</body>
+
 </html>

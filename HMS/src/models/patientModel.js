@@ -4,12 +4,14 @@ const LabReport = require("./labModel"); // Import the LabReport model
 const patientSchema = new mongoose.Schema({
     patient_id: {
         type: String,
+        unique: true
     },
     name: {
         type: String,
     },
     email: {
         type: String,
+        unique: true
     },
     dob: {
         type: Date,
@@ -51,6 +53,10 @@ const patientSchema = new mongoose.Schema({
     created_at: {
         type: Date,
         default: Date.now,
+    },
+    is_discharged: {
+        type: Boolean,
+        default: 0,
     }
 });
 

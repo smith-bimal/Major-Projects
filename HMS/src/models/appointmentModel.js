@@ -6,9 +6,11 @@ const appointmentSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true
     },
     contact: {
         type: String,
+        unique: true
     },
     dob: {
         type: Date,

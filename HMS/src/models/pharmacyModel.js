@@ -15,6 +15,7 @@ const pharmacySchema = new mongoose.Schema({
     },
     barcode_number: {
         type: String,
+        unique: true
     },
     description: {
         type: String,

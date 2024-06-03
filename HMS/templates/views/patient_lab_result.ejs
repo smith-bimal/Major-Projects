@@ -30,21 +30,26 @@
               </tr>
             </thead>
             <tbody>
+              <% let count =1; %>
               <% for (lab of labs) { %>
+              <% for( patient of patients) { %>
+              <% if (lab.name == patient.name) { %>
               <tr>
-                <td><%= labs.indexOf(lab) + 1 %></td>
+                <td><%= count; %></td>
                 <td><%= lab.name; %></td>
                 <td><%= lab.patient_id; %></td>
                 <td><%= lab.ailment; %></td>
-                <% if(lab.result_date != ''){ %>
-                <td><%= lab.result_date.toDateString(); %></td>
+                <% if(lab.result_date == undefined || lab.result_date == null){ %>
+                <td>----</td>
                 <% }else{%>
-                <td><%= lab.result_date %></td>
+                <td><%= lab.result_date.toDateString(); %></td>
                 <%} %>
                 <td>
                   <a href="/<%= userType %>/lab/results/<%= lab.id%>" class="text-decoration-none">Add Result</a>
                 </td>
               </tr>
+              <% count ++;} %>
+              <% } %>
               <% } %>
             </tbody>
           </table>

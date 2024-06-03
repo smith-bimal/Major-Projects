@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const labSchema = new mongoose.Schema({
     patient_id: {
         type: String,
+        unique: true
     },
     name: {
         type: String,
@@ -21,7 +22,6 @@ const labSchema = new mongoose.Schema({
     },
     result_date: {
         type: Date,
-        default: Date.now(),
     },
     heart_rate: {
         type: Number,

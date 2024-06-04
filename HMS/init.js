@@ -440,7 +440,7 @@ const Pharmacy = new mongoose.model("Pharmacy", pharmacySchema);
 //Admin data
 const adminData = [
     {
-        name: "Admin",
+        name: "System Admin",
         email: "admin@example.com",
         username: "admin",
         password: "admin"

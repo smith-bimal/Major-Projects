@@ -16,13 +16,20 @@
 
         <img src="/Assets/pngwing.com.png" />
 
+        <% if (admin) { %>
         <div class="username">
-          <h3>Username</h3>
+          <h3><%= admin.name %></h3>
           <p>Admin</p>
+          <% } else { %>
+
+          <div class="username">
+            <h3>Username</h3>
+            <p>Admin</p>
+            <% } %>
+          </div>
+          <i class="fa-solid fa-caret-down"></i>
         </div>
-        <i class="fa-solid fa-caret-down"></i>
       </div>
-    </div>
   </header>
 </section>
 

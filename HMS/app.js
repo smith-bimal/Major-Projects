@@ -119,13 +119,15 @@ app.route("/admin/dashboard")
         const employees = await Employee.find({});
         const doctors = await Doctor.find({});
         const activeDoctors = await Doctor.find({ status: "Online" });
-        res.render("admin", { employees, patients, ongoingPatients, appointments, doctors, activeDoctors, pharmacies, userType });
+        const admin = await fetchAdminDetails(req.user.email);
+        res.render("admin", { admin, employees, patients, ongoingPatients, appointments, doctors, activeDoctors, pharmacies, userType });
     });
 
 app.route("/admin/appointment/create").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const doctors = await Doctor.find({});
-    res.render("create_app", { doctors, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("create_app", { admin, doctors, userType });
 }).post(isAdminOrDoctor, async (req, res) => {
     const newAppoint = new Appointment(req.body);
 
@@ -140,14 +142,16 @@ app.route("/admin/appointment/create").get(isAdminOrDoctor, async (req, res) => 
 app.get("/admin/appointment/manage", isAdminOrDoctor, async (req, res) => {
     const appointments = await Appointment.find({});
     const userType = req.session.userType;
-    res.render("manage_app", { appointments, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("manage_app", { admin, appointments, userType });
 });
 
 app.route("/admin/appointment/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let doctors = await Doctor.find({});
     let app = await Appointment.findById(req.params.id);
-    res.render("update_app", { app, doctors, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("update_app", { admin, app, doctors, userType });
 }).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedAppointment = await Appointment.findByIdAndUpdate(
@@ -189,9 +193,10 @@ app.route("/admin/appointment/manage/:id").get(isAdminOrDoctor, async (req, res)
     }
 });
 
-app.route("/admin/pharmacy/add").get(isAdminOrDoctor, (req, res) => {
+app.route("/admin/pharmacy/add").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
-    res.render("add_pharma", { userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("add_pharma", { admin, userType });
 }).post(isAdminOrDoctor, async (req, res) => {
     const newPharmacy = new Pharmacy(req.body);
     try {
@@ -205,13 +210,15 @@ app.route("/admin/pharmacy/add").get(isAdminOrDoctor, (req, res) => {
 app.get("/admin/pharmacy/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const pharmacies = await Pharmacy.find({});
-    res.render("manage_pharma", { pharmacies, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("manage_pharma", { admin, pharmacies, userType });
 });
 
 app.route("/admin/pharmacy/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let pharma = await Pharmacy.findById(req.params.id);
-    res.render("update_pharma", { pharma, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("update_pharma", { admin, pharma, userType });
 }).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedPharmacy = await Pharmacy.findByIdAndUpdate(
@@ -249,14 +256,16 @@ app.route("/admin/pharmacy/manage/:id").get(isAdminOrDoctor, async (req, res) =>
 app.get("/admin/prescription/add", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
-    res.render("add_presc", { patients, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("add_presc", { admin, patients, userType });
 });
 
 app.route("/admin/prescription/add/:id")
     .get(isAdminOrDoctor, async (req, res) => {
         const userType = req.session.userType;
         const patient = await Patient.findOne({ patient_id: req.params.id });
-        res.render("add_new_presc", { patient, userType });
+        const admin = await fetchAdminDetails(req.user.email);
+        res.render("add_new_presc", { admin, patient, userType });
     })
     .post(isAdminOrDoctor, async (req, res) => {
         const newPrescription = new Prescription(req.body);
@@ -273,27 +282,31 @@ app.get("/admin/prescription/q", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const prescriptions = await Prescription.find({});
     const patients = await Patient.find({});
-    res.render("view_presc", { patients, prescriptions, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("view_presc", { admin, patients, prescriptions, userType });
 });
 
 app.get("/admin/prescription/q/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let patient = await Patient.findOne({ patient_id: req.params.id });
     let presc = await Prescription.findOne({ patient_id: req.params.id });
-    res.render("prescription", { patient, presc, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("prescription", { admin, patient, presc, userType });
 });
 
 app.get("/admin/prescription/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let prescriptions = await Prescription.find({});
     let patients = await Patient.find({});
-    res.render("manage_presc", { patients, prescriptions, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("manage_presc", { admin, patients, prescriptions, userType });
 });
 
 app.route("/admin/prescription/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
+    const admin = await fetchAdminDetails(req.user.email);
     let presc = await Prescription.findById(req.params.id);
-    res.render("update_presc", { presc, userType });
+    res.render("update_presc", { admin, presc, userType });
 }).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedPrescription = await Prescription.findByIdAndUpdate(
@@ -331,14 +344,16 @@ app.route("/admin/prescription/manage/:id").get(isAdminOrDoctor, async (req, res
 app.get("/admin/lab/tests", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("patient_lab_test", { patients, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("patient_lab_test", { admin, patients, userType });
 })
 
 app.route("/admin/lab/tests/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findOne({ patient_id: req.params.id });
     const lab = await LabReport.findOne({ patient_id: req.params.id });
-    res.render("add_lab_test", { patient, lab, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("add_lab_test", { admin, patient, lab, userType });
 }).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedVitals = await LabReport.findOneAndUpdate(
@@ -365,14 +380,16 @@ app.route("/admin/lab/tests/:id").get(isAdminOrDoctor, async (req, res) => {
 app.get("/admin/lab/results", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const labs = await LabReport.find({});
+    const admin = await fetchAdminDetails(req.user.email);
     const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("patient_lab_result", { patients, labs, userType });
+    res.render("patient_lab_result", { admin, patients, labs, userType });
 })
 
 app.route("/admin/lab/results/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const lab = await LabReport.findById(req.params.id);
-    res.render("add_lab_result", { lab, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("add_lab_result", { admin, lab, userType });
 }).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedLabResult = await LabReport.findByIdAndUpdate(
@@ -397,14 +414,16 @@ app.route("/admin/lab/results/:id").get(isAdminOrDoctor, async (req, res) => {
 app.get("/admin/patient/vitals", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const labs = await LabReport.find({});
+    const admin = await fetchAdminDetails(req.user.email);
     const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("patient_vitals", { patients, labs, userType });
+    res.render("patient_vitals", { admin, patients, labs, userType });
 });
 
 app.route("/admin/patient/vitals/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const lab = await LabReport.findById(req.params.id);
-    res.render("add_patient_vitals", { lab, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("add_patient_vitals", { admin, lab, userType });
 }).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedLabTest = await LabReport.findByIdAndUpdate(
@@ -432,26 +451,30 @@ app.route("/admin/patient/vitals/:id").get(isAdminOrDoctor, async (req, res) => 
 app.get("/admin/lab/reports", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const labs = await LabReport.find({});
+    const admin = await fetchAdminDetails(req.user.email);
     const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("lab_reports", { patients, labs, userType });
+    res.render("lab_reports", { admin, patients, labs, userType });
 });
 
 app.get("/admin/lab/reports/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let lab = await LabReport.findOne({ patient_id: req.params.id });
     let patient = await Patient.findOne({ patient_id: req.params.id });
-    res.render("view_lab_report", { lab, patient, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("view_lab_report", { admin, lab, patient, userType });
 });
 
-app.get("/admin/doctor/add", isAdminOrDoctor, (req, res) => {
+app.get("/admin/doctor/add", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
-    res.render("add_doctor", { userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("add_doctor", { admin, userType });
 });
 
 app.route("/admin/doctor/q").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const doctors = await Doctor.find({});
-    res.render("view_doctor", { doctors, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("view_doctor", { admin, doctors, userType });
 }).post(isAdminOrDoctor, async (req, res) => {
     const { full_name,
         email, contact_number, dob, gender, address, pincode, doc_id, specialty, qualification, experience, username, password, notes, pic } = req.body;
@@ -491,27 +514,24 @@ app.route("/admin/doctor/q").get(isAdminOrDoctor, async (req, res) => {
 app.get("/admin/doctor/q/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let doctor = await Doctor.findById(req.params.id);
-    res.render("doctor_profile", { doctor, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("doctor_profile", { admin, doctor, userType });
 });
 
 app.get("/admin/doctor/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const doctors = await Doctor.find({});
-    res.render("manage_doctor", { doctors, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("manage_doctor", { admin, doctors, userType });
 });
 
 app.route("/admin/doctor/manage/:id")
     .get(isAdminOrDoctor, async (req, res) => {
-        try {
-            const doctor = await Doctor.findById(req.params.id);
-            if (!doctor) {
-                return res.status(404).send('Doctor not found');
-            }
-            res.render("update_doctor", { doctor, userType: req.session.userType });
-        } catch (error) {
-            console.error("Error fetching doctor:", error);
-            res.status(500).send('Internal Server Error');
-        }
+        const userType = req.session.userType;
+        const doctor = await Doctor.findById(req.params.id);
+        const admin = await fetchAdminDetails(req.user.email);
+        res.render("update_doctor", { admin, doctor, userType });
+
     })
     .patch(isAdminOrDoctor, async (req, res) => {
         try {
@@ -560,9 +580,10 @@ app.route("/admin/doctor/manage/:id")
         }
     });
 
-app.route("/admin/patient/register").get(isAdminOrDoctor, (req, res) => {
+app.route("/admin/patient/register").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
-    res.render("register_patient", { userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("register_patient", { admin, userType });
 }).post(isAdminOrDoctor, async (req, res) => {
     const newPatient = new Patient(req.body);
     try {
@@ -576,27 +597,31 @@ app.route("/admin/patient/register").get(isAdminOrDoctor, (req, res) => {
 app.get("/admin/patient/q", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
-    res.render("view_patient", { patients, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("view_patient", { admin, patients, userType });
 });
 
 app.get("/admin/patient/q/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findOne({ patient_id: req.params.id });
     const lab = await LabReport.findOne({ patient_id: req.params.id });
-    res.render("patient_profile", { patient, lab, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("patient_profile", { admin, patient, lab, userType });
 });
 
 app.get("/admin/patient/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
-    res.render("manage_patient", { patients, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("manage_patient", { admin, patients, userType });
 });
 
 app.route("/admin/patient/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findById(req.params.id);
     const doctors = await Doctor.find({});
-    res.render("update_patient", { patient, doctors, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("update_patient", { admin, patient, doctors, userType });
 }).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedPatient = await Patient.findByIdAndUpdate(
@@ -644,13 +669,15 @@ app.route("/admin/patient/manage/:id").get(isAdminOrDoctor, async (req, res) => 
 app.get("/admin/patient/discharge", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
-    res.render("discharge_patient", { patients, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("discharge_patient", { admin, patients, userType });
 });
 
 app.route("/admin/patient/discharge/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
+    const admin = await fetchAdminDetails(req.user.email);
     const patient = await Patient.findOne({ patient_id: req.params.id });
-    res.render("discharge_form", { patient, userType });
+    res.render("discharge_form", { admin, patient, userType });
 }).post(isAdminOrDoctor, async (req, res) => {
     const newDischarge = new Discharge(req.body);
     try {
@@ -670,9 +697,10 @@ app.route("/admin/patient/discharge/:id").get(isAdminOrDoctor, async (req, res) 
     }
 });
 
-app.route("/admin/employee/add").get(isAdminOrDoctor, (req, res) => {
+app.route("/admin/employee/add").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
-    res.render("add_employee", { userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("add_employee", { admin, userType });
 }).post(isAdminOrDoctor, async (req, res) => {
     const newEmployee = new Employee(req.body);
     try {
@@ -686,25 +714,29 @@ app.route("/admin/employee/add").get(isAdminOrDoctor, (req, res) => {
 app.get("/admin/employee/q", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
-    res.render("view_employee", { employees, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("view_employee", { admin, employees, userType });
 });
 
 app.get("/admin/employee/q/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
+    const admin = await fetchAdminDetails(req.user.email);
     const employee = await Employee.findById(req.params.id);
-    res.render("employee_profile", { employee, userType });
+    res.render("employee_profile", { admin, employee, userType });
 });
 
 app.get("/admin/employee/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
-    res.render("manage_employee", { employees, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("manage_employee", { admin, employees, userType });
 });
 
 app.route("/admin/employee/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employee = await Employee.findById(req.params.id);
-    res.render("update_employee", { employee, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("update_employee", { admin, employee, userType });
 }).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedEmployee = await Employee.findByIdAndUpdate(
@@ -751,21 +783,24 @@ app.route("/admin/employee/manage/:id").get(isAdminOrDoctor, async (req, res) =>
 app.get("/admin/records/appointment", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const appointments = await Appointment.find({});
-    res.render("appointment_records", { appointments, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("appointment_records", { admin, appointments, userType });
 });
 
 app.get("/admin/records/appointment/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let app = await Appointment.findById(req.params.id);
     let doctorName = app.app_doc;
+    const admin = await fetchAdminDetails(req.user.email);
     let doc = await Doctor.findOne({ full_name: doctorName });
-    res.render("appointment", { app, doc, userType });
+    res.render("appointment", { admin, app, doc, userType });
 });
 
 app.get("/admin/records/patient", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
-    res.render("patient_records", { patients, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("patient_records", { admin, patients, userType });
 });
 
 app.get("/admin/records/patient/:id", isAdminOrDoctor, async (req, res) => {
@@ -775,19 +810,22 @@ app.get("/admin/records/patient/:id", isAdminOrDoctor, async (req, res) => {
     let doc = await Doctor.findOne({ full_name: doctorName });
     let lab = await LabReport.findOne({ patient_id: req.params.id });
     let discharge = await Discharge.findOne({ patient_id: req.params.id });
-    res.render("patient_final_record", { patient, doc, lab, discharge, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("patient_final_record", { admin, patient, doc, lab, discharge, userType });
 });
 
 app.get("/admin/payroll/add", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
-    res.render("add_payroll", { employees, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("add_payroll", { admin, employees, userType });
 });
 
 app.route("/admin/payroll/add/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const emp = await Employee.findById(req.params.id);
-    res.render("add_new_payroll", { emp, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("add_new_payroll", { admin, emp, userType });
 }).post(isAdminOrDoctor, async (req, res) => {
     const newPayroll = new Payroll(req.body);
     try {
@@ -801,13 +839,15 @@ app.route("/admin/payroll/add/:id").get(isAdminOrDoctor, async (req, res) => {
 app.get("/admin/payroll/manage", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const payrolls = await Payroll.find({});
-    res.render("manage_payroll", { payrolls, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("manage_payroll", { admin, payrolls, userType });
 });
 
 app.route("/admin/payroll/manage/:id").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     let payroll = await Payroll.findById(req.params.id);
-    res.render("update_payroll", { payroll, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("update_payroll", { admin, payroll, userType });
 }).patch(isAdminOrDoctor, async (req, res) => {
     try {
         const updatedPayroll = await Payroll.findByIdAndUpdate(
@@ -845,28 +885,23 @@ app.route("/admin/payroll/manage/:id").get(isAdminOrDoctor, async (req, res) => 
 app.get("/admin/payroll/generate", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employees = await Payroll.find({});
-    res.render("generate_payroll", { employees, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("generate_payroll", { admin, employees, userType });
 });
 
 app.get("/admin/payroll/generate/:id", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const payroll = await Payroll.findById(req.params.id);
-    res.render("employee_payslip", { payroll, userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("employee_payslip", { admin, payroll, userType });
 });
 
-app.get("/admin/survey", isAdminOrDoctor, (req, res) => {
+app.get("/admin/survey", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
-    res.render("survey", { userType });
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("survey", { admin, userType });
 });
 // admin section end -------------------------------------------
-
-
-
-//Function to fetch logged in doctor information
-async function fetchDoctorDetails(userEmail) {
-    const doctor = await Doctor.findOne({ email: userEmail });
-    return doctor;
-};
 
 
 // doctor section start -----------------------------------------
@@ -1550,3 +1585,18 @@ async function isAuthenticated(req, res, next) {
         res.redirect('/login'); // User is not authenticated
     }
 }
+
+
+
+//Function to fetch logged in doctor information
+async function fetchDoctorDetails(userEmail) {
+    const doctor = await Doctor.findOne({ email: userEmail });
+    return doctor;
+};
+
+//Function to fetch logged in doctor information
+async function fetchAdminDetails(adminEmail) {
+    const admin = await Admin.findOne({ email: adminEmail });
+    return admin;
+};
+

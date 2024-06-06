@@ -7,7 +7,7 @@
 
   <section class="main">
     <!-- Update Doctor content -->
-    <form action="/admin/doctor/manage/<%= doctor.id %>?_method=PATCH" method="post" id="update_doc_form">
+    <form action="/admin/doctor/manage/<%= doctor.id %>?_method=PATCH" method="post" id="update_doc_form" enctype="multipart/form-data">
       <div class="container-fluid p-3 bg-white rounded-2">
         <h2 class="mt-2">Update Doctor Details</h2>
 
@@ -112,7 +112,7 @@
             <div class="col-lg-6 m-0">
               <label for="update_doc_pwd">Password</label><br />
 
-              <input type="password" minlength="8" class="form-control rounded-4" id="update_doc_pwd" placeholder="New password" value="<%= doctor.password %>" name="password">
+              <input type="password" minlength="8" class="form-control rounded-4" id="update_doc_pwd" placeholder="New password" name="password">
             </div>
           </div>
 
@@ -127,7 +127,7 @@
             <div class="col-lg-6 m-0">
               <label for="update_doc_pic">Profile Picture</label><br />
 
-              <input type="file" class="form-control rounded-4" id="update_doc_pic" name="pic">
+              <input type="file" class="form-control rounded-4" id="update_doc_pic" name="avatar">
             </div>
           </div>
 

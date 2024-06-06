@@ -12,14 +12,14 @@
   <section class="main">
     <!-- Add Doctor content -->
     <div class="doc-account-content">
-      <form action="/doctor/profile?_method=PATCH" method="post" id="doc_acc_profile">
+      <form action="/doctor/profile?_method=PATCH" method="post" id="doc_acc_profile" enctype="multipart/form-data">
         <div class="container-fluid p-5 bg-white rounded-2">
           <h2>Update Profile</h2>
           <p class="text-secondary">Fill the form below to update profile.</p>
 
           <div class="doc-acc-container d-lg-flex">
             <div class="acc-img-container pe-lg-5 mt-lg-5">
-              <img src="" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
+              <img src="/uploads/<%= doctor.avatar %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
             </div>
             <div class="flex-grow-1">
               <div class="row mt-4 ">
@@ -74,7 +74,7 @@
                 <div class="col-lg-6 m-0">
                   <label for="doc_pwd">Password</label><br />
 
-                  <input type="password" minlength="8" class="form-control rounded-4" id="doc_pwd" placeholder="Change password" value="<%= doctor.password %>" name="pwd" />
+                  <input type="password" minlength="8" class="form-control rounded-4" id="doc_pwd" placeholder="Change password" name="pwd" />
                 </div>
               </div>
 
@@ -84,7 +84,7 @@
                 <div class="m-0">
                   <label for="doc_pic">Profile Picture</label><br />
 
-                  <input type="file" class="form-control rounded-4" id="doc_pic" name="pic">
+                  <input type="file" class="form-control rounded-4" id="doc_pic" name="avatar">
                 </div>
               </div>
 

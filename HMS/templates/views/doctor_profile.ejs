@@ -15,7 +15,7 @@
         <div class="p-4">
           <div class="top-sec d-flex">
             <div class="doc-img-container d-flex justify-content-center align-items-center">
-              <img src="<%= doctor.image %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
+              <img src="/uploads/<%= doctor.avatar %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
             </div>
 
             <div class="flex-grow-1 ms-4">
@@ -66,7 +66,12 @@
               <div class="row p-4">
                 <h2>Additional notes</h2>
                 <p>
-                  <span id="doc_profile_notes" class=""><%= doctor.notes %></span>
+                  <span id="doc_profile_notes" class="">
+                    <% let arr = doctor.notes.split(".");
+                    for(item of arr){ %>
+                    <li><%= item %></li>
+                    <% } %>
+                  </span>
                 </p>
               </div>
             </div>

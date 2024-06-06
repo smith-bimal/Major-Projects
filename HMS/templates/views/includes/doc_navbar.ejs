@@ -15,7 +15,7 @@
         </div>
 
         <% if (doctor) { %>
-        <img src="<%= doctor.image %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
+        <img src="/uploads/<%= doctor.avatar %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
 
         <div class="username">
           <h3><%= doctor.full_name %></h3>

@@ -7,8 +7,26 @@ const methodOverride = require('method-override');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
 
 const config = require('./config/config');
+
+
+//Image uploading configuration
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, 'uploads'));
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+
+const upload = multer({
+    storage: storage
+}).single("avatar");
+
+
 
 //database files acquiring
 require("./src/db/conn");
@@ -28,6 +46,7 @@ const Payroll = require("./src/models/payrollModel");
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "templates/views"));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -256,8 +275,16 @@ app.route("/admin/pharmacy/manage/:id").get(isAdminOrDoctor, async (req, res) =>
 app.get("/admin/prescription/add", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
+    const prescriptions = await Prescription.find({});
+
+    // Create a set of patient IDs who already have prescriptions
+    const patientsWithPrescriptions = new Set(prescriptions.map(presc => presc.patient_id));
+
+    // Filter out patients who do not have prescriptions
+    const patientsWithoutPrescriptions = patients.filter(patient => !patientsWithPrescriptions.has(patient.patient_id));
+
     const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_presc", { admin, patients, userType });
+    res.render("add_presc", { patients: patientsWithoutPrescriptions, admin, userType });
 });
 
 app.route("/admin/prescription/add/:id")
@@ -464,20 +491,12 @@ app.get("/admin/lab/reports/:id", isAdminOrDoctor, async (req, res) => {
     res.render("view_lab_report", { admin, lab, patient, userType });
 });
 
-app.get("/admin/doctor/add", isAdminOrDoctor, async (req, res) => {
+app.route("/admin/doctor/add").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const admin = await fetchAdminDetails(req.user.email);
     res.render("add_doctor", { admin, userType });
-});
-
-app.route("/admin/doctor/q").get(isAdminOrDoctor, async (req, res) => {
-    const userType = req.session.userType;
-    const doctors = await Doctor.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("view_doctor", { admin, doctors, userType });
-}).post(isAdminOrDoctor, async (req, res) => {
-    const { full_name,
-        email, contact_number, dob, gender, address, pincode, doc_id, specialty, qualification, experience, username, password, notes, pic } = req.body;
+}).post(isAdminOrDoctor, upload, async (req, res) => {
+    const { full_name, email, contact_number, dob, gender, address, pincode, doc_id, specialty, qualification, experience, username, password, notes, avatar } = req.body;
 
     bcrypt.genSalt(10, (err, salt) => {
         if (err) return res.status(500).send("error generating salt");
@@ -498,7 +517,7 @@ app.route("/admin/doctor/q").get(isAdminOrDoctor, async (req, res) => {
                 username,
                 password: hash,
                 notes,
-                pic
+                avatar: req.file.filename
             });
 
             try {
@@ -509,6 +528,13 @@ app.route("/admin/doctor/q").get(isAdminOrDoctor, async (req, res) => {
             }
         })
     })
+});
+
+app.route("/admin/doctor/q").get(isAdminOrDoctor, async (req, res) => {
+    const userType = req.session.userType;
+    const doctors = await Doctor.find({});
+    const admin = await fetchAdminDetails(req.user.email);
+    res.render("view_doctor", { admin, doctors, userType });
 });
 
 app.get("/admin/doctor/q/:id", isAdminOrDoctor, async (req, res) => {
@@ -527,20 +553,53 @@ app.get("/admin/doctor/manage", isAdminOrDoctor, async (req, res) => {
 
 app.route("/admin/doctor/manage/:id")
     .get(isAdminOrDoctor, async (req, res) => {
-        const userType = req.session.userType;
-        const doctor = await Doctor.findById(req.params.id);
-        const admin = await fetchAdminDetails(req.user.email);
-        res.render("update_doctor", { admin, doctor, userType });
+        try {
+            const userType = req.session.userType;
+            const doctor = await Doctor.findById(req.params.id);
+            const admin = await fetchAdminDetails(req.user.email);
 
+            if (!doctor) {
+                return res.status(404).send('Doctor not found');
+            }
+
+            res.render("update_doctor", { admin, doctor, userType });
+        } catch (error) {
+            console.error("Error fetching doctor details:", error);
+            res.status(500).send('Internal Server Error');
+        }
     })
-    .patch(isAdminOrDoctor, async (req, res) => {
+    .patch(isAdminOrDoctor, upload, async (req, res) => {
         try {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-            const updatedDoctor = await Doctor.findByIdAndUpdate(
-                req.params.id,
-                {
+            // Check if a file is uploaded
+            let avatar = req.body.avatar;
+            if (req.file) {
+                avatar = req.file.filename;
+            }
+
+            let updateData = {};
+
+            if (req.body.password == "" || !req.body.password) {
+                updateData = {
+                    full_name: req.body.name,
+                    email: req.body.email,
+                    contact_number: req.body.contact,
+                    dob: req.body.dob,
+                    gender: req.body.gender,
+                    address: req.body.address,
+                    pincode: req.body.pincode,
+                    doc_id: req.body.id,
+                    specialty: req.body.spec,
+                    qualification: req.body.qual,
+                    experience: req.body.exp,
+                    username: req.body.username,
+                    notes: req.body.note,
+                    avatar: avatar,
+                }
+            } else if (avatar == "" || !avatar || !req.file) {
+                updateData = {
                     full_name: req.body.name,
                     email: req.body.email,
                     contact_number: req.body.contact,
@@ -555,8 +614,30 @@ app.route("/admin/doctor/manage/:id")
                     username: req.body.username,
                     password: hashedPassword,
                     notes: req.body.note,
-                    pic: req.body.pic,
-                },
+                }
+            } else {
+                updateData = {
+                    full_name: req.body.name,
+                    email: req.body.email,
+                    contact_number: req.body.contact,
+                    dob: req.body.dob,
+                    gender: req.body.gender,
+                    address: req.body.address,
+                    pincode: req.body.pincode,
+                    doc_id: req.body.id,
+                    specialty: req.body.spec,
+                    qualification: req.body.qual,
+                    experience: req.body.exp,
+                    username: req.body.username,
+                    password: hashedPassword,
+                    notes: req.body.note,
+                    avatar: avatar,
+                }
+            }
+
+            const updatedDoctor = await Doctor.findByIdAndUpdate(
+                req.params.id,
+                updateData,
                 { new: true, runValidators: true }
             );
 
@@ -701,8 +782,8 @@ app.route("/admin/employee/add").get(isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const admin = await fetchAdminDetails(req.user.email);
     res.render("add_employee", { admin, userType });
-}).post(isAdminOrDoctor, async (req, res) => {
-    const newEmployee = new Employee(req.body);
+}).post(isAdminOrDoctor, upload, async (req, res) => {
+    const newEmployee = new Employee({ ...req.body, avatar: req.file.filename });
     try {
         await newEmployee.save();
         res.status(201).redirect("/admin/employee/q")
@@ -737,27 +818,50 @@ app.route("/admin/employee/manage/:id").get(isAdminOrDoctor, async (req, res) =>
     const employee = await Employee.findById(req.params.id);
     const admin = await fetchAdminDetails(req.user.email);
     res.render("update_employee", { admin, employee, userType });
-}).patch(isAdminOrDoctor, async (req, res) => {
+}).patch(isAdminOrDoctor, upload, async (req, res) => {
+    let updateData = {};
+
+    if (!req.file) {
+        updateData = {
+            full_name: req.body.name,
+            email: req.body.email,
+            contact_number: req.body.contact,
+            date_of_birth: req.body.dob,
+            gender: req.body.gender,
+            age: req.body.age,
+            address: req.body.address,
+            pincode: req.body.pincode,
+            employee_id: req.body.id,
+            department: req.body.dept,
+            position: req.body.position,
+            qualification: req.body.qual,
+            experience: req.body.exp,
+            notes: req.body.notes
+        }
+    } else {
+        updateData = {
+            full_name: req.body.name,
+            email: req.body.email,
+            contact_number: req.body.contact,
+            date_of_birth: req.body.dob,
+            gender: req.body.gender,
+            age: req.body.age,
+            address: req.body.address,
+            pincode: req.body.pincode,
+            employee_id: req.body.id,
+            department: req.body.dept,
+            position: req.body.position,
+            qualification: req.body.qual,
+            experience: req.body.exp,
+            notes: req.body.notes,
+            avatar: req.file.filename
+        }
+    }
+
     try {
         const updatedEmployee = await Employee.findByIdAndUpdate(
             req.params.id,
-            {
-                full_name: req.body.name,
-                email: req.body.email,
-                contact_number: req.body.contact,
-                date_of_birth: req.body.dob,
-                gender: req.body.gender,
-                age: req.body.age,
-                address: req.body.address,
-                pincode: req.body.pincode,
-                employee_id: req.body.id,
-                department: req.body.dept,
-                position: req.body.position,
-                qualification: req.body.qual,
-                experience: req.body.exp,
-                notes: req.body.notes,
-                pic: req.body.pic
-            },
+            updateData,
             { new: true, runValidators: true }
         );
 
@@ -817,8 +921,16 @@ app.get("/admin/records/patient/:id", isAdminOrDoctor, async (req, res) => {
 app.get("/admin/payroll/add", isAdminOrDoctor, async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
+    const payrolls = await Payroll.find({});
     const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_payroll", { admin, employees, userType });
+
+    // Create a Set of employee IDs that have salaries
+    const employeeWithSalaries = new Set(payrolls.filter(p => p.salary !== '').map(p => p.employee_id));
+
+    // Filter employees that do not have a salary assigned
+    const employeesWithoutSalaries = employees.filter(e => !employeeWithSalaries.has(e.employee_id));
+
+    res.render("add_payroll", { admin, payrolls, employees: employeesWithoutSalaries, userType });
 });
 
 app.route("/admin/payroll/add/:id").get(isAdminOrDoctor, async (req, res) => {
@@ -997,7 +1109,8 @@ app.get("/doctor/prescription/add", isAdminOrDoctor, isAuthenticated, async (req
     const userEmail = req.user.email;
     const doctor = await fetchDoctorDetails(userEmail);
     const patients = await Patient.find({});
-    res.render("add_presc", { patients, userType, doctor });
+    const prescriptions = await Prescription.find({});
+    res.render("add_presc", { prescriptions, patients, userType, doctor });
 });
 
 app.route("/doctor/prescription/add/:id").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
@@ -1445,41 +1558,50 @@ app.get("/doctor/survey", isAdminOrDoctor, isAuthenticated, async (req, res) => 
     res.render("survey", { userType, doctor });
 });
 
-app.route("/doctor/profile").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
-    const userType = req.session.userType;
-    const userEmail = req.user.email;
-    const doctor = await fetchDoctorDetails(userEmail);
-    res.render("doc_profile_acc", { doctor, userType });
-}).patch(isAdminOrDoctor, isAuthenticated, async (req, res) => {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.pwd, salt);
+app.route("/doctor/profile")
+    .get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
+        const userType = req.session.userType;
+        const userEmail = req.user.email;
+        const doctor = await fetchDoctorDetails(userEmail);
+        res.render("doc_profile_acc", { doctor, userType });
+    })
+    .patch(isAdminOrDoctor, isAuthenticated, upload, async (req, res) => {
+        let updateData = {
+            bio: req.body.bio,
+            contact_number: req.body.contact,
+            address: req.body.address,
+            pincode: req.body.pincode,
+            username: req.body.username
+        };
 
-        const updatedDoctor = await Doctor.findOneAndUpdate(
-            { email: req.user.email },
-            {
-                bio: req.body.bio,
-                contact_number: req.body.contact,
-                address: req.body.address,
-                pincode: req.body.pincode,
-                username: req.body.username,
-                password: hashedPassword,
-                pic: req.body.pic,
-            },
-            { new: true, runValidators: true }
-        );
+        try {
+            if (req.body.pwd && req.body.pwd.trim() !== "") {
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await bcrypt.hash(req.body.pwd, salt);
+                updateData.password = hashedPassword;
+            }
 
-        if (!updatedDoctor) {
-            return res.status(404).send('Doctor not found');
+            if (req.file) {
+                updateData.avatar = req.file.filename;
+            }
+
+            const updatedDoctor = await Doctor.findOneAndUpdate(
+                { email: req.user.email },
+                updateData,
+                { new: true, runValidators: true }
+            );
+
+            if (!updatedDoctor) {
+                return res.status(404).send('Doctor not found');
+            }
+
+            res.redirect("/doctor/profile");
+        } catch (error) {
+            console.error("Error updating doctor:", error);
+            res.status(500).send('Internal Server Error');
         }
+    });
 
-        res.redirect("/doctor/profile");
-    } catch (error) {
-        console.error("Error updating doctor:", error);
-        res.status(500).send('Internal Server Error');
-    }
-
-})
 
 // doctor section end ------------------------------------------
 

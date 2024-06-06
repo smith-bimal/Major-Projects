@@ -54,7 +54,7 @@ const doctorSchema = new mongoose.Schema({
         type: String,
         default: "No Bio"
     },
-    pic: {
+    avatar: {
         type: String,
         default: "default.png"
     }

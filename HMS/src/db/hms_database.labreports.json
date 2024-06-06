@@ -1,0 +1,182 @@
+[{
+  "_id": {
+    "$oid": "665f1d35035b109914313bb1"
+  },
+  "patient_id": "PA-39-9940859",
+  "name": "Amit Kumar",
+  "ailment": "insomnia",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Polysomnography (Sleep Study),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Actigraphy,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Blood Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Urine Tests</li></ol>",
+  "heart_rate": 73,
+  "blood_pressure": "120/80",
+  "temperature": 98.6,
+  "resp_rate": 16,
+  "oxygen_sat": 98,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bb2"
+  },
+  "patient_id": "PA-82-7040026",
+  "name": "Sita Sharma",
+  "ailment": "fatigue",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Thyroid Function Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Blood Glucose Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Electrolyte Panel</li></ol>",
+  "heart_rate": 78,
+  "blood_pressure": "115/75",
+  "temperature": 98.4,
+  "resp_rate": 18,
+  "oxygen_sat": 97,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bb3"
+  },
+  "patient_id": "PA-51-5583244",
+  "name": "Ravi Verma",
+  "ailment": "allergies",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Allergy Skin Tests</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>IgE Antibody Blood Test</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC)</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Nasal Smear</li></ol>",
+  "lab_results": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Positive for pollen and dust mites</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Elevated IgE levels</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Normal</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Eosinophils present</li></ol>",
+  "heart_rate": 76,
+  "blood_pressure": "118/78",
+  "temperature": 98.6,
+  "resp_rate": 16,
+  "oxygen_sat": 98,
+  "__v": 0,
+  "result_date": {
+    "$date": "2024-05-09T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bb4"
+  },
+  "patient_id": "PA-30-0417402",
+  "name": "Lakshmi Nair",
+  "ailment": "sore throat",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Throat Swab Culture,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Rapid Strep Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Monospot Test</li></ol>",
+  "lab_results": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Streptococcus pyogenes detected</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Positive</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Elevated white blood cells</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Negative</li></ol>",
+  "heart_rate": 82,
+  "blood_pressure": "122/80",
+  "temperature": 99.1,
+  "resp_rate": 18,
+  "oxygen_sat": 96,
+  "__v": 0,
+  "result_date": {
+    "$date": "2024-04-14T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bb5"
+  },
+  "patient_id": "PA-95-0067684",
+  "name": "Ramesh Gupta",
+  "ailment": "allergies",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Allergy Skin Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>IgE Antibody Blood Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Nasal Smear</li></ol>",
+  "lab_results": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Positive for pollen and dust mites</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Elevated IgE levels</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Normal</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Eosinophils present</li></ol>",
+  "heart_rate": 75,
+  "blood_pressure": "120/80",
+  "temperature": 98.6,
+  "resp_rate": 16,
+  "oxygen_sat": 98,
+  "__v": 0,
+  "result_date": {
+    "$date": "2024-05-22T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bb6"
+  },
+  "patient_id": "PA-04-7961598",
+  "name": "Anita Singh",
+  "ailment": "allergies",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Allergy Skin Tests,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>IgE Antibody Blood Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Nasal Smear</li></ol>",
+  "lab_results": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Positive for pollen and dust mites</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Elevated IgE levels</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Normal</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Eosinophils present</li></ol>",
+  "heart_rate": 74,
+  "blood_pressure": "118/78",
+  "temperature": 98.5,
+  "resp_rate": 16,
+  "oxygen_sat": 98,
+  "__v": 0,
+  "result_date": {
+    "$date": "2024-05-19T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bb7"
+  },
+  "patient_id": "PA-83-4918209",
+  "name": "Kavita Joshi",
+  "ailment": "headache",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Magnetic Resonance Imaging (MRI),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Computed Tomography (CT) Scan,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Blood Tests,</li><li data-list=\"ordered\"><<span class=\"ql-ui\" contenteditable=\"false\"></span>Eye Exam</li></ol>",
+  "lab_results": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>No abnormalities detected</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>No abnormalities detected</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Normal</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Normal</li></ol>",
+  "heart_rate": 80,
+  "blood_pressure": "120/80",
+  "temperature": 98.6,
+  "resp_rate": 16,
+  "oxygen_sat": 98,
+  "__v": 0,
+  "result_date": {
+    "$date": "2024-05-12T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bb8"
+  },
+  "patient_id": "PA-28-8523048",
+  "name": "Manoj Patel",
+  "ailment": "sore throat",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Throat Swab Culture,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Rapid Strep Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Monospot Test</li></ol>",
+  "lab_results": "<p>Streptococcus pyogenes detected</p><p>Positive</p><p>Elevated white blood cells</p><p>Negative</p>",
+  "heart_rate": 85,
+  "blood_pressure": "122/82",
+  "temperature": 99,
+  "resp_rate": 18,
+  "oxygen_sat": 96,
+  "__v": 0,
+  "result_date": {
+    "$date": "2024-05-28T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bb9"
+  },
+  "patient_id": "PA-55-7237124",
+  "name": "Bharat Desai",
+  "ailment": "fever",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Blood Culture,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Urinalysis,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Chest X-Ray</li></ol>",
+  "lab_results": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Elevated white blood cells</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>No growth</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Normal</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Normal</li></ol>",
+  "heart_rate": 90,
+  "blood_pressure": "118/76",
+  "temperature": 100.4,
+  "resp_rate": 20,
+  "oxygen_sat": 95,
+  "__v": 0,
+  "result_date": {
+    "$date": "2024-05-17T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bba"
+  },
+  "patient_id": "PA-77-9181409",
+  "name": "Geeta Mehta",
+  "ailment": "sore throat",
+  "lab_tests": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Throat Swab Culture,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Rapid Strep Test,</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Complete Blood Count (CBC),</li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Monospot Test</li></ol>",
+  "lab_results": "<p>Streptococcus pyogenes detected</p><p>Positive</p><p>Elevated white blood cells</p><p>Negative</p>",
+  "heart_rate": 84,
+  "blood_pressure": "120/80",
+  "temperature": 99.2,
+  "resp_rate": 18,
+  "oxygen_sat": 96,
+  "__v": 0,
+  "result_date": {
+    "$date": "2024-05-20T00:00:00.000Z"
+  }
+}]

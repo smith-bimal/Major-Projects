@@ -48,7 +48,7 @@ const empSchema = new mongoose.Schema({
     notes: {
         type: String,
     },
-    pic: {
+    avatar: {
         type: String,
         default: "default.jpg",
     }

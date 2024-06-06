@@ -1,0 +1,96 @@
+[{
+  "_id": {
+    "$oid": "665f1d35035b109914313bd0"
+  },
+  "name": "Cefixime",
+  "quantity": 180,
+  "category": "Antibiotics",
+  "vendor": "PharmaGlobe",
+  "barcode_number": "8909876543210",
+  "description": "<p>Cefixime is a third-generation cephalosporin antibiotic used to treat a wide variety of bacterial infections. It works by stopping the growth of bacteria and is commonly prescribed for respiratory tract infections, urinary tract infections, and gonorrhea. PharmaGlobe ensures the highest quality standards in the production of Cefixime, making it a trusted choice for healthcare providers.</p>",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bd1"
+  },
+  "name": "Paracetamol",
+  "quantity": 150,
+  "category": "Analgesics",
+  "vendor": "MedVista Pharmaceuticals",
+  "barcode_number": "8904567890123",
+  "description": "<p>Paracetamol, also known as acetaminophen, is an over-the-counter medication widely used to relieve pain and reduce fever. It is commonly used to treat headaches, muscle aches, arthritis, backaches, toothaches, colds, and fevers. MedVista Pharmaceuticals produces Paracetamol with a commitment to quality and safety, ensuring effective relief for patients.</p>",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bd2"
+  },
+  "name": "Levothyroxine",
+  "quantity": 200,
+  "category": "Hormonal medications",
+  "vendor": "Apex Pharma Solutions",
+  "barcode_number": "8903210987654",
+  "description": "<p>Levothyroxine is a synthetic thyroid hormone used to treat hypothyroidism, a condition where the thyroid gland does not produce enough thyroid hormone. It helps restore normal thyroid levels and supports metabolic functions. Apex Pharma Solutions provides Levothyroxine with precise formulation to ensure consistent and reliable hormone replacement therapy.</p>",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bd3"
+  },
+  "name": "BCG Vaccine",
+  "quantity": 190,
+  "category": "Vaccines",
+  "vendor": "PharmaGlobe",
+  "barcode_number": "8909876543201",
+  "description": "<p> The Bacillus Calmette-Guérin (BCG) vaccine is primarily used to prevent tuberculosis (TB) in children. It is also used as an immunotherapy agent for bladder cancer. PharmaGlobe's BCG Vaccine is produced under stringent conditions to maintain its efficacy and safety, making it a vital tool in public health.</p>",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bd4"
+  },
+  "name": "Azithromycin",
+  "quantity": 170,
+  "category": "Antibiotics",
+  "vendor": "PharmaSolutions",
+  "barcode_number": "8906543210987",
+  "description": "<p>Azithromycin is a broad-spectrum antibiotic used to treat various bacterial infections, including respiratory infections, skin infections, ear infections, and sexually transmitted diseases. It is known for its once-daily dosing and short treatment courses. PharmaSolutions ensures that their Azithromycin is of the highest quality, providing effective treatment options for patients.</p>",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bd5"
+  },
+  "name": "Ibuprofen",
+  "quantity": 130,
+  "category": "Analgesics",
+  "vendor": "PharmaSolutions",
+  "barcode_number": "8900987654321",
+  "description": "<p>Ibuprofen is a nonsteroidal anti-inflammatory drug (NSAID) used to reduce fever, pain, and inflammation. It is commonly used for headaches, toothaches, menstrual cramps, muscle aches, and arthritis. PharmaSolutions produces Ibuprofen with rigorous quality control to ensure effective and safe pain relief for patients.</p>",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bd6"
+  },
+  "name": "Insulin Glargine",
+  "quantity": 160,
+  "category": "Hormonal medications",
+  "vendor": "PharmaSolutions",
+  "barcode_number": "8905678901234",
+  "description": "<p>Insulin Glargine is a long-acting insulin used to control blood sugar levels in people with diabetes mellitus. It helps manage blood glucose levels throughout the day and night with a single daily injection. PharmaSolutions' Insulin Glargine is formulated to provide steady and reliable glucose control, aiding patients in their diabetes management.</p>",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bd7"
+  },
+  "name": "Atorvastatin",
+  "quantity": 140,
+  "category": "Hormonal medications",
+  "vendor": "Apex Pharma Solutions",
+  "barcode_number": "8902345678901",
+  "description": "<p>Atorvastatin is a statin medication used to lower cholesterol and triglyceride levels in the blood, reducing the risk of cardiovascular disease. It is particularly effective in lowering LDL cholesterol and increasing HDL cholesterol. Apex Pharma Solutions' Atorvastatin is manufactured with high standards to ensure patients receive effective and safe cholesterol management.</p>",
+  "__v": 0
+}]

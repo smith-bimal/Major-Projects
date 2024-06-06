@@ -1,0 +1,100 @@
+[{
+  "_id": {
+    "$oid": "665f1d35035b109914313b9f"
+  },
+  "doc_id": "DO-4640764",
+  "full_name": "Maya Iyer",
+  "email": "maya.iyer@hms.com",
+  "contact_number": "+91-9876543211",
+  "dob": {
+    "$date": "1985-02-06T00:00:00.000Z"
+  },
+  "gender": "Female",
+  "address": "Apt 1384, Koramangala, Bangalore",
+  "pincode": 560034,
+  "specialty": "Neurology",
+  "experience": 15,
+  "username": "maya.iyer",
+  "password": "$2b$10$BSzeeodBtPRXouns23lj/.4MjamljsrezV3Xx/X9f1w4z6z5/O8ni",
+  "status": "Offline",
+  "qualification": "MS (Master of Surgery)",
+  "bio": "I am a dedicated Neurologist with a passion for improving patient outcomes. I am known for my empathetic approach and commitment to providing high-quality care. In my free time, I enjoy reading, hiking, and volunteering at local community events.",
+  "__v": 0,
+  "notes": "Specializes in treating epilepsy, Parkinson's disease, and multiple sclerosis.\r\nFluent in English, Hindi, and Tamil.\r\nActively participates in neurology conferences and has published several research papers.",
+  "avatar": "doc-2.jpg"
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313ba0"
+  },
+  "doc_id": "DO-8500282",
+  "full_name": "Rohan Singh",
+  "email": "rohan.singh@hms.com",
+  "contact_number": "+91-9876543212",
+  "dob": {
+    "$date": "1977-02-16T00:00:00.000Z"
+  },
+  "gender": "Male",
+  "address": "19th Floor, Banjara Hills, Hyderabad",
+  "pincode": 500034,
+  "specialty": "Orthopedics",
+  "experience": 25,
+  "username": "rohan.singh",
+  "password": "$2b$10$TQ5QzAv/BQ2Q41TV/ZmdF.C0lIojoq/R64R4If8dFu1QtGyzy6.U6",
+  "status": "Offline",
+  "qualification": "MBBS (Bachelor of Medicine, Bachelor of Surgery)",
+  "bio": "I am a skilled Orthopedic surgeon known for my expertise in complex orthopedic procedures. I am committed to staying updated with the latest advancements in orthopedic surgery to ensure the best possible outcomes for my patients. Outside of work, I enjoy playing tennis and spending time with my family.",
+  "__v": 0,
+  "avatar": "doc-4.jpg",
+  "notes": "Expertise in knee and hip replacement surgeries.\r\nFluent in English, Hindi, and Punjabi.\r\nMember of the Indian Orthopedic Association and the International Society for Orthopedic Surgery and Traumatology."
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313ba1"
+  },
+  "doc_id": "DO-4434571",
+  "full_name": "Anita Chatterjee",
+  "email": "anita.chatterjee@hms.com",
+  "contact_number": "+91-9876543213",
+  "dob": {
+    "$date": "1975-03-18T00:00:00.000Z"
+  },
+  "gender": "Female",
+  "address": "Suite 30, Salt Lake, Kolkata",
+  "pincode": 700091,
+  "specialty": "Pediatrics",
+  "experience": 20,
+  "username": "anita.chatterjee",
+  "password": "$2b$10$cnf0y22sp5CAzqdE.XhuMuaaiwG06J6QKRNaki8p063Wa7XWSn1iK",
+  "status": "Offline",
+  "qualification": "DNB (Diplomate of National Board)",
+  "bio": " I am a compassionate Pediatrician with a focus on preventive care and early childhood development. I am dedicated to creating a comfortable and friendly environment for my young patients. In my spare time, I enjoy painting, gardening, and exploring new cuisines.",
+  "__v": 0,
+  "notes": "Specializes in pediatric infectious diseases and developmental disorders.\r\nFluent in English, Bengali, and Hindi.\r\nRegularly conducts health camps for underprivileged children and is involved in child health advocacy.",
+  "avatar": "test-1 (4).jpg"
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313ba2"
+  },
+  "doc_id": "DO-3663647",
+  "full_name": "Ishaan Bhatt",
+  "email": "ishaan.bhatt@hms.com",
+  "contact_number": "+91-9876543214",
+  "dob": {
+    "$date": "1983-05-19T00:00:00.000Z"
+  },
+  "gender": "Male",
+  "address": "PO Box 3224, Vasant Kunj, Delhi",
+  "pincode": 110070,
+  "specialty": "Dermatology",
+  "experience": 18,
+  "username": "ishaan.bhatt",
+  "password": "$2b$10$I1B7uGLZayoNEqbR9I95O.yLD/WHZ9CF/mD1mfpEvRWFQJCOuvXBK",
+  "status": "Offline",
+  "qualification": "DM (Doctorate of Medicine)",
+  "bio": "I am a knowledgeable Dermatologist known for my expertise in diagnosing and treating skin conditions. I am passionate about helping my patients achieve healthy and glowing skin. Outside of work, I enjoy traveling, photography, and playing the guitar.",
+  "__v": 0,
+  "notes": "Specializes in pediatric infectious diseases and developmental disorders.\r\nFluent in English, Bengali, and Hindi.\r\nRegularly conducts health camps for underprivileged children and is involved in child health advocacy.",
+  "avatar": "doc-5.jpg"
+}]

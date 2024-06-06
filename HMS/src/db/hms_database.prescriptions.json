@@ -1,0 +1,91 @@
+[{
+  "_id": {
+    "$oid": "665f1d35035b109914313bc5"
+  },
+  "patient_id": "PA-39-9940859",
+  "name": "Amit Kumar",
+  "ailment": "insomnia",
+  "notes": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Prescribed 10mg Zolpidem tablets to be taken once daily at bedtime. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Recommended sleep hygiene practices including maintaining a regular sleep schedule. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Advised to avoid caffeine and heavy meals before bedtime. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Suggested relaxation techniques such as meditation or a warm bath before bed. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Follow-up in two weeks to assess effectiveness and make any necessary adjustments.</li></ol>",
+  "__v": 0,
+  "address": "",
+  "age": null,
+  "type": ""
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bc6"
+  },
+  "patient_id": "PA-82-7040026",
+  "name": "Sita Sharma",
+  "ailment": "fatigue",
+  "notes": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Advised daily multivitamin supplements and a balanced diet rich in iron. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Recommended regular light exercise, such as walking for 30 minutes a day. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Encouraged to maintain a consistent sleep schedule and practice good sleep hygiene. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Suggested reducing stress through activities like yoga or meditation. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Follow-up in one month to monitor energy levels and overall well-being.</li></ol>",
+  "__v": 0,
+  "address": "",
+  "age": null,
+  "type": ""
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bc8"
+  },
+  "patient_id": "PA-30-0417402",
+  "name": "Lakshmi Nair",
+  "ailment": "sore throat",
+  "notes": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Prescribed 500mg Amoxicillin tablets to be taken thrice daily for 7 days. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Advised to stay hydrated and use throat lozenges to soothe throat irritation. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Recommended gargling with warm salt water several times a day. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Suggested avoiding irritants such as smoking and alcohol. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Follow-up if no improvement or if symptoms worsen within a week.</li></ol>",
+  "__v": 0,
+  "address": "",
+  "age": null,
+  "type": ""
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bc9"
+  },
+  "patient_id": "PA-95-0067684",
+  "name": "Ramesh Gupta",
+  "ailment": "allergies",
+  "notes": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Prescribed 5mg Loratadine tablets once daily for allergy symptom relief. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Advised to use saline nasal spray as needed to clear nasal passages. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Recommended keeping windows closed during high pollen days to minimize exposure. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Suggested washing bedding frequently to reduce dust mites. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Follow-up if symptoms do not improve or if new symptoms develop.</li></ol>",
+  "__v": 0,
+  "address": "",
+  "age": null,
+  "type": ""
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bca"
+  },
+  "patient_id": "PA-04-7961598",
+  "name": "Anita Singh",
+  "ailment": "allergies",
+  "notes": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Prescribed 10mg Cetirizine tablets once daily to manage allergy symptoms. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Advised to keep windows closed during high pollen periods and use an air purifier. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Recommended washing clothes and showering after being outdoors. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Suggested using a humidifier to maintain optimal indoor humidity levels. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Follow-up if symptoms persist or if any side effects occur.</li></ol>",
+  "__v": 0,
+  "address": "",
+  "age": null,
+  "type": ""
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bcc"
+  },
+  "patient_id": "PA-28-8523048",
+  "name": "Manoj Patel",
+  "ailment": "sore throat",
+  "notes": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Prescribed 250mg Erythromycin tablets to be taken thrice daily for 7 days. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Advised to rest and drink warm fluids like herbal tea with honey. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Recommended using throat lozenges or sprays to soothe irritation. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Suggested avoiding irritants such as smoke and strong odors. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Follow-up if no improvement or if symptoms worsen within a week.</li></ol>",
+  "__v": 0,
+  "address": "",
+  "age": null,
+  "type": ""
+},
+{
+  "_id": {
+    "$oid": "665f1d35035b109914313bcd"
+  },
+  "patient_id": "PA-55-7237124",
+  "name": "Bharat Desai",
+  "ailment": "fever",
+  "notes": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Prescribed 500mg Paracetamol tablets to be taken every 6 hours to reduce fever. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Advised to stay hydrated by drinking plenty of fluids. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Recommended rest and avoiding strenuous activities until fever subsides. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Suggested using a cool compress to alleviate discomfort. </li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span>Follow-up if fever persists for more than 3 days or if symptoms worsen.</li></ol>",
+  "__v": 0,
+  "address": "",
+  "age": null,
+  "type": ""
+}]

@@ -115,10 +115,10 @@
             <% for(let i=0; i <= 3; i++){ %>
             <div class="container mini-doc-list d-flex justify-content-between align-items-center p-2 rounded-pill">
               <div class="d-flex align-items-center justify-content-center p-0">
-                <% if(doctors[i].pic == '' || doctors[i].pic=== undefined){ %>
+                <% if(doctors[i].avatar == '' || doctors[i].avatar=== undefined){ %>
                 <img class="mini-doc-list-img" src='/Assets/pngwing.com.png' />
                 <% }else{ %>
-                <img class="mini-doc-list-img" src="<%= doctors[i].pic %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
+                <img class="mini-doc-list-img" src="/uploads/<%= doctors[i].avatar %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
                 <% } %>
                 <div class=" mini-doc-list-name ms-3">
                   <h3><%= doctors[i].full_name; %></h3>
@@ -133,10 +133,10 @@
             <% for(let i=0; i < doctors.length; i++){ %>
             <div class="container mini-doc-list d-flex justify-content-between align-items-center p-2 rounded-pill">
               <div class="d-flex align-items-center justify-content-center p-0">
-                <% if(doctors[i].pic == '' || doctors[i].pic=== undefined){ %>
+                <% if(doctors[i].avatar == '' || doctors[i].avatar=== undefined){ %>
                 <img class="mini-doc-list-img" src='/Assets/pngwing.com.png' />
                 <% }else{ %>
-                <img class="mini-doc-list-img" src="<%= doctors[i].pic %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
+                <img class="mini-doc-list-img" src="/uploads/<%= doctors[i].avatar %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
                 <% } %>
                 <div class=" mini-doc-list-name ms-3">
                   <h3><%= doctors[i].full_name; %></h3>

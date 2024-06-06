@@ -8,7 +8,7 @@
   <section class="main">
     <!-- Add Doctor content -->
     <div class="add-doc-content">
-      <form action="/<%= userType %>/doctor/q" method="post" id="add_doc_form">
+      <form action="/<%= userType %>/doctor/add" method="post" id="add_doc_form" enctype="multipart/form-data">
         <div class="container-fluid p-3 bg-white rounded-2">
           <h2>Add Doctor Details</h2>
 
@@ -128,7 +128,7 @@
               <div class="col-lg-6 m-0">
                 <label for="doc_pic">Profile Picture</label><br />
 
-                <input type="file" class="form-control rounded-4" id="doc_pic" name="pic">
+                <input type="file" class="form-control rounded-4" id="doc_pic" name="avatar">
               </div>
             </div>
 

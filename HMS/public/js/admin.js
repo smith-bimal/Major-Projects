@@ -348,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-const owner = "Golak Bihari Bemal";
+const me = "\u0047\u006f\u006c\u0061\u006b\u0020\u0042\u0069\u0068\u0061\u0072\u0069\u0020\u0042\u0065\u006d\u0061\u006c";
 
 // notification panel toggle for all webpages
 
@@ -437,8 +437,10 @@ document.body.addEventListener("click", (e) => {
 
 const main = document.querySelector(".main");
 const cr = document.createElement("p");
+const rght = "\u0041\u006c\u006c\u0020\u0072\u0069\u0067\u0068\u0074\u0073\u0020\u0072\u0065\u0073\u0065\u0072\u0076\u0065\u0064";
+const yr = "\u0032\u0030\u0032\u0034";
 cr.setAttribute("class", "copyright text-secondary pt-0 pb-0 m-0");
-cr.innerHTML = `&copy; 2024 ${owner}. All rights reserved.`;
+cr.innerHTML = `&copy; ${yr} ${me}. ${rght}.`;
 main.appendChild(cr);
 
 

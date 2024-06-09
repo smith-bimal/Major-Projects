@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: url("/Assets/Untitled design.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+h1 {
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
+p {
+  margin-bottom: 1.5rem;
+  color: #818181;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 5px 5px 15px -5px #000e0f6e;
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+  padding: 2rem;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+}
+
+button {
+  border-radius: 20px;
+  border: 1px solid #2a25d5;
+  background-color: #2a25d5;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease;
+  -webkit-transition: transform 80ms ease;
+  -moz-transition: transform 80ms ease;
+  -ms-transition: transform 80ms ease;
+  -o-transition: transform 80ms ease;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:focus {
+  outline: none;
+}

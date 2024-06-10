@@ -1,3 +1,3 @@
 # Major-Projects
 
-Currently working on this project. However, you can check the files. 
+All of the major projects are in this repo.

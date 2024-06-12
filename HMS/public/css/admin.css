@@ -72,7 +72,7 @@ a {
 
 .popup-menu {
   width: 25rem;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   z-index: 6;

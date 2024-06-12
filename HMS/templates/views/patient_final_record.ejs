@@ -62,6 +62,7 @@
                 <li>
                   Patient Type: &nbsp;&nbsp;<span><%= patient.type %></span>
                 </li>
+                <% if (doc) { %>
                 <li>
                   Doctor Assigned: &nbsp;&nbsp;<span>Dr. <%= doc.full_name %></span>
                 </li>
@@ -69,6 +70,15 @@
                 <li>
                   Doctor Department: &nbsp;&nbsp;<span><%= doc.specialty %></span>
                 </li>
+                <% } else {%>
+                <li>
+                  Doctor Assigned: &nbsp;&nbsp;<span>--</span>
+                </li>
+                <li>Doctor ID: &nbsp;&nbsp;<span>--</span></li>
+                <li>
+                  Doctor Department: &nbsp;&nbsp;<span>--</span>
+                </li>
+                <% } %>
                 <li>
                   Reason for Admission: &nbsp;&nbsp;<span><%= patient.ailment %></span>
                 </li>
@@ -109,9 +119,15 @@
               </div>
             </div>
             <br />
+            <% if (lab.result_date) { %>
             <li>
               Date of Report: &nbsp;&nbsp;<span class="fw-bold"><%= lab.result_date.toLocaleDateString() %></span>
             </li>
+            <% } else {%>
+            <li>
+              Date of Report: &nbsp;&nbsp;<span class="fw-bold">--</span>
+            </li>
+            <% } %>
             <br />
             <li>
               Date & Time of Discharge: &nbsp;&nbsp;<span class="fw-bold">--</span>

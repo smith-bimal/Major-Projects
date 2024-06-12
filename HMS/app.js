@@ -738,6 +738,7 @@ app.route("/admin/patient/manage/:id").get(isAdminOrDoctor, async (req, res) => 
     try {
         const deletedPatient = await Patient.findByIdAndDelete(req.params.id);
         await LabReport.findOneAndDelete({ patient_id: deletedPatient.patient_id });
+        await Prescription.findOneAndDelete({ patient_id: deletedPatient.patient_id });
 
         if (!deletedPatient) {
             return res.status(404).send('Patient not found');
@@ -876,6 +877,8 @@ app.route("/admin/employee/manage/:id").get(isAdminOrDoctor, async (req, res) =>
 }).delete(isAdminOrDoctor, async (req, res) => {
     try {
         const deletedEmployee = await Employee.findByIdAndDelete(req.params.id);
+        await Payroll.findOneAndDelete({ employee_id: deletedEmployee.employee_id });
+
         if (!deletedEmployee) {
             return res.status(404).send('Employee not found');
         }
@@ -1471,6 +1474,7 @@ app.route("/doctor/patient/manage/:id").get(isAdminOrDoctor, isAuthenticated, as
     try {
         const deletedPatient = await Patient.findByIdAndDelete(req.params.id);
         await LabReport.findOneAndDelete({ patient_id: deletedPatient.patient_id });
+        await Prescription.findOneAndDelete({ patient_id: deletedPatient.patient_id });
 
         if (!deletedPatient) {
             return res.status(404).send('Patient not found');
@@ -1610,6 +1614,7 @@ app.post("/logout", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     if (req.user.role === 'doctor') {
         await Doctor.findOneAndUpdate({ email: req.user.email }, { status: 'Offline' });
     }
+
     res.clearCookie("token");
     req.session.destroy((err) => {
         if (err) {

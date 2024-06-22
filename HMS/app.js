@@ -11,9 +11,10 @@ const multer = require('multer');
 const nodemailer = require('nodemailer');
 
 const config = require('./config/config');
+const ExpressError = require('./utils/ExpressError');
 
 
-//Image uploading configuration
+// Image uploading configuration 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.join(__dirname, 'uploads'));
@@ -28,8 +29,7 @@ const upload = multer({
 }).single("avatar");
 
 
-
-//database files acquiring
+// database files acquiring 
 require("./src/db/conn");
 const Admin = require("./src/models/adminModel");
 const Appointment = require("./src/models/appointmentModel");
@@ -43,7 +43,7 @@ const Discharge = require("./src/models/dischargeModel");
 const Payroll = require("./src/models/payrollModel");
 
 
-// Middleware setup
+// Middleware setup 
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "templates/views"));
@@ -53,7 +53,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Configure express-session middleware
+// Configure express-session middleware 
 app.use(session({
     secret: config.secret_key, // Use the secret key from your config
     resave: false,
@@ -61,7 +61,7 @@ app.use(session({
     cookie: { secure: false } // Set to true if using HTTPS
 }));
 
-// Middleware to log all requests
+// Middleware to log all requests 
 app.use((req, res, next) => {
     const logDetails = `${new Date().toISOString()} - ${req.method} ${req.originalUrl} - ${req.ip}\n`;
     fs.appendFile(path.join(__dirname, 'log.txt'), logDetails, (err) => {
@@ -72,7 +72,7 @@ app.use((req, res, next) => {
     next();
 });
 
-//Middleware to set user type based on URL path
+// Middleware to set user type based on URL path 
 app.use((req, res, next) => {
     if (req.path.startsWith('/admin')) {
         req.session.userType = 'admin';
@@ -91,7 +91,7 @@ app.route("/login").get((req, res) => {
     res.render("login");
 });
 
-//login routes-------------------------------------------------
+// ● login routes ● 
 app.post("/login/admin", async (req, res) => {
     let admin = await Admin.findOne({ username: req.body.username });
     if (!admin) {
@@ -127,7 +127,7 @@ app.post("/login/doctor", async (req, res) => {
     })
 });
 
-// admin section start-----------------------------------------
+// ● admin section start ● 
 app.route("/admin/dashboard")
     .get(isAdminOrDoctor, async (req, res) => {
         const userType = req.session.userType;
@@ -1016,10 +1016,10 @@ app.get("/admin/survey", isAdminOrDoctor, async (req, res) => {
     const admin = await fetchAdminDetails(req.user.email);
     res.render("survey", { admin, userType });
 });
-// admin section end -------------------------------------------
+// admin section end 
 
 
-// doctor section start -----------------------------------------
+// ● Doctor section start ● 
 app.route("/doctor/dashboard").get(isAdminOrDoctor, isAuthenticated, async (req, res) => {
     const appointments = await Appointment.find({});
     const patients = await Patient.find({});
@@ -1605,11 +1605,10 @@ app.route("/doctor/profile")
             res.status(500).send('Internal Server Error');
         }
     });
+// Doctor section end 
 
 
-// doctor section end ------------------------------------------
-
-//Logout Route--------------------------------------------------
+// ● Logout Route ● 
 app.post("/logout", isAdminOrDoctor, isAuthenticated, async (req, res) => {
     if (req.user.role === 'doctor') {
         await Doctor.findOneAndUpdate({ email: req.user.email }, { status: 'Offline' });
@@ -1628,17 +1627,17 @@ app.post("/logout", isAdminOrDoctor, isAuthenticated, async (req, res) => {
 });
 
 
-// port listening console log
+// port listening console log 
 app.listen(5000, () => {
     console.log("Port is listening on port 5000");
 });
 
-//login error page
+// login error page 
 app.get('/login/err', (req, res) => {
     res.render('wrong');
 });
 
-//Forgot Password page
+// Forgot Password page 
 app.route('/forgot-password').get((req, res) => {
     res.render('forgot_pwd');
 }).post(async (req, res) => {
@@ -1674,7 +1673,7 @@ app.route('/forgot-password').get((req, res) => {
 });
 
 
-//reset password route
+// reset password route 
 app.route('/reset-password/:id/:token')
     .get(async (req, res) => {
         const JWT_TOKEN = config.secret_key;
@@ -1709,7 +1708,7 @@ app.route('/reset-password/:id/:token')
             res.status(500).send("Something went wrong.");
         }
     })
-    .post(async (req, res) => {
+    .post(async (req, res, next) => {
         const { new_pwd, cnf_pwd } = req.body;
         const JWT_TOKEN = config.secret_key;
         const { id, token } = req.params;
@@ -1752,24 +1751,31 @@ app.route('/reset-password/:id/:token')
 
                     res.status(200).render('reset-pwd-success');
                 } catch (err) {
-                    res.status(400).send("Invalid or expired token.");
+                    next(err);
                 }
             } else {
-                res.status(404).send("User not found.");
+                next(err);
             }
         } catch (err) {
-            res.status(500).send("Something went wrong.");
+            next(err);
         }
     });
 
 
-// 404 page not found
+// 404 page not found 
 app.get('*', (req, res) => {
     const userType = req.session.userType;
     res.render("404", { userType });
 });
 
-//protected url middleware
+// Error Handling Middleware 
+app.use((err, req, res, next) => {
+    const { status = 500, message = "Some Error Occurred." } = err;
+    req.status(status).send(message);
+});
+
+
+// protected url middleware 
 function isLoggedIn(requiredRole) {
     return (req, res, next) => {
         const token = req.cookies.token;
@@ -1791,7 +1797,7 @@ function isLoggedIn(requiredRole) {
     };
 }
 
-//protected url middleware only for logout
+// protected url middleware only for logout 
 function isAdminOrDoctor(req, res, next) {
     const token = req.cookies.token;
 
@@ -1812,7 +1818,7 @@ function isAdminOrDoctor(req, res, next) {
 }
 
 
-// Assuming you have a function fetchDoctorDetails to get doctor details from the database
+// Assuming you have a function fetchDoctorDetails to get doctor details from the database 
 async function isAuthenticated(req, res, next) {
     if (req.user.email) {
         try {
@@ -1845,19 +1851,19 @@ async function isAuthenticated(req, res, next) {
 
 
 
-//Function to fetch logged in doctor information
+// Function to fetch logged in doctor information 
 async function fetchDoctorDetails(userEmail) {
     const doctor = await Doctor.findOne({ email: userEmail });
     return doctor;
 };
 
-//Function to fetch logged in doctor information
+// Function to fetch logged in doctor information 
 async function fetchAdminDetails(adminEmail) {
     const admin = await Admin.findOne({ email: adminEmail });
     return admin;
 };
 
-//Sending reset password mail function
+// Sending reset password mail function 
 function sendResetPasswordMail(email, link) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',

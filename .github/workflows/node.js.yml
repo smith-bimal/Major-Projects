@@ -27,12 +27,12 @@ jobs:
     
     - name: Install dependencies
       run: npm ci
-      working-directory: ./HMS  # Adjust path as per your project structure
+      working-directory: ./Major-Projects/HMS
     
     - name: Build
       run: npm run build --if-present
-      working-directory: ./HMS  # Adjust path as per your project structure
+      working-directory: ./Major-Projects/HMS
     
     - name: Run tests
       run: npm test
-      working-directory: ./HMS  # Adjust path as per your project structure
+      working-directory: ./Major-Projects/HMS

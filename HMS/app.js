@@ -1607,20 +1607,28 @@ app.route("/doctor/profile")
 
 //Logout Route--------------------------------------------------
 app.post("/logout", isAdminOrDoctor, isAuthenticated, async (req, res) => {
-    if (req.user.role === 'doctor') {
-        await Doctor.findOneAndUpdate({ email: req.user.email }, { status: 'Offline' });
-    }
-
-    res.clearCookie("token");
-    req.session.destroy((err) => {
-        if (err) {
-            console.error('Error destroying session:', err);
-            return res.status(500).send('Unable to log out');
+    try {
+        if (req.user.role === 'doctor') {
+            await Doctor.findOneAndUpdate({ email: req.user.email }, { status: 'Offline' });
         }
-        setTimeout(() => {
-            res.redirect("/login");
-        }, 1500)
-    })
+
+        // Clear the "token" cookie
+        res.clearCookie('token');
+
+        // Destroy session
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).send('Unable to log out');
+            }
+            setTimeout(() => {
+                res.redirect("/login");
+            }, 1500);
+        });
+    } catch (err) {
+        console.error('Error during logout:', err);
+        res.status(500).send('Unable to log out');
+    }
 });
 
 
@@ -1765,7 +1773,6 @@ app.get('*', (req, res) => {
     res.render("404", { userType });
 });
 
-
 //protected url middleware
 function isLoggedIn(requiredRole) {
     return (req, res, next) => {
@@ -1809,16 +1816,22 @@ function isAdminOrDoctor(req, res, next) {
 }
 
 
-// Assuming you have a function fetchDoctorDetails to get doctor details from the database
 async function isAuthenticated(req, res, next) {
-    if (req.user.email) {
-        try {
-            const doctor = await fetchDoctorDetails(req.user.email);
-            if (doctor) {
-                res.locals.doctor = doctor;
-                return next(); // User is authenticated and exists in the database
+    const token = req.cookies.token;
+
+    if (!token || token === "") {
+        return res.status(401).redirect('/login');
+    }
+
+    try {
+        const data = jwt.verify(token, config.secret_key);
+        if (data.role === 'admin') {
+            const admin = await fetchAdminDetails(data.email);
+            if (admin) {
+                req.user = data; // Set req.user with admin details
+                return next();
             } else {
-                // User's credentials have been deleted
+                // Admin not found in database
                 req.session.destroy((err) => {
                     if (err) {
                         console.error('Error destroying session:', err);
@@ -1826,20 +1839,30 @@ async function isAuthenticated(req, res, next) {
                     res.redirect('/login');
                 });
             }
-        } catch (err) {
-            console.error('Error fetching doctor details:', err);
-            req.session.destroy((err) => {
-                if (err) {
-                    console.error('Error destroying session:', err);
-                }
-                res.redirect('/login');
-            });
+        } else if (data.role === 'doctor') {
+            const doctor = await fetchDoctorDetails(data.email);
+            if (doctor) {
+                req.user = data; // Set req.user with doctor details
+                res.locals.doctor = doctor;
+                return next();
+            } else {
+                // Doctor not found in database
+                req.session.destroy((err) => {
+                    if (err) {
+                        console.error('Error destroying session:', err);
+                    }
+                    res.redirect('/login');
+                });
+            }
+        } else {
+            // Unknown role
+            return res.status(403).redirect('/login');
         }
-    } else {
-        res.redirect('/login'); // User is not authenticated
+    } catch (error) {
+        console.error('Error verifying token:', error);
+        return res.status(401).redirect('/login');
     }
 }
-
 
 
 //Function to fetch logged in doctor information

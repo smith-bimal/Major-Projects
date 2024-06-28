@@ -27,12 +27,12 @@ jobs:
     
     - name: Install dependencies
       run: npm ci
-      working-directory: ../HMS
+      working-directory: /HMS
     
     - name: Build
       run: npm run build --if-present
-      working-directory: ../HMS
+      working-directory: /HMS
     
     - name: Run tests
       run: npm test
-      working-directory: ../HMS
+      working-directory: /HMS

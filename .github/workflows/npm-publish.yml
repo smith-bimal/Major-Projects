@@ -1,3 +1,6 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
 name: Node.js Package
 
 on:
@@ -18,15 +21,15 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./HMS
+        working-directory: ./HMS  # Adjust path as per your project structure
 
       - name: Build
         run: npm run build --if-present
-        working-directory: ./HMS
+        working-directory: ./HMS  # Adjust path as per your project structure
 
       - name: Run tests
         run: npm test
-        working-directory: ./HMS
+        working-directory: ./HMS  # Adjust path as per your project structure
 
   publish-gpr:
     needs: build
@@ -46,7 +49,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./HMS
+        working-directory: ./HMS  # Adjust path as per your project structure
 
       - name: Publish to GitHub Packages
         run: npm publish

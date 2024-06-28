@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
@@ -20,11 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./HMS  # Adjust path as per your project structure
+        working-directory: ./Major-Projects/HMS  # Adjust path as per your project structure
 
       - name: Run tests
         run: npm test
-        working-directory: ./HMS  # Adjust path as per your project structure
+        working-directory: ./Major-Projects/HMS  # Adjust path as per your project structure
 
   publish-npm:
     needs: build
@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
@@ -41,7 +41,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./HMS  # Adjust path as per your project structure
+        working-directory: ./Major-Projects/HMS  # Adjust path as per your project structure
 
       - name: Publish to npm
         run: npm publish

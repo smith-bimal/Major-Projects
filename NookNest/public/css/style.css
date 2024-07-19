@@ -1,0 +1,262 @@
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+
+:root {
+  --white: #fff;
+  --black: #000;
+  --gray: #bdbdbd;
+  --transparent-white: #ffffff3f;
+  --secondary-bg: #f6f6f6;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: "Lexend", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  height: 100vh;
+}
+
+.container-fluid {
+  flex: 1;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-width {
+  max-width: 95rem;
+  margin-inline: auto;
+}
+
+@media screen and (max-width: 1568px) {
+  .main-width {
+    padding-inline: 1rem;
+    width: 100%;
+  }
+}
+
+/* Navbar */
+.navbar {
+  background-color: #000;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+.fa-mountain-city {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-brand span {
+  font-family: "Varela Round", sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+#destination {
+  border: 1px solid var(--gray);
+  background-color: var(--transparent-white);
+  color: var(--white);
+  padding: 0.75rem 1rem;
+  width: 25vw;
+  min-width: 350px;
+}
+
+#destination:focus {
+  box-shadow: none;
+}
+#destination::placeholder {
+  color: var(--white);
+  font-weight: 300;
+  opacity: 0.75;
+}
+
+.fa-earth-americas {
+  padding: 5px;
+  color: #00000094;
+  background-color: #fff;
+  font-size: 1.25rem;
+  border-radius: 50%;
+}
+
+.btn-underline {
+  position: relative;
+}
+
+.btn-underline::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  background-color: white;
+  transition: width 0.2s;
+  -webkit-transition: width 0.2s;
+  -moz-transition: width 0.2s;
+  -ms-transition: width 0.2s;
+  -o-transition: width 0.2s;
+}
+
+.btn-underline:hover::after {
+  width: 100%;
+}
+
+/* Footer  */
+footer {
+  background-color: #000;
+}
+
+.f-info-links a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.f-info-links a:hover {
+  text-decoration: underline;
+}
+
+.f-info-links,
+.f-info-socials {
+  width: 100%;
+}
+
+.f-info-socials i {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+}
+
+.f-info {
+  text-align: center;
+  display: flex;
+  height: 8rem;
+  color: #fff;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: space-evenly;
+}
+
+/* Cards */
+.card {
+  border: none;
+  margin-bottom: 2rem;
+}
+
+.card-img-top {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+}
+
+.card-body {
+  padding: 0;
+}
+
+.card-text p {
+  font-weight: 400;
+}
+
+.listing-link {
+  text-decoration: none;
+}
+
+/* Card Effect */
+.card-img-overlay {
+  opacity: 0;
+  transition: 0.25s ease;
+  -webkit-transition: 0.25s ease;
+  -moz-transition: 0.25s ease;
+  -ms-transition: 0.25s ease;
+  -o-transition: 0.25s ease;
+}
+
+.card-img-overlay:hover {
+  opacity: 0.2;
+  background-color: white;
+}
+
+/* alerts */
+.alert {
+  box-shadow: 5px 5px 20px -10px black;
+}
+
+.alert svg {
+  height: 1rem;
+  width: 1rem;
+}
+
+.alert svg[aria-label="Success:"] {
+  fill: #169916;
+}
+.alert svg[aria-label="Danger:"] {
+  fill: #fe424d;
+}
+
+.alert button {
+  --bs-btn-close-focus-shadow: none;
+}
+
+.alert-dismissible.fade {
+  bottom: 3rem;
+  right: 3rem;
+}
+
+/* New Page */
+.add-btn {
+  background-color: #fe424d;
+  color: white;
+  border: none;
+}
+
+/* Edit page */
+.edit-btn {
+  background-color: #fe424d;
+  color: white;
+  border: none;
+}
+
+/* Show page */
+.show-img {
+  max-height: 30rem;
+  object-fit: cover;
+}
+
+/* Removing default bootstrap styles */
+
+.form-control.is-invalid:focus,
+.was-validated .form-control:invalid:focus,
+.form-control.is-valid,
+.was-validated .form-control:valid {
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+
+.sticky-top {
+  z-index: 100;
+}

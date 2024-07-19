@@ -1,0 +1,123 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+  .navbar {
+    margin-top: 1rem;
+    height: 47.5vh;
+    background-color: transparent !important;
+    align-items: flex-start;
+  }
+</style>
+
+<body>
+  <img src="/assets/pexels-pixabay-258154.jpg" class="index-hero-img position-absolute top-0 start-0">
+
+  <!-- Hero content -->
+  <div class="hero-content d-flex flex-column justify-content-md-end main-width">
+    <h1 class="text-white">Find Your Best Staycation</h1>
+    <div class="booking-search mb-4 p-4">
+      <div class="row">
+        <div class=" col-md-4">
+          <div class="search-credentials">
+            <label for="search_location">Location</label>
+            <div class="search-credential-input">
+              <i class="fa-solid fa-location-crosshairs top-50 translate-middle-y"></i>
+              <input type="text" id="search_location" class="form-control" placeholder="Find location" disabled>
+              <i class="fa-solid fa-circle-chevron-down top-50 end-0 me-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class=" col-md-4">
+          <div class="search-credentials">
+            <label for="search_date">Check-in and Check-out Date</label>
+            <div class="search-credential-input">
+              <i class="fa-regular fa-calendar-check top-50 translate-middle-y"></i>
+              <input type="text" id="search_date" class="form-control" placeholder="Add dates" disabled>
+              <i class="fa-solid fa-circle-chevron-down top-50 end-0 me-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class=" col-md-4">
+          <div class="search-credentials">
+            <label for="search_gnr_count">Guests and Rooms</label>
+            <div class="search-credential-input">
+              <i class="fa-regular fa-user top-50 translate-middle-y"></i>
+              <input type="text" id="search_gnr_count" class="form-control" placeholder="1 guest, 1 room" disabled>
+              <i class="fa-solid fa-circle-chevron-down top-50 end-0 me-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex justify-content-between mt-3 ">
+        <div class="search-filter-container d-flex gap-md-2 gap-1 flex-wrap mb-md-0 mb-3">
+          <span class="flex">Filter:</span>
+
+          <div class="search-filter-option ">
+            <input type="checkbox" class="btn-check" id="btn-check-1-outlined" checked autocomplete="off">
+            <label class="btn btn-outline-dark rounded-pill" for="btn-check-1-outlined">Hotels</label><br>
+          </div>
+          <div class="search-filter-option">
+            <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
+            <label class="btn btn-outline-dark rounded-pill" for="btn-check-2-outlined">Villas</label><br>
+          </div>
+          <div class="search-filter-option">
+            <input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
+            <label class="btn btn-outline-dark rounded-pill" for="btn-check-3-outlined">Apartments</label><br>
+          </div>
+          <div class="search-filter-option">
+            <input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
+            <label class="btn btn-outline-dark rounded-pill" for="btn-check-4-outlined">Resorts</label><br>
+          </div>
+          <div class="search-filter-option">
+            <input type="checkbox" class="btn-check" id="btn-check-5-outlined" autocomplete="off">
+            <label class="btn btn-outline-dark rounded-pill" for="btn-check-5-outlined">Cottages</label><br>
+          </div>
+
+        </div>
+
+        <div class="btn btn-dark btn-booking-search">Search &nbsp; <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-width mt-4">
+    <h2>Discover Your Destinations</h2>
+    <p class="text-secondary">Explore our range of property types for every traveler's preference.</p>
+    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1">
+      <% for(let listing of listings) { %>
+      <a href="/listings/<%= listing._id %>" class="listing-link">
+        <div class="card col">
+          <img src="<%= listing.image.url %>" class="card-img-top" style="height: 15rem;" alt="listing_image">
+          <div class="card-img-overlay text-black">
+          </div>
+
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-baseline">
+              <p class="card-text m-0"><b><%= listing.title %></b></p>
+              <% let avgRating;
+            let totalRating = 0;
+            listing.reviews.forEach(review => {
+              totalRating += review.rating
+            }); 
+            avgRating = totalRating / listing.reviews.length;
+            %>
+              <% if (avgRating > 0) { %>
+              <p class="card-text m-0"><small><i class="fa-solid fa-star"></i> <%= avgRating.toFixed(1) %></small></p>
+              <% } %>
+            </div>
+
+            <% for( let coordinate of coordinatesArr ) { %>
+            <% if (coordinate.id == listing.id) { %>
+            <p class="card-text m-0 text-secondary"><%= Math.floor(coordinate.distance.kilometers).toLocaleString("en-IN") %> kilometers away</p>
+            <% } %>
+            <% } %>
+            <p class="card-text"><b>₹ <%= listing.price.toLocaleString("en-IN") %></b> night</p>
+          </div>
+        </div>
+      </a>
+      <% } %>
+    </div>
+  </div>
+
+
+</body>

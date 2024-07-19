@@ -5,9 +5,14 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
     const listings = await Listing.find({});
-    const Villas = await Listing.find({ property_type: 'Villa' });
-    console.log(Villas.length);
-    res.render('listings/index', { listings });
+    const villas = await Listing.find({ property_type: 'Villa' }).populate("reviews");
+    const apartments = await Listing.find({ property_type: 'Apartment' });
+    const resorts = await Listing.find({ property_type: 'Resort' });
+    const cottages = await Listing.find({ property_type: 'Cottage' });
+    const popularListings = await Listing.find({ reviews: { $ne: [] } }).populate("reviews");
+    const placesWithReview = popularListings.sort((a, b) => b.reviews.length - a.reviews.length);//sorting all the listings with descending number of reviews
+
+    res.render('listings/index', { listings, villas, apartments, resorts, cottages, placesWithReview });
 }
 
 module.exports.renderNewForm = (req, res) => {

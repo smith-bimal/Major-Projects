@@ -9,7 +9,7 @@
 </style>
 
 <body>
-  <img src="/assets/pexels-pixabay-258154.jpg" class="index-hero-img position-absolute top-0 start-0">
+  <img src="/assets/pexels-pixabay-258154.jpg" class="index-hero-img position-absolute top-0 start-0" alt="bg_image">
 
   <!-- Hero content -->
   <div class="hero-content d-flex flex-column justify-content-md-end main-width">
@@ -83,36 +83,211 @@
   <div class="main-width mt-4">
     <h2>Discover Your Destinations</h2>
     <p class="text-secondary">Explore our range of property types for every traveler's preference.</p>
-    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1">
-      <% for(let listing of listings) { %>
-      <a href="/listings/<%= listing._id %>" class="listing-link">
-        <div class="card col">
-          <img src="<%= listing.image.url %>" class="card-img-top" style="height: 15rem;" alt="listing_image">
-          <div class="card-img-overlay text-black">
+    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-2 row-column-xs-1">
+      <div class="discover-container mt-3">
+        <div>
+          <div class="card">
+            <div class="card-body">
+              <div class="flex justify-content-between mb-sm-3 mb-1 px-1">
+                <div class="text-content">
+                  <h5 class="card-title mt-0">Villas</h5>
+                  <p class="card-text text-secondary m-0"><i class="fa-solid fa-house me-2"></i><%= villas.length.toLocaleString("en-IN") %> Available</p>
+                </div>
+                <a href="#" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+            <img src="<%= villas[0].image.url %>" class="card-img-top" alt="Villas">
           </div>
+        </div>
+      </div>
 
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-baseline">
-              <p class="card-text m-0"><b><%= listing.title %></b></p>
-              <% let avgRating;
+      <div class="discover-container mt-3">
+        <div>
+          <div class="card">
+            <div class="card-body">
+              <div class="flex justify-content-between mb-sm-3 mb-1 px-1">
+                <div class="text-content">
+                  <h5 class="card-title mt-0">Apartments</h5>
+                  <p class="card-text text-secondary m-0"><i class="fa-solid fa-house me-2"></i><%= apartments.length.toLocaleString("en-IN") %> Available</p>
+                </div>
+                <a href="#" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+            <img src="<%= apartments[0].image.url %>" class="card-img-top" alt="Villas">
+          </div>
+        </div>
+      </div>
+
+      <div class="discover-container mt-3">
+        <div>
+          <div class="card">
+            <div class="card-body">
+              <div class="flex justify-content-between mb-sm-3 mb-1 px-1">
+                <div class="text-content">
+                  <h5 class="card-title mt-0">Resorts</h5>
+                  <p class="card-text text-secondary m-0"><i class="fa-solid fa-house me-2"></i><%= resorts.length.toLocaleString("en-IN") %> Available</p>
+                </div>
+                <a href="#" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+            <img src="<%= resorts[0].image.url %>" class="card-img-top" alt="Villas">
+          </div>
+        </div>
+      </div>
+
+      <div class="discover-container mt-3">
+        <div>
+          <div class="card">
+            <div class="card-body">
+              <div class="flex justify-content-between mb-sm-3 mb-1 px-1">
+                <div class="text-content">
+                  <h5 class="card-title mt-0">Cottages</h5>
+                  <p class="card-text text-secondary m-0"><i class="fa-solid fa-house me-2"></i><%= cottages.length.toLocaleString("en-IN") %> Available</p>
+                </div>
+                <a href="#" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+            <img src="<%= cottages[0].image.url %>" class="card-img-top" alt="Villas">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-width mt-4">
+    <h2>Top trending hotel in worldwide</h2>
+    <p class="text-secondary">Discover the most trending hotels worldwide for an unforgettable experience.</p>
+
+    <div class="trending-country-container flex justify-content-between">
+      <div class="country-selector flex justify-content-start gap-2 d-none d-sm-flex">
+        <input type="radio" class="btn-check" id="country1" name="hotel-country" checked>
+        <label class="btn btn-outline-dark rounded-pill" for="country1">United States</label>
+
+        <input type="radio" class="btn-check" id="country2" name="hotel-country">
+        <label class="btn btn-outline-dark rounded-pill" for="country2">India</label>
+
+        <input type="radio" class="btn-check" id="country3" name="hotel-country">
+        <label class="btn btn-outline-dark rounded-pill" for="country3">United Kingdom</label>
+
+        <input type="radio" class="btn-check" id="country4" name="hotel-country">
+        <label class="btn btn-outline-dark rounded-pill" for="country4">Italy</label>
+      </div>
+      <a href="#" class="btn btn-outline-dark gray-btn">See All &nbsp;<i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-2 row-column-xs-1">
+      <% for( let index = 0; index < 4; index++ ) { %>
+      <div class="trending-container mt-3">
+        <a href="/listings/<%= villas[index].id %>" class="text-decoration-none">
+          <div>
+            <div class="card">
+              <div class="card-body">
+                <img src="<%= villas[index].image.url %>" class="card-img-top" alt="Villas">
+                <div class="flex justify-content-between mb-sm-3 px-1">
+                  <div class="text-content mt-3">
+                    <h5 class="card-title"><%= villas[index].title %></h5>
+                    <p class="card-text text-secondary m-1"><i class="fa-solid fa-location-dot me-2"></i><%= villas[index].country %></p>
+                    <p class="card-text text-secondary m-1"><small><i class="fa-regular fa-star me-2"></i><% if (villas[index].reviews.length > 0) { %>
+                        <% let avgRating;
+                          let totalRating = 0;
+                          villas[index].reviews.forEach(review => {
+                            totalRating += review.rating
+                          }); 
+                          avgRating = totalRating / villas[index].reviews.length;
+                        %>
+                        <%= avgRating.toFixed(1) %>
+                        <% } else { %>0.0
+                        <% } %>
+                        (<%= (villas[index].reviews).length.toLocaleString("en-IN") %> Reviews)</small></p>
+                    <h4 class="m-1 mb-0">₹ <%= villas[index].price.toLocaleString("en-IN") %> <small class="fs-6 fw-normal">/night</small></h4>
+                    <small class="m-0 ms-1 tax text-secondary">includes taxes & fees</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <% } %>
+
+    </div>
+  </div>
+
+  <div class="main-width mt-4">
+    <h2>Most visited hotels of all time</h2>
+    <p class="text-secondary">Trending exceptional hospitality that captivated travelers of all time.</p>
+
+    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-2 row-column-xs-1">
+      <% let count; 
+      if (placesWithReview.length >4) { 
+        count = 4;
+      } else{
+      count = placesWithReview.length;
+      }%>
+      <% for( let index = 0; index < count; index++ ) { %>
+      <div class="trending-container mt-3">
+        <a href="/listings/<%= placesWithReview[index].id %>" class="text-decoration-none">
+          <div>
+            <div class="card">
+              <div class="card-body">
+                <img src="<%= placesWithReview[index].image.url %>" class="card-img-top" alt="Villas">
+                <div class="flex justify-content-between mb-sm-3 px-1">
+                  <div class="text-content mt-3">
+                    <h5 class="card-title"><%= placesWithReview[index].title %></h5>
+                    <p class="card-text text-secondary m-1"><i class="fa-solid fa-location-dot me-2"></i><%= placesWithReview[index].country %></p>
+                    <p class="card-text text-secondary m-1"><small><i class="fa-regular fa-star me-2"></i><% if (placesWithReview[index].reviews.length > 0) { %>
+                        <% let avgRating;
+                          let totalRating = 0;
+                          placesWithReview[index].reviews.forEach(review => {
+                            totalRating += review.rating
+                          }); 
+                          avgRating = totalRating / placesWithReview[index].reviews.length;
+                        %>
+                        <%= avgRating.toFixed(1) %>
+                        <% } else { %>0.0
+                        <% } %>
+                        (<%= (placesWithReview[index].reviews).length.toLocaleString("en-IN") %> Reviews)</small></p>
+                    <h4 class="m-1 mb-0">₹ <%= placesWithReview[index].price.toLocaleString("en-IN") %> <small class="fs-6 fw-normal">/night</small></h4>
+                    <small class="m-0 ms-1 tax text-secondary">includes taxes & fees</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <% } %>
+
+    </div>
+  </div>
+
+
+  <!-- <% for(let listing of listings) { %>
+  <a href="/listings/<%= listing._id %>" class="listing-link">
+    <div class="card col">
+      <img src="<%= listing.image.url %>" class="card-img-top" style="height: 15rem;" alt="listing_image">
+      <div class="card-img-overlay text-black">
+      </div>
+
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <p class="card-text m-0"><b><%= listing.title %></b></p>
+          <% let avgRating;
             let totalRating = 0;
             listing.reviews.forEach(review => {
               totalRating += review.rating
             }); 
             avgRating = totalRating / listing.reviews.length;
             %>
-              <% if (avgRating > 0) { %>
-              <p class="card-text m-0"><small><i class="fa-solid fa-star"></i> <%= avgRating.toFixed(1) %></small></p>
-              <% } %>
-            </div>
-
-            <p class="card-text"><b>₹ <%= listing.price.toLocaleString("en-IN") %></b> night</p>
-          </div>
+          <% if (avgRating > 0) { %>
+          <p class="card-text m-0"><small><i class="fa-solid fa-star"></i> <%= avgRating.toFixed(1) %></small></p>
+          <% } %>
         </div>
-      </a>
-      <% } %>
+
+        <p class="card-text"><b>₹ <%= listing.price.toLocaleString("en-IN") %></b> night</p>
+      </div>
     </div>
-  </div>
+  </a>
+  <% } %> -->
 
 
 </body>

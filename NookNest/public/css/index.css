@@ -70,3 +70,24 @@
   width: 15vh;
   margin-right: 12.5px;
 }
+
+.discover-container .card .card-body .btn,
+.gray-btn {
+  border: 1px solid var(--gray);
+}
+
+.discover-container .card img {
+  height: 10rem;
+  object-fit: cover;
+  object-position: center;
+}
+
+.trending-container .card img {
+  height: 20rem;
+  object-fit: cover;
+  object-position: center;
+}
+
+.tax {
+  font-size: 0.75rem;
+}

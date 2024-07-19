@@ -1,33 +1,13 @@
-const distance = require('geo-dist-calc');
 const Listing = require("../models/listing");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
-const { getCurrentLocation } = require('../geoLocation');
-
 module.exports.index = async (req, res) => {
-    const sourcePoints = await getCurrentLocation();
-    const listings = await Listing.find().populate({
-        path: "reviews",
-    });
-
-    let coordinatesArr = [];
-
-    listings.forEach(listing => {
-        let listingCoordinates = {};
-        listingCoordinates.id = listing.id;
-        listingCoordinates.latitude = listing.geometry.coordinates[1];
-        listingCoordinates.longitude = listing.geometry.coordinates[0];
-
-        let destinationPoints = { latitude: listing.geometry.coordinates[1], longitude: listing.geometry.coordinates[0] };
-
-        let ResultantDistance = distance.discal(sourcePoints, destinationPoints);
-        listingCoordinates.distance = ResultantDistance;
-
-        coordinatesArr.push(listingCoordinates);
-    })
-    res.render('listings/index', { listings, coordinatesArr });
+    const listings = await Listing.find({});
+    const Villas = await Listing.find({ property_type: 'Villa' });
+    console.log(Villas.length);
+    res.render('listings/index', { listings });
 }
 
 module.exports.renderNewForm = (req, res) => {

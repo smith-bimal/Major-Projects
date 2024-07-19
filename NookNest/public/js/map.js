@@ -131,5 +131,3 @@ new mapboxgl.Marker(el)
 
 
 
-//₋Getting Current Location₋
-

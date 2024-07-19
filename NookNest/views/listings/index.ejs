@@ -106,11 +106,6 @@
               <% } %>
             </div>
 
-            <% for( let coordinate of coordinatesArr ) { %>
-            <% if (coordinate.id == listing.id) { %>
-            <p class="card-text m-0 text-secondary"><%= Math.floor(coordinate.distance.kilometers).toLocaleString("en-IN") %> kilometers away</p>
-            <% } %>
-            <% } %>
             <p class="card-text"><b>₹ <%= listing.price.toLocaleString("en-IN") %></b> night</p>
           </div>
         </div>

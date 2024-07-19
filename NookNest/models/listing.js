@@ -33,7 +33,8 @@ const listingSchema = new Schema({
             type: [Number],
             required: true
         }
-    }
+    },
+    property_type: String,
 });
 
 // Mongoose middleware to delete the reviews related to the listing

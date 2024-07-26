@@ -18,6 +18,12 @@
     })
 })()
 
+//disabling right click 
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    return false;
+}, false)
+
 
 // Custom styling for alert(Vanish automatization after 5 seconds)
 const alertElement = document.querySelector(".alert.alert-dismissible");

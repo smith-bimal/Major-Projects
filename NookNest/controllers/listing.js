@@ -12,6 +12,15 @@ module.exports.index = async (req, res) => {
     const popularListings = await Listing.find({ reviews: { $ne: [] } }).populate("reviews");
     const placesWithReview = popularListings.sort((a, b) => b.reviews.length - a.reviews.length);//sorting all the listings with descending number of reviews
 
+
+    //handing the search query
+    const destination = req.query.destination;
+    const searchedListings = listings.filter(listing => {
+        return listing.location === destination || listing.country === destination || listing.title === destination;
+    });
+
+    console.log(searchedListings);
+
     res.render('listings/index', { listings, villas, apartments, resorts, cottages, placesWithReview });
 }
 

@@ -91,3 +91,144 @@
 .tax {
   font-size: 0.75rem;
 }
+
+.discount-container {
+  position: relative;
+}
+
+.discount-container {
+  border-radius: 1rem;
+}
+
+.discount1 {
+  background: url("/assets/discount1.jpg");
+}
+
+.discount2 {
+  background: url("/assets/discount2.jpg");
+}
+
+.discount1,
+.discount2 {
+  border-radius: 1rem;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+}
+
+.discount1 i,
+.discount2 i {
+  background-color: #fabf4c;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+.discount1 span,
+.discount2 span {
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid #6161614b;
+  backdrop-filter: blur(13.1px) !important;
+}
+
+.discount1 h1,
+.discount2 h1 {
+  font-size: 5rem;
+}
+
+.discount-container small {
+  font-size: 0.75rem;
+  color: #b4b4b4;
+}
+
+.demo-logo-container img {
+  opacity: 0.3;
+}
+
+.demo-logo1 {
+  height: 1.5rem;
+}
+.demo-logo2 {
+  height: 2.2rem;
+}
+.demo-logo3 {
+  height: 1.8rem;
+}
+.demo-logo4,
+.demo-logo5 {
+  height: 1.7rem;
+}
+.demo-logo6 {
+  height: 2.5rem;
+}
+
+.accommodation {
+  background: url("/assets/bottom-sec-hotel-image.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 1rem;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+}
+
+.booking-card,
+.available-card {
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-card img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  filter: brightness(0.25);
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  -webkit-filter: brightness(0.25);
+}
+
+.booking-card i[class="fa-solid fa-globe p-3"] {
+  font-size: 1.25rem;
+  background-color: #292929;
+  color: #fff;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
+}
+
+.booking-card p {
+  color: #cacaca;
+}
+
+.booking-card div {
+  backdrop-filter: blur(15px);
+}
+
+.available-card img {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 50%;
+  z-index: -1;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+}

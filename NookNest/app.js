@@ -86,7 +86,7 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong!" } = err;
     req.flash('error', message);
-    res.status(statusCode).redirect('/listings');
+    res.status(statusCode).render('listings/search', { err });
 });
 
 app.listen(5000, () => {

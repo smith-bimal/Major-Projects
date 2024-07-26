@@ -1,4 +1,30 @@
 <% layout("/layouts/boilerplate") %>
+
+<% const currentDate = new Date();
+
+const tenDaysLater = new Date(currentDate.getTime() + (10 * 24 * 60 * 60 * 1000));
+const fourteenDaysLater = new Date(currentDate.getTime() + (14 * 24 * 60 * 60 * 1000));
+const eighteenDaysLater = new Date(currentDate.getTime() + (18 * 24 * 60 * 60 * 1000));
+const twentyFiveDaysLater = new Date(currentDate.getTime() + (25 * 24 * 60 * 60 * 1000));
+
+const day10 = tenDaysLater.getDate();
+const day14 = fourteenDaysLater.getDate();
+const day18 = eighteenDaysLater.getDate();
+const day25 = twentyFiveDaysLater.getDate();
+
+const month10Index = tenDaysLater.getMonth();
+const month14Index = fourteenDaysLater.getMonth();
+const month18Index = eighteenDaysLater.getMonth();
+const month25Index = twentyFiveDaysLater.getMonth();
+
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+const month10Name = monthNames[month10Index];
+const month14Name = monthNames[month14Index];
+const month18Name = monthNames[month18Index];
+const month25Name = monthNames[month25Index];
+%>
+
 <style>
   .navbar {
     margin-top: 1rem;
@@ -260,6 +286,69 @@
     </div>
   </div>
 
+  <div class="main-width my-md-4">
+    <h2>Get promo for a cheaper price</h2>
+    <p class="text-secondary">Secure Your Promo at an Irresistible Price and Enjoy Great Discounts Across Our Range of Products!</p>
+    <div class="row row-cols-md-2 row-column-sm-1 ">
+      <div class="discount-container">
+        <div class="discount1 p-sm-4 p-3 mb-3">
+          <div class="flex justify-content-between">
+            <i class="fa-solid fa-tags p-2"></i>
+            <span class="rounded-pill text-white fw-light p-2 px-3">Valid only on <%= day10 %> <%= month10Name %> - <%= day18 %> <%= month18Name %></span>
+          </div>
+          <p class="text-white mt-4 mb-1">Get Extra Discount at <br>Azure Oasis Hotel</p>
+          <h1 class="text-white mb-1">50%</h1>
+          <small class="fw-light text-white">*with Terms and Conditions</small>
+        </div>
+      </div>
+
+      <div class="discount-container">
+        <div class="discount2 p-sm-4 p-3 mb-3">
+          <div class="flex justify-content-between">
+            <i class="fa-solid fa-tags p-2"></i>
+            <span class="rounded-pill text-white fw-light p-2 px-3">Valid only on <%= day14 %> <%= month14Name %> - <%= day25 %> <%= month25Name %></span>
+          </div>
+          <p class="text-white mt-4 mb-1">Exclusive Deals <br>Just For You</p>
+          <h1 class="text-white mb-1">75%</h1>
+          <small class="fw-light text-white">*with Terms and Conditions</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-width my-md-4 flex-wrap flex justify-content-md-between gap-3 p-md-4 p-2 demo-logo-container">
+    <img src="/assets/demo_logo1.png" alt="demo_logo1" class="demo-logo1">
+    <img src="/assets/demo_logo2.png" alt="demo_logo2" class="demo-logo2">
+    <img src="/assets/demo_logo3.png" alt="demo_logo3" class="demo-logo3">
+    <img src="/assets/demo_logo4.png" alt="demo_logo4" class="demo-logo4">
+    <img src="/assets/demo_logo5.png" alt="demo_logo5" class="demo-logo5">
+    <img src="/assets/demo_logo6.png" alt="demo_logo6" class="demo-logo6">
+  </div>
+
+  <div class="main-width d-flex py-3">
+    <div class="col-md-5 col-12 pe-md-3 p-0">
+      <div class="booking-card mb-3">
+        <img src="/assets/hotel-interior-design-zikzak-architects.jpg" alt="bg">
+        <div class="p-sm-4 p-3">
+          <i class="fa-solid fa-globe p-3"></i>
+          <h2 class="text-white fw-normal mt-4">Explore more to get your <br>comfort zone.</h2>
+          <p>Book your perfect stay with us.</p>
+          <a href="#" class="btn btn-light gray-btn mt-3">Booking Now &nbsp;<i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="available-card">
+        <img src="/assets/Is-there-a-hotel-inside-LAX-Airport-1.jpg" alt="bg">
+        <div class="p-sm-4 p-3">
+          <h5 class="text-white fw-normal mt-5 pt-4">Hotel Available</h5>
+          <h1 class="text-white mb-0"><%= listings.length.toLocaleString("en-IN") %></h1>
+        </div>
+      </div>
+    </div>
+    <div class="col-7 p-md-4 flex d-md-flex d-none accommodation">
+      <h2 class="text-white text-center fw-normal">Beyond accommodation, creating <br>memories of a lifetime.</h2>
+    </div>
+  </div>
 
   <!-- <% for(let listing of listings) { %>
   <a href="/listings/<%= listing._id %>" class="listing-link">

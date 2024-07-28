@@ -1,8 +1,27 @@
 <% layout("/layouts/boilerplate") %>
 
 <div class="main-width mt-4">
-  <% if (properties.length > 0) { %>
-  <p class="text-secondary">Results for: "<%= searchQuery %>"</p>
+  <% if (allProperties) { %>
+  <h2>Unforgettable Escapes: Find Your Perfect Retreat</h2>
+  <p class="text-secondary">Experience unparalleled comfort and style with our diverse selection of accommodations, from elegant villas and chic apartments to serene resorts and charming cottages—each offering a unique escape tailored to your every need.</p>
+  <% } %>
+
+  <% if(!allProperties) { %>
+  <% if (properties[0].property_type == "Villa") { %>
+  <h2>Exquisite Villas: Your Private Sanctuary of Elegance</h2>
+  <p class="text-secondary">Indulge in the perfect blend of opulence and serenity with our stunning villas, designed for the ultimate getaway experience.</p>
+  <% } else if(properties[0].property_type == "Apartment"){ %>
+  <h2>Stylish Apartments: Urban Living Redefined</h2>
+  <p class="text-secondary">Discover modern comfort and convenience in our chic apartments, crafted for a vibrant and sophisticated lifestyle.</p>
+  <% } else if(properties[0].property_type == "Resort") {%>
+  <h2>Dreamy Resorts: Escape to Paradise</h2>
+  <p class="text-secondary">Unwind in unparalleled luxury with our resorts, where every detail is designed for relaxation and unforgettable experiences.</p>
+  <% } else if(properties[0].property_type == "Cottage") {%>
+  <h2>Charming Cottages: Cozy Retreats in Nature</h2>
+  <p class="text-secondary">Embrace rustic comfort and tranquility in our inviting cottages, perfect for a peaceful escape from the everyday hustle.</p>
+  <% } %>
+  <% } %>
+
   <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-2 row-column-xs-1">
     <% for( property of properties ) { %>
     <div class="trending-container mt-3">
@@ -37,8 +56,6 @@
       </a>
     </div>
     <% } %>
-    <% } else { %>
-    <p class="text-secondary ms-3">We couldn't find a match for "<%= searchQuery %>". Please try another search.</p>
-    <% } %>
+
   </div>
 </div>

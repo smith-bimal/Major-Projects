@@ -9,12 +9,16 @@
   --secondary-bg: #f6f6f6;
 }
 
+::selection {
+  background-color: #707070;
+  color: #fff;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  user-select: none;
 }
 html,
 body {
@@ -65,12 +69,6 @@ body {
 
 .nav-link {
   cursor: pointer;
-}
-
-.fa-mountain-city {
-  color: #fff;
-  font-size: 1.5rem;
-  font-weight: bold;
 }
 
 .navbar-brand span {
@@ -125,6 +123,14 @@ body {
 
 .btn-underline:hover::after {
   width: 100%;
+}
+
+.navbar-toggler {
+  border: var(--bs-border-width) solid rgb(255 255 255 / 15%);
+  background-color: #ffffff75;
+}
+.navbar-toggler:focus {
+  box-shadow: 0 0 5px #fff9;
 }
 
 /* Footer  */

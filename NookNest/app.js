@@ -18,6 +18,7 @@ const ExpressError = require('./utils/ExpressError');
 const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
+const searchRouter = require("./routes/destination");
 const User = require("./models/user");
 
 main().then(() => {
@@ -77,6 +78,9 @@ app.use("/listings/:id/review", reviewRouter);
 // User Routings 
 app.use("/", userRouter);
 
+// Search Routings 
+app.use("/s", searchRouter);
+
 // Page not found Error 
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page not found"));
@@ -86,7 +90,7 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong!" } = err;
     req.flash('error', message);
-    res.status(statusCode).render('listings/search', { err });
+    res.status(statusCode).render('listings/error', { err });
 });
 
 app.listen(5000, () => {

@@ -100,4 +100,3 @@ function closeSignupForm() {
     closeLoginSignupContainer();
     document.querySelector(".signup-form").style.display = "none";
 }
-

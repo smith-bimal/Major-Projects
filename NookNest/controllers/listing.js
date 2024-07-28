@@ -14,12 +14,14 @@ module.exports.index = async (req, res) => {
 
 
     //handing the search query
-    const destination = req.query.destination;
-    const searchedListings = listings.filter(listing => {
-        return listing.location === destination || listing.country === destination || listing.title === destination;
+    const searchQuery = req.query.sq;
+    const properties = listings.filter(listing => {
+        return listing.location === searchQuery || listing.country === searchQuery || listing.title === searchQuery;
     });
 
-    console.log(searchedListings);
+    if (searchQuery) {
+        res.render('listings/search', { properties, searchQuery });
+    }
 
     res.render('listings/index', { listings, villas, apartments, resorts, cottages, placesWithReview });
 }
@@ -57,7 +59,6 @@ module.exports.createListing = async (req, res, next) => {
     newListing.image = { url: req.file.path, filename: req.file.filename };
 
     newListing.geometry = response.body.features[0].geometry;
-    console.log(newListing);
     await newListing.save();
     req.flash('success', 'New Listing created successfully!');
     res.redirect(`/listings`);

@@ -29,7 +29,7 @@ const sampleListings = [{
     filename: "listingimage"
   },
   price: 1200,
-  location: "New York City",
+  location: "New York",
   country: "United States",
   reviews: [],
   owner: {

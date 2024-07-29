@@ -6,7 +6,7 @@
 <% layout("/layouts/boilerplate") %>
 
 <body>
-  <div class="row col-lg-9 m-auto mt-3">
+  <div class="row col-lg-9 m-auto mt-4">
     <div class="listing-heading-top flex justify-content-between">
       <h3><%= listing.title %></h3>
       <div class="d-flex gap-3">
@@ -20,7 +20,7 @@
     </div>
 
     <div class="card mb-2 p-sm-3 p-0">
-      <img src="<%= listing.image.url %>" class="card-img-top show-img my-3" alt="Listing_image" />
+      <img src="<%= listing.image.url %>" class="card-img-top show-img my-4" alt="Listing_image" />
 
       <div class="card-body flex justify-content-between px-sm-0 px-2">
         <div class="listing-details-section col-md-7">
@@ -95,11 +95,34 @@
           </div>
 
         </div>
-        <div class="listing-booking-section col-md-4">
 
+        <div class="listing-booking-section col-md-4">
+          <div class="listing-booking-card p-4 mt-2 border rounded-4">
+            <h4 class="d-inline-block">₹<%= listing.price.toLocaleString("en-IN") %></h4><span class="text-secondary"> /night</span>
+
+            <div class="search-credentials mt-3">
+              <div class="search-credential-input">
+                <i class="fa-regular fa-calendar-check top-50 translate-middle-y"></i>
+                <input type="date" id="search_date" class="form-control" placeholder="Check-in & Check-out Date" />
+              </div>
+            </div>
+
+            <div class="search-credentials mt-3">
+              <div class="search-credential-input">
+                <i class="fa-regular fa-user top-50 translate-middle-y"></i>
+                <input type="number" id="guest_count" min="0" class="form-control" placeholder="Number of Guests" />
+              </div>
+            </div>
+
+            <div class="btn btn-dark mt-4 flex py-2">Reserve</div>
+
+            <p class="text-center text-secondary mt-2"><small>You won't be charged yet.</small></p>
+          </div>
         </div>
       </div>
     </div>
+
+    <hr class="my-4">
 
     <% if (currentUser && currentUser._id.equals(listing.owner._id)) { %>
     <div class="row btns d-flex gap-3 align-items-center mb-4">

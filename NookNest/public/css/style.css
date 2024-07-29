@@ -321,9 +321,30 @@ footer * {
 
 /* Show page */
 .show-img {
-  max-height: 35rem;
+  max-height: 30vw;
   object-fit: cover;
   object-position: center;
+}
+
+@media screen and (max-width: 1500px) {
+  .show-img {
+    max-height: 35vw;
+  }
+}
+@media screen and (max-width: 992px) {
+  .show-img {
+    max-height: 45vw;
+  }
+}
+@media screen and (max-width: 768px) {
+  .show-img {
+    max-height: 50vw;
+  }
+}
+@media screen and (max-width: 640px) {
+  .show-img {
+    max-height: 60vw;
+  }
 }
 
 .listing-heading-top span.btn:hover {
@@ -355,6 +376,16 @@ footer * {
 .offerings-container table tr td i {
   width: 15px;
   text-align: center;
+}
+
+.listing-booking-section {
+  height: 100%;
+}
+.listing-booking-card {
+  box-shadow: 0 6px 16px #00000012;
+  position: sticky;
+  top: 2rem;
+  z-index: 100;
 }
 
 /* Removing default bootstrap styles */

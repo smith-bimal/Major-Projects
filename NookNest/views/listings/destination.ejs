@@ -43,7 +43,7 @@
                         avgRating = totalRating / property.reviews.length;
                       %>
                       <%= avgRating.toFixed(1) %>
-                      <% } else { %>0.0
+                      <% } else { %>New
                       <% } %>
                       (<%= (property.reviews).length.toLocaleString("en-IN") %> Reviews)</small></p>
                   <h4 class="m-1 mb-0">₹ <%= property.price.toLocaleString("en-IN") %> <small class="fs-6 fw-normal">/night</small></h4>

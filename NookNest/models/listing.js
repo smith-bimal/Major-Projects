@@ -34,7 +34,12 @@ const listingSchema = new Schema({
             required: true
         }
     },
+    offerings: [String],
     property_type: String,
+    created_at: {
+        type: Date,
+        default: Date.now(),
+    }
 });
 
 // Mongoose middleware to delete the reviews related to the listing

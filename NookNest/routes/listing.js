@@ -13,9 +13,9 @@ router.route('/').get(wrapAsync(listingController.index))
     // Create Route 
     .post(isLoggedIn, upload.single('listing[image]'), validateListing, wrapAsync(listingController.createListing));
 
+
 // New Route 
 router.get('/new', isLoggedIn, listingController.renderNewForm);
-
 
 // Show Route 
 router.route('/:id').get(wrapAsync(listingController.renderListingView))

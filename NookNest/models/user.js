@@ -7,6 +7,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now(),
     }
 });
 

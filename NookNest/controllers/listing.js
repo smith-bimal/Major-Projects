@@ -4,6 +4,7 @@ const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
+    // Fetch all listings
     const listings = await Listing.find({});
     const villas = await Listing.find({ property_type: 'Villa' }).populate("reviews");
     const apartments = await Listing.find({ property_type: 'Apartment' });
@@ -12,26 +13,14 @@ module.exports.index = async (req, res) => {
     const popularListings = await Listing.find({ reviews: { $ne: [] } }).populate("reviews");
     const placesWithReview = popularListings.sort((a, b) => b.reviews.length - a.reviews.length);//sorting all the listings with descending number of reviews
 
-
-    //handing the search query
-    const searchQuery = req.query.sq;
-    const properties = listings.filter(listing => {
-        return listing.location === searchQuery || listing.country === searchQuery || listing.title === searchQuery;
-    });
-
-    if (searchQuery) {
-        res.render('listings/search', { properties, searchQuery });
-    }
-
     res.render('listings/index', { listings, villas, apartments, resorts, cottages, placesWithReview });
-}
+};
 
 module.exports.renderNewForm = (req, res) => {
     res.render("listings/new");
 }
 
 module.exports.renderListingView = async (req, res) => {
-
     const listing = await Listing.findById(req.params.id)
         .populate({
             path: "reviews",

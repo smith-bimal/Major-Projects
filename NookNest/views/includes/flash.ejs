@@ -11,25 +11,25 @@
 </svg>
 
 <% if (success && success.length>0) { %>
-<div class="alert alert-dark d-flex align-items-center alert-dismissible fade show position-fixed m-2 z-3 rounded-pill" role="alert">
+<div class="alert alert-dark flex justify-content-between alert-dismissible fade show position-fixed m-2 z-3 rounded-pill" role="alert">
   <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:">
     <use xlink:href="#check-circle-fill" />
   </svg>
   <div>
     <%= success %>
   </div>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <button type="button" class="btn-close flex" data-bs-dismiss="alert" aria-label="Close"><i class="fa-solid fa-xmark text-white"></i></button>
 </div>
 <% } %>
 
 <% if (error && error.length>0) { %>
-<div class="alert alert-dark d-flex align-items-center alert-dismissible fade show position-fixed m-2 z-3 rounded-pill" role="alert">
+<div class="alert alert-dark flex justify-content-between alert-dismissible fade show position-fixed m-2 z-3 rounded-pill" role="alert">
   <svg class="bi flex-shrink-0 me-2 text-danger" role="img" aria-label="Danger:">
     <use xlink:href="#exclamation-triangle-fill" />
   </svg>
   <div>
     <%= error %>
   </div>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <button type="button" class="btn-close flex" data-bs-dismiss="alert" aria-label="Close"><i class="fa-solid fa-xmark text-white"></i></button>
 </div>
 <% } %>

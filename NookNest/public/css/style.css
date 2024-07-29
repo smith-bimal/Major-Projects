@@ -273,6 +273,15 @@ footer * {
   box-shadow: 5px 5px 20px -10px black;
 }
 
+.alert-dark {
+  background-color: #000;
+  color: #fff;
+}
+
+.alert-dark button {
+  --bs-btn-close-bg: none;
+}
+
 .alert svg {
   height: 1rem;
   width: 1rem;
@@ -285,8 +294,10 @@ footer * {
   fill: #fe424d;
 }
 
-.alert button {
+.alert button.btn-close {
   --bs-btn-close-focus-shadow: none;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .alert-dismissible.fade {
@@ -310,8 +321,40 @@ footer * {
 
 /* Show page */
 .show-img {
-  max-height: 30rem;
+  max-height: 35rem;
   object-fit: cover;
+  object-position: center;
+}
+
+.listing-heading-top span.btn:hover {
+  background-color: #dbdbdb;
+}
+
+.host-img {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.host-img img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.publish-host-img {
+  height: 50px;
+  width: 50px;
+}
+
+.offerings-container {
+  list-style: none;
+}
+
+.offerings-container table tr td {
+  border: none;
+}
+.offerings-container table tr td i {
+  width: 15px;
+  text-align: center;
 }
 
 /* Removing default bootstrap styles */

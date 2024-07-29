@@ -18,7 +18,8 @@ const ExpressError = require('./utils/ExpressError');
 const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
-const searchRouter = require("./routes/destination");
+const destinationRouter = require("./routes/destination");
+const searchRouter = require("./routes/search");
 const User = require("./models/user");
 
 main().then(() => {
@@ -78,8 +79,11 @@ app.use("/listings/:id/review", reviewRouter);
 // User Routings 
 app.use("/", userRouter);
 
+// Destination Routings 
+app.use("/d", destinationRouter);
+
 // Search Routings 
-app.use("/s", searchRouter);
+app.use("/search", searchRouter);
 
 // Page not found Error 
 app.all("*", (req, res, next) => {

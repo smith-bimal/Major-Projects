@@ -47,17 +47,17 @@ const month25Name = monthNames[month25Index];
             <label for="search_location">Location</label>
             <div class="search-credential-input">
               <i class="fa-solid fa-location-crosshairs top-50 translate-middle-y"></i>
-              <input type="text" id="search_location" class="form-control" placeholder="Find location" disabled>
+              <input type="text" id="search_location" class="form-control" placeholder="Find location" />
               <i class="fa-solid fa-circle-chevron-down top-50 end-0 me-3"></i>
             </div>
           </div>
         </div>
         <div class=" col-md-4">
           <div class="search-credentials">
-            <label for="search_date">Check-in and Check-out Date</label>
+            <label for="search_date">Check-in & Check-out Date</label>
             <div class="search-credential-input">
               <i class="fa-regular fa-calendar-check top-50 translate-middle-y"></i>
-              <input type="text" id="search_date" class="form-control" placeholder="Add dates" disabled>
+              <input type="date" id="search_date" class="form-control" placeholder="Add dates" />
               <i class="fa-solid fa-circle-chevron-down top-50 end-0 me-3"></i>
             </div>
           </div>
@@ -67,7 +67,7 @@ const month25Name = monthNames[month25Index];
             <label for="search_gnr_count">Guests and Rooms</label>
             <div class="search-credential-input">
               <i class="fa-regular fa-user top-50 translate-middle-y"></i>
-              <input type="text" id="search_gnr_count" class="form-control" placeholder="1 guest, 1 room" disabled>
+              <input type="text" id="search_gnr_count" class="form-control" placeholder="1 guest, 1 room" disabled />
               <i class="fa-solid fa-circle-chevron-down top-50 end-0 me-3"></i>
             </div>
           </div>
@@ -120,7 +120,7 @@ const month25Name = monthNames[month25Index];
                   <h5 class="card-title mt-0">Villas</h5>
                   <p class="card-text text-secondary m-0"><i class="fa-solid fa-house me-2"></i><%= villas.length.toLocaleString("en-IN") %> Available</p>
                 </div>
-                <a href="/s/Villa" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/d/Villa" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
             <img src="<%= villas[0].image.url %>" class="card-img-top" alt="Villas">
@@ -137,7 +137,7 @@ const month25Name = monthNames[month25Index];
                   <h5 class="card-title mt-0">Apartments</h5>
                   <p class="card-text text-secondary m-0"><i class="fa-solid fa-building me-2"></i><%= apartments.length.toLocaleString("en-IN") %> Available</p>
                 </div>
-                <a href="/s/Apartment" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/d/Apartment" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
             <img src="<%= apartments[0].image.url %>" class="card-img-top" alt="Villas">
@@ -154,7 +154,7 @@ const month25Name = monthNames[month25Index];
                   <h5 class="card-title mt-0">Resorts</h5>
                   <p class="card-text text-secondary m-0"><i class="fa-solid fa-mountain-city me-2"></i><%= resorts.length.toLocaleString("en-IN") %> Available</p>
                 </div>
-                <a href="/s/Resort" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/d/Resort" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
             <img src="<%= resorts[0].image.url %>" class="card-img-top" alt="Villas">
@@ -171,7 +171,7 @@ const month25Name = monthNames[month25Index];
                   <h5 class="card-title mt-0">Cottages</h5>
                   <p class="card-text text-secondary m-0"><i class="fa-solid fa-campground me-2"></i><%= cottages.length.toLocaleString("en-IN") %> Available</p>
                 </div>
-                <a href="/s/Cottage" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/d/Cottage" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
             <img src="<%= cottages[0].image.url %>" class="card-img-top" alt="Villas">
@@ -200,7 +200,7 @@ const month25Name = monthNames[month25Index];
         <input type="radio" class="btn-check" id="country4" name="hotel-country">
         <label class="btn btn-outline-dark rounded-pill" for="country4">Italy</label>
       </div>
-      <a href="/s/all" class="btn btn-outline-dark gray-btn">See All &nbsp;<i class="fa-solid fa-arrow-right"></i></a>
+      <a href="/d/all" class="btn btn-outline-dark gray-btn">See All &nbsp;<i class="fa-solid fa-arrow-right"></i></a>
     </div>
 
     <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-2 row-column-xs-1">
@@ -215,7 +215,8 @@ const month25Name = monthNames[month25Index];
                   <div class="text-content mt-3">
                     <h5 class="card-title"><%= villas[index].title %></h5>
                     <p class="card-text text-secondary m-1"><i class="fa-solid fa-location-dot me-2"></i><%= villas[index].country %></p>
-                    <p class="card-text text-secondary m-1"><small><i class="fa-regular fa-star me-2"></i><% if (villas[index].reviews.length > 0) { %>
+                    <p class="card-text text-secondary m-1"><small><i class="fa-regular fa-star me-2"></i>
+                        <% if (villas[index].reviews.length > 0) { %>
                         <% let avgRating;
                           let totalRating = 0;
                           villas[index].reviews.forEach(review => {
@@ -224,7 +225,7 @@ const month25Name = monthNames[month25Index];
                           avgRating = totalRating / villas[index].reviews.length;
                         %>
                         <%= avgRating.toFixed(1) %>
-                        <% } else { %>0.0
+                        <% } else { %>New
                         <% } %>
                         (<%= (villas[index].reviews).length.toLocaleString("en-IN") %> Reviews)</small></p>
                     <h4 class="m-1 mb-0">₹ <%= villas[index].price.toLocaleString("en-IN") %> <small class="fs-6 fw-normal">/night</small></h4>
@@ -242,6 +243,7 @@ const month25Name = monthNames[month25Index];
   </div>
 
   <!-- Most Visited Hotel Content -->
+  <% if (placesWithReview.length > 0) { %>
   <div class="main-width mt-4">
     <h2>Most visited hotels of all time</h2>
     <p class="text-secondary">Trending exceptional hospitality that captivated travelers of all time.</p>
@@ -273,7 +275,7 @@ const month25Name = monthNames[month25Index];
                           avgRating = totalRating / placesWithReview[index].reviews.length;
                         %>
                         <%= avgRating.toFixed(1) %>
-                        <% } else { %>0.0
+                        <% } else { %>New
                         <% } %>
                         (<%= (placesWithReview[index].reviews).length.toLocaleString("en-IN") %> Reviews)</small></p>
                     <h4 class="m-1 mb-0">₹ <%= placesWithReview[index].price.toLocaleString("en-IN") %> <small class="fs-6 fw-normal">/night</small></h4>
@@ -289,6 +291,7 @@ const month25Name = monthNames[month25Index];
 
     </div>
   </div>
+  <% } %>
 
   <!-- Promo Code Content -->
   <div class="main-width my-md-4">
@@ -340,7 +343,7 @@ const month25Name = monthNames[month25Index];
           <i class="fa-solid fa-globe p-3"></i>
           <h2 class="text-white fw-normal mt-4">Explore more to get your <br>comfort zone.</h2>
           <p>Book your perfect stay with us.</p>
-          <a href="/s/all" class="btn btn-light gray-btn mt-3">Booking Now &nbsp;<i class="fa-solid fa-arrow-right"></i></a>
+          <a href="/d/all" class="btn btn-light gray-btn mt-3">Booking Now &nbsp;<i class="fa-solid fa-arrow-right"></i></a>
         </div>
       </div>
 

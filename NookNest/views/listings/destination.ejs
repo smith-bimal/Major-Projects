@@ -1,5 +1,7 @@
 <% layout("/layouts/boilerplate") %>
 
+<% if (properties.length>0) { %>
+
 <div class="main-width mt-4">
   <% if (allProperties) { %>
   <h2>Unforgettable Escapes: Find Your Perfect Retreat</h2>
@@ -59,3 +61,10 @@
 
   </div>
 </div>
+
+<% }else{ %>
+<div class="main-width mt-4">
+  <h2>No Properties Found</h2>
+  <p class="text-secondary">Sorry, no properties were found that match your search criteria. Please try again.</p>
+</div>
+<% } %>

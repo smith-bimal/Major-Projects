@@ -123,7 +123,7 @@ const month25Name = monthNames[month25Index];
                 <a href="/d/Villa" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
-            <img src="<%= villas[0].image.url %>" class="card-img-top" alt="Villas">
+            <img src="/assets/villa.jpg" class="card-img-top" alt="Villas">
           </div>
         </div>
       </div>
@@ -140,7 +140,7 @@ const month25Name = monthNames[month25Index];
                 <a href="/d/Apartment" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
-            <img src="<%= apartments[0].image.url %>" class="card-img-top" alt="Villas">
+            <img src="/assets/apartment.jpg" class="card-img-top" alt="Villas">
           </div>
         </div>
       </div>
@@ -157,7 +157,7 @@ const month25Name = monthNames[month25Index];
                 <a href="/d/Resort" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
-            <img src="<%= resorts[0].image.url %>" class="card-img-top" alt="Villas">
+            <img src="/assets/resort.jpg" class="card-img-top" alt="Villas">
           </div>
         </div>
       </div>
@@ -174,14 +174,16 @@ const month25Name = monthNames[month25Index];
                 <a href="/d/Cottage" class="btn btn-outline-dark"><i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
-            <img src="<%= cottages[0].image.url %>" class="card-img-top" alt="Villas">
+            <img src="/assets/cottage.jpg" class="card-img-top" alt="Villas">
           </div>
         </div>
       </div>
     </div>
   </div>
+  <hr>
 
   <!-- Trending Hotel Content -->
+  <% if (villas.length>0) { %>
   <div class="main-width mt-4">
     <h2>Top trending hotel in worldwide</h2>
     <p class="text-secondary">Discover the most trending hotels worldwide for an unforgettable experience.</p>
@@ -241,6 +243,13 @@ const month25Name = monthNames[month25Index];
 
     </div>
   </div>
+  <% }else{ %>
+  <div class="main-width mt-4">
+    <h2>No trending hotels available</h2>
+    <p class="text-secondary">We're sorry, but no trending hotels are available at the moment.</p>
+  </div>
+  <hr>
+  <% } %>
 
   <!-- Most Visited Hotel Content -->
   <% if (placesWithReview.length > 0) { %>

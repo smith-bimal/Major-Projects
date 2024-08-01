@@ -3,6 +3,8 @@
   let coordinates = <%- JSON.stringify(listing.geometry.coordinates) %>;
 </script>
 
+
+
 <% layout("/layouts/boilerplate") %>
 
 <body>
@@ -49,6 +51,7 @@
           <hr class="my-4">
 
           <p><%= listing.description %></p>
+          <div class="btn show-more-btn p-0"><span class="text-decoration-underline">Show more</span>&nbsp;<small><i class="fa-solid fa-greater-than"></i></small></div>
 
           <hr class="my-4">
 
@@ -110,15 +113,31 @@
             <div class="search-credentials mt-3">
               <div class="search-credential-input">
                 <i class="fa-regular fa-user top-50 translate-middle-y"></i>
-                <input type="number" id="guest_count" min="0" class="form-control" placeholder="Number of Guests" />
+                <input type="number" id="guest_count" min="0" class="form-control" placeholder="Number of Guests" value="1" />
               </div>
             </div>
 
-            <div class="btn btn-dark mt-4 flex py-2">Reserve</div>
+            <!-- Elements that should be toggled based on date selection -->
+            <div id="reserve_button" class="btn btn-dark mt-4 flex py-2" style="display: none;">Reserve</div>
+            <div id="check_availability_button" class="btn btn-dark mt-4 flex py-2" style="display: block;">Check availability</div>
 
-            <p class="text-center text-secondary mt-2"><small>You won't be charged yet.</small></p>
+            <p id="price_details" class="text-center text-secondary mt-2" style="display: none;">
+              <small>You won't be charged yet.</small>
+            </p>
+
+            <div id="price_calc" class="price-calc justify-content-between " style="display: none;">
+              <span class="text-secondary text-decoration-underline">₹<%= listing.price.toLocaleString("en-IN") %> X <span id="number_of_days"></span> night(s)</span>
+              <span class="text-secondary">₹<span class="total_cost"></span></span>
+            </div>
+            <hr id="price_divider" style="display: none;">
+
+            <div id="total_before_taxes" class="price-calc justify-content-between " style="display: none;">
+              <span class="fw-bold">Total before taxes</span>
+              <span class="fw-bold">₹<span class="total_cost"></span></span>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -196,3 +215,60 @@
 </body>
 
 <script src="/js/map.js"></script>
+
+<script>
+  flatpickr("#search_date", {
+    mode: "range",
+    minDate: "today",
+    dateFormat: "Y-m-d",
+    position: "below",
+    onChange: function(selectedDates, dateStr, instance) {
+      const reserveButton = document.getElementById('reserve_button');
+      const checkAvailabilityButton = document.getElementById('check_availability_button');
+      const priceDetails = document.getElementById('price_details');
+      const priceCalc = document.getElementById('price_calc');
+      const priceDivider = document.getElementById('price_divider');
+      const totalBeforeTaxes = document.getElementById('total_before_taxes');
+      const numberOfDaysElement = document.getElementById('number_of_days');
+      const totalCostElement = document.querySelectorAll('.total_cost');
+
+      if (selectedDates.length === 2) {
+        const startDate = selectedDates[0];
+        const endDate = selectedDates[1];
+        const diffInTime = endDate.getTime() - startDate.getTime();
+        const diffInDays = Math.round(diffInTime / (1000 * 60 * 60 * 24));
+
+        // Calculate total cost
+        const pricePerNight = <%= listing.price %>;
+        const totalCost = diffInDays * pricePerNight;
+
+        // Update the hidden inputs
+        numberOfDaysElement.textContent = diffInDays;
+        totalCostElement.forEach(el => {
+          el.textContent = totalCost.toLocaleString("en-IN");
+        })
+
+        // Show the reserve button and price details
+        reserveButton.style.display = 'block';
+        checkAvailabilityButton.style.display = 'none';
+        priceDetails.style.display = 'block';
+        priceCalc.style.display = 'flex';
+        priceDivider.style.display = 'block';
+        totalBeforeTaxes.style.display = 'flex';
+      } else {
+        // Hide the reserve button and price details
+        reserveButton.style.display = 'none';
+        checkAvailabilityButton.style.display = 'block';
+        priceDetails.style.display = 'none';
+        priceCalc.style.display = 'none';
+        priceDivider.style.display = 'none';
+        totalBeforeTaxes.style.display = 'none';
+      }
+    }
+  });
+
+  document.getElementById('check_availability_button').addEventListener('click', function() {
+    // Trigger the click event on the #search_date input to open the calendar
+    document.getElementById('search_date').click();
+  });
+</script>

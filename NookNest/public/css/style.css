@@ -388,6 +388,22 @@ footer * {
   z-index: 100;
 }
 
+/* #reserve_button,
+#price_details,
+#price_calc,
+#price_divider,
+#total_before_taxes {
+  display: none;
+} */
+
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: flex !important;
+}
+
 /* Removing default bootstrap styles */
 
 .form-control.is-invalid:focus,

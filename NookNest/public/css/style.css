@@ -385,16 +385,8 @@ footer * {
   box-shadow: 0 6px 16px #00000012;
   position: sticky;
   top: 2rem;
-  z-index: 100;
+  z-index: 10;
 }
-
-/* #reserve_button,
-#price_details,
-#price_calc,
-#price_divider,
-#total_before_taxes {
-  display: none;
-} */
 
 .hidden {
   display: none !important;
@@ -402,6 +394,16 @@ footer * {
 
 .visible {
   display: flex !important;
+}
+
+.flatpickr-calendar.open {
+  z-index: 10;
+}
+
+.description-popup {
+  max-width: 850px;
+  z-index: 100;
+  display: none;
 }
 
 /* Removing default bootstrap styles */

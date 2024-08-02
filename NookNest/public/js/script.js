@@ -222,3 +222,29 @@ offerings.forEach(offering => {
             break;
     };
 })
+
+
+//show description and show amenities
+
+const showMoreBtn = document.querySelector(".show-more-btn");
+const descriptionContainer = document.querySelector(".description-popup");
+const descriptionCloseBtn = document.querySelector(".close-btn.dsc-close-btn");
+
+if (showMoreBtn) {
+    showMoreBtn.addEventListener("click", () => {
+        showDescriptionContainer();
+    });
+
+    descriptionCloseBtn.addEventListener("click", () => {
+        closeDescriptionContainer();
+    });
+}
+
+function showDescriptionContainer() {
+    document.querySelector(".desc-container").style.display = "flex";
+    document.querySelector(".description-popup").style.display = "block";
+}
+function closeDescriptionContainer() {
+    document.querySelector(".desc-container").style.display = "none";
+    document.querySelector(".description-popup").style.display = "none";
+}

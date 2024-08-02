@@ -50,8 +50,12 @@
 
           <hr class="my-4">
 
-          <p><%= listing.description %></p>
+          <% if (listing.description.length >200){ %>
+          <p><%= listing.description.slice(0,200) %>...</p>
           <div class="btn show-more-btn p-0"><span class="text-decoration-underline">Show more</span>&nbsp;<small><i class="fa-solid fa-greater-than"></i></small></div>
+          <% }else{ %>
+          <p><%= listing.description %></p>
+          <% } %>
 
           <hr class="my-4">
 
@@ -211,6 +215,15 @@
   <div class="row col-lg-9 m-auto mt-3 mb-4">
     <h4>Where you'll be</h4>
     <div id="map"></div>
+  </div>
+
+  <!-- Show more popup screen -->
+  <div class="desc-container flex">
+    <div class="description-popup bg-white border rounded-4 p-4">
+      <div class="close-btn dsc-close-btn mb-4"><i class="fa-solid fa-x"></i></div>
+      <h3 class="mb-4">About this place</h3>
+      <p><%= listing.description %></p>
+    </div>
   </div>
 </body>
 

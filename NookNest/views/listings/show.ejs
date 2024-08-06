@@ -22,7 +22,7 @@
     </div>
 
     <div class="card mb-2 p-sm-3 p-0">
-      <img src="<%= listing.image.url %>" class="card-img-top show-img my-4" alt="Listing_image" />
+      <img src="<%= listing.image.url %>" class="card-img-top show-img mb-4" alt="Listing_image" />
 
       <div class="card-body flex justify-content-between px-sm-0 px-2">
         <div class="listing-details-section col-md-7">
@@ -32,7 +32,7 @@
             listing.reviews.forEach(review => {
             totalRating += review.rating
             }); 
-            avgRating = totalRating / villas[index].reviews.length;
+            avgRating = totalRating / listing.reviews.length;
             %><%= avgRating.toFixed(1) %><% } else { %>New<% } %> &centerdot;
             <u><%= (listing.reviews).length.toLocaleString("en-IN") %> Reviews</u>
           </h6>
@@ -98,7 +98,7 @@
                 </table>
               </div>
             </div>
-            <div class="btn btn-outline-dark px-3 py-2">Show all 28 amenities</div>
+            <div class="show-amenities-btn btn btn-outline-dark px-3 py-2">Show all 28 amenities</div>
           </div>
 
         </div>
@@ -144,17 +144,6 @@
 
       </div>
     </div>
-
-    <hr class="my-4">
-
-    <% if (currentUser && currentUser._id.equals(listing.owner._id)) { %>
-    <div class="row btns d-flex gap-3 align-items-center mb-4">
-      <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark edit-btn align-self-center col-2">Edit</a>
-      <form method="post" action="/listings/<%= listing._id %>?_method=DELETE" class="col-1">
-        <button type="submit" class="btn btn-dark border-0">Delete</button>
-      </form>
-    </div>
-    <% } %>
   </div>
 
   <div class="row col-lg-9 m-auto mt-3 mb-4">
@@ -187,10 +176,22 @@
     </form>
     <% } %>
 
-    <div class="row">
+    <hr class="my-4">
+    <div>
       <% if (listing.reviews && listing.reviews.length>0) { %>
-      <hr>
-      <p><b>All Reviews</b></p>
+      <% if (listing.reviews.length >= 3) { %>
+      <h4 class="my-4"><i class="fa-solid fa-star me-2"></i><% let avgRating;
+        let totalRating = 0;
+        listing.reviews.forEach(review => {
+          totalRating += review.rating
+        }); 
+        avgRating = totalRating / listing.reviews.length;
+        %> <%= avgRating.toFixed(2) %> &centerdot; <%= listing.reviews.length %> Reviews</h4>
+      <% } else {%>
+      <h4>All Reviews</h4>
+      <p class="text-secondary">Average rating will appear after 3 reviews</p>
+      <% } %>
+
       <% listing.reviews.forEach(review => { %>
       <div class="card col-md-5 border ms-3">
         <div class="card-body mb-3">
@@ -213,16 +214,56 @@
   </div>
 
   <div class="row col-lg-9 m-auto mt-3 mb-4">
+    <hr class="my-4">
     <h4>Where you'll be</h4>
     <div id="map"></div>
   </div>
 
-  <!-- Show more popup screen -->
+  <!-- Show more description screen -->
   <div class="desc-container flex">
-    <div class="description-popup bg-white border rounded-4 p-4">
+    <div class="description-popup bg-white border rounded-4 p-4 mx-1">
       <div class="close-btn dsc-close-btn mb-4"><i class="fa-solid fa-x"></i></div>
       <h3 class="mb-4">About this place</h3>
       <p><%= listing.description %></p>
+    </div>
+  </div>
+
+
+  <!-- Show more amenities screen -->
+  <div class="amenities-container flex">
+    <div class="amenities-popup bg-white border rounded-4 p-4 mx-1">
+      <div class="close-btn amenities-close-btn mb-4"><i class="fa-solid fa-x"></i></div>
+      <h3 class="mb-4">What this place offers</h3>
+
+      <table class="table">
+        <tr>
+          <td>Garden view</td>
+        </tr>
+        <tr>
+          <td>Kitchen facilities</td>
+        </tr>
+        <tr>
+          <td>Parking availability</td>
+        </tr>
+        <tr>
+          <td>Cable TV</td>
+        </tr>
+        <tr>
+          <td>Fridge</td>
+        </tr>
+        <tr>
+          <td>Dining table</td>
+        </tr>
+        <tr>
+          <td>Recycling facilities</td>
+        </tr>
+        <tr>
+          <td>Quiet neighborhood</td>
+        </tr>
+        <tr>
+          <td>Parking availability</td>
+        </tr>
+      </table>
     </div>
   </div>
 </body>
@@ -285,3 +326,4 @@
     document.getElementById('search_date').click();
   });
 </script>
+<script src="/js/show.js"></script>

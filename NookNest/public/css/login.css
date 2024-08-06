@@ -92,7 +92,8 @@
 }
 
 .login-signup-container,
-.desc-container {
+.desc-container,
+.amenities-container {
   height: 100vh;
   width: 100%;
   position: fixed;

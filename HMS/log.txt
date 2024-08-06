@@ -3987,3 +3987,17 @@
 2024-06-28T13:12:46.296Z - POST /logout - ::1
 2024-06-28T13:12:47.807Z - GET /login - ::1
 2024-06-28T13:12:47.880Z - GET /libs/bootstrap/bootstrap.min.css.map - ::1
+2024-08-05T10:37:02.729Z - GET / - ::1
+2024-08-05T10:37:09.077Z - GET /login - ::1
+2024-08-05T10:37:18.405Z - POST /login/admin - ::1
+2024-08-05T10:37:18.544Z - GET /admin/dashboard - ::1
+2024-08-05T10:37:18.747Z - GET /uploads/headshot-doctor_810293-530.webp - ::1
+2024-08-05T10:37:35.333Z - GET /admin/prescription/q - ::1
+2024-08-05T10:37:37.151Z - GET /admin/prescription/q/PA-39-9940859 - ::1
+2024-08-05T10:37:41.825Z - GET /admin/doctor/q - ::1
+2024-08-05T10:37:44.933Z - GET /admin/doctor/q/665f1d35035b109914313b9f - ::1
+2024-08-05T10:38:32.673Z - GET /admin/payroll/manage - ::1
+2024-08-05T10:38:35.346Z - GET /admin/payroll/generate - ::1
+2024-08-05T10:38:37.339Z - GET /admin/payroll/generate/6669e4d7f791c0a1478ed72c - ::1
+2024-08-05T10:38:46.575Z - POST /logout - ::1
+2024-08-05T10:38:48.098Z - GET /login - ::1

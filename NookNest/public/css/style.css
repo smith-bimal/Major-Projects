@@ -418,6 +418,25 @@ table tr td i {
   width: 2rem;
 }
 
+img[class="error-search"] {
+  width: 100vw;
+  max-width: 56vh;
+  opacity: 0.5;
+}
+
+.username-div {
+  height: 3.75rem;
+  width: 3.75rem;
+}
+
+.review-created-at {
+  margin: -1.5rem 0 2rem 0.5rem;
+}
+
+.review-created-at small {
+  color: #6c757d;
+}
+
 /* Removing default bootstrap styles */
 
 .form-control.is-invalid:focus,

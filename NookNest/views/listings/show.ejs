@@ -180,7 +180,7 @@
     <div>
       <% if (listing.reviews && listing.reviews.length>0) { %>
       <% if (listing.reviews.length >= 3) { %>
-      <h4 class="my-4"><i class="fa-solid fa-star me-2"></i><% let avgRating;
+      <h4 class="my-4"><i class="fa-solid fa-star me-1"></i><% let avgRating;
         let totalRating = 0;
         listing.reviews.forEach(review => {
           totalRating += review.rating
@@ -192,29 +192,58 @@
       <p class="text-secondary">Average rating will appear after 3 reviews</p>
       <% } %>
 
-      <% listing.reviews.forEach(review => { %>
-      <div class="card col-md-5 border ms-3">
-        <div class="card-body mb-3">
-          <h5 class="card-title fs-6 fw-bold">@<%= review.author.username %></h5>
-          <p class="starability-result" data-rating="<%= review.rating %>">
-          <p class="card-text"><%= review.comment %></p>
-          </p>
+      <div class="d-grid">
+        <div class="row row-cols-sm-2 row-cols-1">
+          <% listing.reviews.forEach(review => { %>
+          <div class="card mb-3 mb-sm-4">
+            <div class="card-body">
+              <div class="user-img-name flex justify-content-start">
+                <div class="p-3 bg-dark text-white border rounded-circle username-div">
+                  <p class="text-center fw-bold m-0"><%= review.author.username.slice(0,1).toUpperCase() %></p>
+                </div>
+                <div class="ms-2">
+                  <p class=" my-1 fw-bold"><%= review.author.username.slice(0,1).toUpperCase() %><%= review.author.username.slice(1,review.author.username.length) %></p>
+                  <p class="mb-2 text-secondary"><small>Moment.js</small></p>
+                </div>
+              </div>
+              <p class="starability-result d-inline-block" data-rating="<%= review.rating %>"></p>
 
-          <% if (currentUser && review.author.id === currentUser.id) { %>
-          <form action="/listings/<%= listing._id %>/review/<%= review._id %>?_method=DELETE" method="POST">
-            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
-          </form>
-          <% } %>
+              <p class="review-created-at">
+                <small>
+                  <% const date = new Date(review.createdAt);
 
+                  const monthAbbreviations = [
+                  'January', 'February', 'March', 'April', 'May', 'June',
+                  'July', 'August', 'September', 'October', 'November', 'December'
+                  ];
+
+                  const monthIndex = date.getMonth(); // 7 for August
+                  const year = date.getFullYear(); // 2024
+
+                  const formattedDate = `${monthAbbreviations[monthIndex]} ${year}`; %>
+                  <%= formattedDate %>
+                </small>
+              </p>
+
+              <p class="card-text ms-2"><%= review.comment %></p>
+
+              <% if (currentUser && review.author.id === currentUser.id) { %>
+              <form action="/listings/<%= listing._id %>/review/<%= review._id %>?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
+              </form>
+              <% } %>
+
+            </div>
+          </div>
+          <% }) %>
         </div>
       </div>
-      <% }) %>
+      <hr class="my-4">
       <% } %>
     </div>
   </div>
 
   <div class="row col-lg-9 m-auto mt-3 mb-4">
-    <hr class="my-4">
     <h4>Where you'll be</h4>
     <div id="map"></div>
   </div>

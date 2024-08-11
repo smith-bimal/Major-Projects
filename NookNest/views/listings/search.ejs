@@ -38,7 +38,10 @@
     </div>
     <% } %>
     <% } else { %>
-    <p class="text-secondary ms-3">We couldn't find a match for "<%= searchQuery %>". Please try another search.</p>
+    <div class="flex flex-wrap mb-5">
+      <img src="/assets/search_error.png" alt="Error" class="error-search">
+      <p class="text-secondary text-center fs-5">We couldn't find a match for "<%= searchQuery %>". Please try another search.</p>
+    </div>
     <% } %>
   </div>
 </div>

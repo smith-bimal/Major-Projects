@@ -1,5 +1,18 @@
 <% layout("/layouts/boilerplate") %>
-
 <div class="mt-3">
-  <%= err.message %>
+  <% if (err.message = "Page not found") { %>
+  <div class="flex flex-column mb-4 err-img-container">
+    <img src="/assets/404.png" alt="404" class="error-img mt-4 mb-5">
+    <h4>
+      <%= err.message %>
+    </h4>
+  </div>
+  <% } else{%>
+  <div class="flex flex-column err-img-container">
+    <img src="/assets/OOPS.png" alt="oops" class="error-img mt-4 mb-5">
+    <h4>
+      <%= err.message %>
+    </h4>
+  </div>
+  <% } %>
 </div>

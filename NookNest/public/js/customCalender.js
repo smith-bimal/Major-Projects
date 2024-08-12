@@ -5,4 +5,5 @@ config = {
     position: "below",
 }
 
-flatpickr("#search_date", config);
+flatpickr("#search_date_1", config);
+flatpickr("#search_date_2", config);

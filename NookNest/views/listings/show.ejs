@@ -50,11 +50,11 @@
 
           <hr class="my-4">
 
-          <% if (listing.description.length >200){ %>
-          <p><%= listing.description.slice(0,200) %>...</p>
+          <% if (listing.description.length >350){ %>
+          <pre><%= listing.description.slice(0,350) %>...</pre>
           <div class="btn show-more-btn p-0"><span class="text-decoration-underline">Show more</span>&nbsp;<small><i class="fa-solid fa-greater-than"></i></small></div>
           <% }else{ %>
-          <p><%= listing.description %></p>
+          <pre><%= listing.description %></pre>
           <% } %>
 
           <hr class="my-4">
@@ -110,7 +110,7 @@
             <div class="search-credentials mt-3">
               <div class="search-credential-input">
                 <i class="fa-regular fa-calendar-check top-50 translate-middle-y"></i>
-                <input type="date" id="search_date" class="form-control" placeholder="Check-in & Check-out Date" />
+                <input type="date" id="search_date_2" class="form-control" placeholder="Check-in & Check-out Date" />
               </div>
             </div>
 
@@ -198,19 +198,20 @@
           <div class="card mb-3 mb-sm-4">
             <div class="card-body">
               <div class="user-img-name flex justify-content-start">
-                <div class="p-3 bg-dark text-white border rounded-circle username-div">
-                  <p class="text-center fw-bold m-0"><%= review.author.username.slice(0,1).toUpperCase() %></p>
+                <div class="flex bg-dark text-white border rounded-circle username-div">
+                  <p class="fw-bold m-0"><%= review.author.username.slice(0,1).toUpperCase() %></p>
                 </div>
                 <div class="ms-2">
-                  <p class=" my-1 fw-bold"><%= review.author.username.slice(0,1).toUpperCase() %><%= review.author.username.slice(1,review.author.username.length) %></p>
+                  <p class=" my-1"><%= review.author.username.slice(0,1).toUpperCase() %><%= review.author.username.slice(1,review.author.username.length) %></p>
                   <p class="mb-2 text-secondary"><small>Moment.js</small></p>
                 </div>
               </div>
-              <p class="starability-result d-inline-block" data-rating="<%= review.rating %>"></p>
+              <div class="d-flex">
+                <p class="starability-result d-inline-block" data-rating="<%= review.rating %>"></p>
 
-              <p class="review-created-at">
-                <small>
-                  <% const date = new Date(review.createdAt);
+                <p class="review-created-at">
+                  <small>
+                    <% const date = new Date(review.createdAt);
 
                   const monthAbbreviations = [
                   'January', 'February', 'March', 'April', 'May', 'June',
@@ -221,15 +222,16 @@
                   const year = date.getFullYear(); // 2024
 
                   const formattedDate = `${monthAbbreviations[monthIndex]} ${year}`; %>
-                  <%= formattedDate %>
-                </small>
-              </p>
+                    <b> &centerdot; </b><%= formattedDate %>
+                  </small>
+                </p>
+              </div>
 
-              <p class="card-text ms-2"><%= review.comment %></p>
+              <p class="card-text ms-2 review-line"><%= review.comment %></p>
 
               <% if (currentUser && review.author.id === currentUser.id) { %>
               <form action="/listings/<%= listing._id %>/review/<%= review._id %>?_method=DELETE" method="POST">
-                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
+                <button type="submit" class="btn btn-sm text-danger">Delete</button>
               </form>
               <% } %>
 
@@ -253,7 +255,9 @@
     <div class="description-popup bg-white border rounded-4 p-4 mx-1">
       <div class="close-btn dsc-close-btn mb-4"><i class="fa-solid fa-x"></i></div>
       <h3 class="mb-4">About this place</h3>
-      <p><%= listing.description %></p>
+      <div class="desc-content">
+        <pre><%= listing.description %></pre>
+      </div>
     </div>
   </div>
 
@@ -300,7 +304,7 @@
 <script src="/js/map.js"></script>
 
 <script>
-  flatpickr("#search_date", {
+  flatpickr("#search_date_2", {
     mode: "range",
     minDate: "today",
     dateFormat: "Y-m-d",
@@ -351,8 +355,8 @@
   });
 
   document.getElementById('check_availability_button').addEventListener('click', function() {
-    // Trigger the click event on the #search_date input to open the calendar
-    document.getElementById('search_date').click();
+    // Trigger the click event on the #search_date_2 input to open the calendar
+    document.getElementById('search_date_2').click();
   });
 </script>
 <script src="/js/show.js"></script>

@@ -1,0 +1,8 @@
+.err-img-container {
+  height: 35rem;
+}
+
+img.error-img {
+  width: 100%;
+  max-width: 50rem;
+}

@@ -313,17 +313,19 @@ footer * {
 
 /* New Page */
 .add-btn {
-  background-color: #fe424d;
-  color: white;
   border: none;
 }
 
-/* Edit page */
-.edit-btn {
-  background-color: #fe424d;
-  color: white;
-  border: none;
+.form-switch .form-check-input {
+  filter: saturate(0);
+  -webkit-filter: saturate(0);
 }
+
+#amenities_container {
+  display: none;
+}
+
+/* Edit page */
 
 /* Show page */
 .show-img {

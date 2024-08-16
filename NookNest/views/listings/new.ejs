@@ -1,4 +1,35 @@
 <% layout("/layouts/boilerplate") %>
+<% const offeringList = [
+"Kitchen facilities",
+"Living room",
+"Fridge",
+"Balcony or patio",
+"Heating",
+"Air conditioning",
+"High-speed internet",
+"Cable TV",
+"Washer and dryer",
+"Closet space",
+"Parking availability",
+"Elevator access",
+"Security system",
+"Pet-friendly",
+"Garden view",
+"Lake view",
+"Dining table",
+"Mountain view",
+"Ocean view",
+"Proximity to public transportation",
+"Gym or fitness center",
+"Swimming pool",
+"Nearby shopping and dining options",
+"Quiet neighborhood",
+"Smoke-free environment",
+"Recycling facilities",
+"Maintenance services",
+"24-hour emergency contact"
+]
+%>
 
 <body>
   <div class="row mt-3">
@@ -20,6 +51,22 @@
         <div class="mb-3">
           <label for="image" class="form-label">Upload Listing Image</label>
           <input id="image" type="file" name="listing[image]" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="has_amenity" name="listing[has_amenity]" value="True">
+            <label class="form-check-label" for="has_amenity" id="aminity_check_label">Check if the location provides amenities</label>
+          </div>
+        </div>
+
+        <div class="mb-3" id="amenities_container">
+          <div class="my-4 d-flex flex-wrap gap-3">
+            <% offeringList.forEach(offer=> { %>
+            <input type="checkbox" class="btn-check" id="<%= offer %>" name="listing[offerings]" value="<%= offer %>" autocomplete="off">
+            <label class="btn btn-outline-dark" for="<%= offer %>"><%= offer %></label>
+            <% }); %>
+          </div>
         </div>
 
         <div class="row">
@@ -47,3 +94,5 @@
     </div>
   </div>
 </body>
+
+<script src="/js/showAmenity.js"></script>

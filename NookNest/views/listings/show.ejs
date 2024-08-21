@@ -64,41 +64,26 @@
             <div class="offerings-container d-flex gap-4">
               <div class="">
                 <table class="table">
+                  <% for( let index = 0; index < 6; index++ ) { %>
                   <tr>
-                    <td>Garden view</td>
+                    <td><%= listing.offerings[index] %></td>
                   </tr>
-                  <tr>
-                    <td>Kitchen facilities</td>
-                  </tr>
-                  <tr>
-                    <td>Parking availability</td>
-                  </tr>
-                  <tr>
-                    <td>Cable TV</td>
-                  </tr>
-                  <tr>
-                    <td>Fridge</td>
-                  </tr>
-                  <tr>
-                    <td>Dining table</td>
-                  </tr>
+                  <% } %>
                 </table>
               </div>
               <div class="d-sm-block d-none">
                 <table class="table">
+                  <% for( let index = 6; index < 9; index++ ) { %>
                   <tr>
-                    <td>Recycling facilities</td>
+                    <td><%= listing.offerings[index] %></td>
                   </tr>
-                  <tr>
-                    <td>Quiet neighborhood</td>
-                  </tr>
-                  <tr>
-                    <td>Parking availability</td>
-                  </tr>
+                  <% } %>
                 </table>
               </div>
             </div>
-            <div class="show-amenities-btn btn btn-outline-dark px-3 py-2">Show all 28 amenities</div>
+            <% if (listing.offerings.length > 9) { %>
+            <div class="show-amenities-btn btn btn-outline-dark px-3 py-2">Show all <%= listing.offerings.length %> amenities</div>
+            <% } %>
           </div>
 
         </div>
@@ -268,35 +253,15 @@
       <div class="close-btn amenities-close-btn mb-4"><i class="fa-solid fa-x"></i></div>
       <h3 class="mb-4">What this place offers</h3>
 
-      <table class="table">
-        <tr>
-          <td>Garden view</td>
-        </tr>
-        <tr>
-          <td>Kitchen facilities</td>
-        </tr>
-        <tr>
-          <td>Parking availability</td>
-        </tr>
-        <tr>
-          <td>Cable TV</td>
-        </tr>
-        <tr>
-          <td>Fridge</td>
-        </tr>
-        <tr>
-          <td>Dining table</td>
-        </tr>
-        <tr>
-          <td>Recycling facilities</td>
-        </tr>
-        <tr>
-          <td>Quiet neighborhood</td>
-        </tr>
-        <tr>
-          <td>Parking availability</td>
-        </tr>
-      </table>
+      <div class="table-div">
+        <table class="table">
+          <% for( let index = 0; index < listing.offerings.length; index++ ) { %>
+          <tr>
+            <td><%= listing.offerings[index] %></td>
+          </tr>
+          <% } %>
+        </table>
+      </div>
     </div>
   </div>
 </body>
@@ -359,4 +324,4 @@
     document.getElementById('search_date_2').click();
   });
 </script>
-<script src="/js/show.js"></script>
+<script src="/js/showAmenity.js"></script>

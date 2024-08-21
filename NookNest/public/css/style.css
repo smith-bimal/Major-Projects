@@ -431,6 +431,11 @@ table tr td i {
   width: 2rem;
 }
 
+.table-div {
+  overflow: auto;
+  height: 42rem;
+}
+
 img[class="error-search"] {
   width: 100vw;
   max-width: 56vh;

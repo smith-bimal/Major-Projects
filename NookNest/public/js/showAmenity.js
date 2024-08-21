@@ -1,7 +1,7 @@
 //offerings icons as per the availability
-const offerings = document.querySelectorAll(".amenity-icon td");
+const offerings = document.querySelectorAll(".offerings-container div table tr td");
 const allAmenities = document.querySelectorAll("#amenities_container div label");
-const offeringsPopup = document.querySelectorAll(".amenity-popup-icon tr td");
+const offeringsPopup = document.querySelectorAll(".amenities-popup tr td");
 
 const offeringList = [
     "Kitchen facilities",
@@ -85,7 +85,7 @@ function replaceOfferingIcons(offering) {
             offering.innerHTML = `<i class="fa-solid fa-elevator me-3"></i></td><td>Elevator access`;
             break;
         case "Security system":
-            offering.innerHTML = `<i class="fa-solid fa-elevator me-3"></i></td><td>Security system`;
+            offering.innerHTML = `<i class="fa-solid fa-key me-3"></i></td><td>Security system`;
             break;
         case "Pet-friendly":
             offering.innerHTML = `<i class="fa-solid fa-paw me-3"></i></td><td>Pet-friendly`;
@@ -193,7 +193,7 @@ let amenityCheckBtn = document.getElementById("has_amenity");
 
 if (amenityCheckBtn) {
     amenityCheckBtn.addEventListener("click", () => {
-        if (amenityCheckBtn.checked == true) {
+        if (amenityCheckBtn.checked) {
             document.getElementById("amenities_container").style.display = "block";
             document.getElementById("aminity_check_label").innerText = "Select the appropriate amenities";
         } else {

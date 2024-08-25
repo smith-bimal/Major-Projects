@@ -61,6 +61,7 @@
 
           <div>
             <h5>What this place offers</h5>
+            <% if (listing.offerings.length >0) { %>
             <div class="offerings-container d-flex gap-4">
               <div class="">
                 <table class="table">
@@ -83,6 +84,9 @@
             </div>
             <% if (listing.offerings.length > 9) { %>
             <div class="show-amenities-btn btn btn-outline-dark px-3 py-2">Show all <%= listing.offerings.length %> amenities</div>
+            <% } %>
+            <% } else { %>
+              <p class="m-0">This place does not have any amenities to offer yet.</p>
             <% } %>
           </div>
 
@@ -132,7 +136,6 @@
   </div>
 
   <div class="row col-lg-9 m-auto mt-3 mb-4">
-
     <% if (currentUser) { %>
     <hr>
     <h4>Leave a Review</h4>
@@ -161,7 +164,7 @@
     </form>
     <% } %>
 
-    <hr class="my-4">
+    <hr class="my-2">
     <div>
       <% if (listing.reviews && listing.reviews.length>0) { %>
       <% if (listing.reviews.length >= 3) { %>
@@ -225,7 +228,7 @@
           <% }) %>
         </div>
       </div>
-      <hr class="my-4">
+      <hr class="my-2">
       <% } %>
     </div>
   </div>
@@ -264,6 +267,26 @@
       </div>
     </div>
   </div>
+
+<!-- Successful booking popup -->
+<div class="booking-overlay">
+<div class="booking-confirmation-container">
+  <div class="booking-confirmation-popup bg-white border rounded-4 p-4 mx-1 position-relative">
+    <div class="close-btn booking-confirmation-close-btn mb-4 p-1 position-absolute"><i class="fa-solid fa-x"></i></div>
+    <% if (currentUser) { %>
+      <h3 class="mb-4 mx-3">Booking Confirmed</h3>
+      <p class="mb-4">Your booking for <%= listing.title %> has been confirmed. Your booking ID is <strong>BOOKING ID</strong>.</p>
+      <p class="mb-4">Please check your email for the booking details.</p>
+      <% } else {%>
+        <h3 class="mb-4 mx-3">You need to login first</h3>
+        <p class="mb-4">Please <span class="signup-btn text-decoration-underline text-primary">login/signup</span> to proceed with the booking experience.</p>
+      <% } %>
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/listings'">Back to Home</button>
+    </div>
+  </div>
+</div>
+</div>
 </body>
 
 <script src="/js/map.js"></script>
@@ -272,7 +295,7 @@
   flatpickr("#search_date_2", {
     mode: "range",
     minDate: "today",
-    dateFormat: "Y-m-d",
+    dateFormat: "j-M",
     position: "below",
     onChange: function(selectedDates, dateStr, instance) {
       const reserveButton = document.getElementById('reserve_button');

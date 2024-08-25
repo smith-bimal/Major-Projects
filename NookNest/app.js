@@ -77,7 +77,7 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/review", reviewRouter);
 
 // User Routings 
-app.use("/", userRouter);
+app.use("/user", userRouter);
 
 // Destination Routings 
 app.use("/d", destinationRouter);
@@ -94,7 +94,7 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong!" } = err;
     req.flash('error', message);
-    res.status(statusCode).render('listings/error', { err });
+    res.status(statusCode).render('pages/error', { err });
 });
 
 app.listen(5000, () => {

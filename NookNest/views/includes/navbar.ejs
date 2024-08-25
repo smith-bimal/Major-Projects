@@ -1,33 +1,39 @@
 <nav class="navbar navbar-expand-md">
   <div class="container-fluid main-width sticky-top">
-    <a class="navbar-brand flex" href="/"><img src="/assets/logo.png" alt="logo"> <span class="text-white">NookNest</span></a>
+    <a class="navbar-brand flex" href="/"><img src="/assets/logo.png" alt="logo"> <span
+        class="text-white">NookNest</span></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ms-auto">
         <form action="/search" class="d-flex gap-2 position-relative">
-          <input type="text" name="sq" id="destination" class="form-control" placeholder="Search Destination..." autocomplete="off">
-          <button type="submit" class="btn btn-transparent position-absolute end-0 top-50 translate-middle-y text-white pe-4"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <input type="text" name="sq" id="destination" class="form-control" placeholder="Search Destination..."
+            autocomplete="off">
+          <button type="submit"
+            class="btn btn-transparent position-absolute end-0 top-50 translate-middle-y text-white pe-4"><i
+              class="fa-solid fa-magnifying-glass"></i></button>
         </form>
       </div>
       <div class="navbar-nav ms-auto flex">
-        <a class="nav-link flex gap-2"><i class="fa-solid fa-earth-americas"></i> <span class="flex text-white">EN</span></a>
         <% if (!currentUser) { %>
-        <a class="nav-link btn login-btn">
-          <div class="btn btn-underline text-white">Login</div>
-        </a>
-        <a class="nav-link signup-btn">
-          <div class="btn btn-light">Sign Up</div>
-        </a>
-        <% } else { %>
-        <a class="nav-link btn" href="/listings/new">
-          <div class="btn btn-underline text-white">Publish your stay</div>
-        </a>
-        <a class="nav-link" href="/logout">
-          <div class="btn btn-light">Logout</div>
-        </a>
-        <% } %>
+          <a class="nav-link btn login-btn">
+            <div class="btn btn-underline text-white">Login</div>
+          </a>
+          <a class="nav-link signup-btn">
+            <div class="btn btn-light">Sign Up</div>
+          </a>
+          <% } else { %>
+            <a class="nav-link btn  px-0" href="/listings/new">
+              <div class="btn btn-underline text-white">Publish your stay</div>
+            </a>
+            <a class="nav-link btn px-0 pe-2" href="/user/profile">
+              <div class="btn btn-underline text-white">Account</div>
+            </a>
+            <a class="nav-link" href="/user/logout">
+              <div class="btn btn-light">Logout</div>
+            </a>
+            <% } %>
       </div>
     </div>
   </div>
@@ -35,14 +41,15 @@
 
 <div class="pt-3 login-signup-container flex">
   <div class="flex">
-    <form action="/login" method="POST" class="form needs-validation login-form" novalidate>
+    <form action="/user/login" method="POST" class="form needs-validation login-form" novalidate>
       <div class="position-absolute close-btn flex"><i class="fa-solid fa-x"></i></div>
       <div class="flex-column">
         <label for="login_username" class="form-label">Username </label>
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-circle-user"></i>
-        <input type="text" class="input form-control" id="login_username" name="username" placeholder="Enter your Username" aria-autocomplete="none">
+        <input type="text" class="input form-control" id="login_username" name="username"
+          placeholder="Enter your Username" aria-autocomplete="none">
       </div>
 
       <div class="flex-column">
@@ -50,7 +57,8 @@
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-lock"></i>
-        <input type="password" id="login_password" name="password" class="input form-control" placeholder="Enter your Password" aria-autocomplete="none">
+        <input type="password" id="login_password" name="password" class="input form-control"
+          placeholder="Enter your Password" aria-autocomplete="none">
       </div>
 
       <div class="flex-row">
@@ -66,14 +74,15 @@
       </p>
     </form>
 
-    <form action="/signup" method="POST" class="form needs-validation signup-form" novalidate>
+    <form action="/user/signup" method="POST" class="form needs-validation signup-form" novalidate>
       <div class="position-absolute close-btn flex"><i class="fa-solid fa-x"></i></div>
       <div class="flex-column">
         <label for="signup_username" class="form-label">Username </label>
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-circle-user"></i>
-        <input type="text" class="input form-control" id="signup_username" name="username" placeholder="Enter your Username" aria-autocomplete="none" required>
+        <input type="text" class="input form-control" id="signup_username" name="username"
+          placeholder="Enter your Username" aria-autocomplete="none" required>
       </div>
 
       <div class="flex-column">
@@ -81,7 +90,8 @@
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-at"></i>
-        <input type="email" class="input form-control" id="signup_email" name="email" placeholder="Enter your mail address" aria-autocomplete="none" required>
+        <input type="email" class="input form-control" id="signup_email" name="email"
+          placeholder="Enter your mail address" aria-autocomplete="none" required>
       </div>
 
       <div class="flex-column">
@@ -89,7 +99,8 @@
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-lock"></i>
-        <input type="password" id="signup_password" name="password" class="input form-control" placeholder="Enter your Password" aria-autocomplete="none" required>
+        <input type="password" id="signup_password" name="password" class="input form-control"
+          placeholder="Enter your Password" aria-autocomplete="none" required>
       </div>
 
       <button class="button-submit" type="submit">Sign Up</button>

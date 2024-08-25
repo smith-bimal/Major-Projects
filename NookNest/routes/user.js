@@ -19,7 +19,7 @@ router.route('/login')
     .post(
         saveRedirectUrl,
         passport.authenticate("local", {
-            failureRedirect: "/login",
+            failureRedirect: "/",
             failureFlash: true
         }), userController.loginUser);
 
@@ -28,3 +28,6 @@ router.route('/login')
 router.get('/logout', userController.logoutUser);
 
 module.exports = router;
+
+//₋User Profile Page₋
+router.get('/profile', userController.renderUserProfile);

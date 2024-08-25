@@ -18,7 +18,7 @@
     })
 })()
 
-//disabling right click 
+//disabling right click
 document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     return false;
@@ -79,6 +79,9 @@ if (closeBtns) {
 
 function showLoginSignupContainer() {
     document.querySelector(".login-signup-container").style.display = "flex";
+    if (bookingPopup) {
+        bookingPopup.style.display = "none";
+    }
 }
 function closeLoginSignupContainer() {
     document.querySelector(".login-signup-container").style.display = "none";
@@ -101,3 +104,20 @@ function closeSignupForm() {
     document.querySelector(".signup-form").style.display = "none";
 }
 
+
+// Show and hide booking confirmation popup 
+const reserveButton = document.getElementById('reserve_button');
+const bookingPopup = document.querySelector('.booking-overlay');
+const bookingCloseBtn = document.querySelector(".booking-confirmation-close-btn");
+
+if (reserveButton) {
+    reserveButton.addEventListener("click", () => {
+        bookingPopup.style.display = "block";
+    })
+}
+
+if (bookingCloseBtn) {
+    bookingCloseBtn.addEventListener("click", () => {
+        bookingPopup.style.display = "none";
+    })
+}

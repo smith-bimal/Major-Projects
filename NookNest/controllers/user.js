@@ -34,3 +34,7 @@ module.exports.logoutUser = (req, res, next) => {
     });
 
 }
+
+module.exports.renderUserProfile = async(req,res)=>{
+    res.render('pages/profile');
+}

@@ -13,11 +13,11 @@ module.exports.index = async (req, res) => {
     const popularListings = await Listing.find({ reviews: { $ne: [] } }).populate("reviews");
     const placesWithReview = popularListings.sort((a, b) => b.reviews.length - a.reviews.length);//sorting all the listings with descending number of reviews
 
-    res.render('listings/index', { listings, villas, apartments, resorts, cottages, placesWithReview });
+    res.render('pages/index', { listings, villas, apartments, resorts, cottages, placesWithReview });
 };
 
 module.exports.renderNewForm = (req, res) => {
-    res.render("listings/new");
+    res.render("pages/new");
 }
 
 module.exports.renderListingView = async (req, res) => {
@@ -33,7 +33,7 @@ module.exports.renderListingView = async (req, res) => {
         req.flash('error', 'Listing requested for does not exist!');
         res.redirect(`/listings`);
     }
-    res.render('listings/show', { listing });
+    res.render('pages/show', { listing });
 }
 
 module.exports.createListing = async (req, res, next) => {
@@ -64,7 +64,7 @@ module.exports.renderEditForm = async (req, res) => {
     let originalImageUrl = listing.image.url;
     originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_200,r_16:16:16:16/f_auto");
 
-    res.render("listings/edit", { listing, originalImageUrl });
+    res.render("pages/edit", { listing, originalImageUrl });
 }
 
 module.exports.updateListing = async (req, res) => {

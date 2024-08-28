@@ -1,5 +1,7 @@
+const moment = require("moment");
 const Listing = require("../models/listing");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const checkAge = require("../utils/moment");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
@@ -25,15 +27,16 @@ module.exports.renderListingView = async (req, res) => {
         .populate({
             path: "reviews",
             populate: {
-                path: "author"
+                path: "author",
             },
         })
         .populate("owner");
+
     if (!listing) {
         req.flash('error', 'Listing requested for does not exist!');
         res.redirect(`/listings`);
     }
-    res.render('pages/show', { listing });
+    res.render('pages/show', { listing, checkAge });
 }
 
 module.exports.createListing = async (req, res, next) => {

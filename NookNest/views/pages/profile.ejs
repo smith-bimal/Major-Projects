@@ -1,5 +1,116 @@
 <% layout("/layouts/boilerplate") %>
 
 <body>
-    <p>Hello User</p>
+  <div class="main-width py-5 m-auto d-flex justify-content-around flex-md-row flex-column">
+    <div class="personal-sec mx-auto">
+      <div class="mini-profile-card d-flex flex-wrap justify-content-evenly p-4 border rounded-4 mx-md-3">
+        <div class="left-sec text-center">
+          <div class="bg-dark text-white p-4 flex rounded-circle">
+            <h1 class="m-0">
+              <%= currentUser.username[0].toUpperCase(); %>
+            </h1>
+          </div>
+          <h3 class="my-2">
+            <%= currentUser.username.slice(0,1).toUpperCase() +
+                                currentUser.username.slice(1,currentUser.username.length) %>
+          </h3>
+          <p class="m-0">
+            <% if (listings.length > 0) { %>
+             Host
+            <% } else { %>
+                Guest
+            <% } %>
+          </p>
+        </div>
+        <div class="right-sec flex flex-column text-center">
+          <h5>
+            <% if (userAge.monthsDifference == 0) { %>
+             New
+            <% } else if (userAge.monthsDifference < 12){ %>
+              <%= userAge.monthsDifference %> months
+              <% } else { %>
+                <%= userAge.yearsDifference %> years
+            <% } %>
+        </h5>
+          <small>on NookNest</small>
+
+          <div>
+            <a class="nav-link" href="/user/logout">
+              <div class="btn btn-outline-danger logout-btn mt-4">Logout</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-verify-card p-4 mt-5 rounded-4 border mb-4 mb-md-0 mx-md-3">
+        <h5>
+          <%= currentUser.username.slice(0,1).toUpperCase() +
+                            currentUser.username.slice(1,currentUser.username.length) %>'s confirmed information
+        </h5>
+        <p class="my-4"><i class="fa-solid fa-check me-3"></i>E-mail address</p>
+        <hr class="my-4">
+        <h5>Verify your identity</h5>
+        <p class="my-4">Before you book or host on NookNest, you’ll need to complete this step.</p>
+        <div class="btn btn-outline-dark rounded-3">Get verified</div>
+      </div>
+    </div>
+
+    <div class="listings-sec">
+      <div class="hosted-list-sec">
+        <h5>Your Hosting</h5>
+        <% if (listings.length> 0) { %>
+        <div class="hosted-listings p-sm-4 p-2 rounded-4">
+          <ul class="list-group rounded-3">
+            <% listings.forEach(listing=> { %>
+            <li class="list-group-item">
+              <div class="flex justify-content-between">
+                <div class="d-flex">
+                  <a href="/listings/<%= listing.id %>">
+                    <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
+                  </a>
+
+                  <div class="d-flex flex-column justify-content-center ps-3">
+                    <a href="/listings/<%= listing.id %>" class="text-decoration-none text-dark">
+                      <p class="m-0"><small>
+                          <%= listing.title %>
+                        </small></p>
+                    </a>
+                    <p class="m-0"><small>₹ <%= listing.price.toLocaleString("en-IN") %>
+                        /night</small></p>
+                  </div>
+                </div>
+
+                <div class="hosted-listing-menu">
+                  <div class="menu-btn flex">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </div>
+
+                  <div class="edit-delete-container rounded-2 border">
+                    <a href="/listings/<%= listing._id %>/edit" class="edit-btn">
+                      <p class="m-0 p-1 px-2">Edit</p>
+                    </a>
+                    <hr class="m-0">
+                    <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+                      <button type="submit" class="delete-btn p-1 rounded-2 px-2">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <% }); %>
+          </ul>
+        </div>
+        <% } else {%>
+        <div class="no-hostings-container p-sm-4 p-2 rounded-4">
+          <p class="mb-2">You haven't hosted any listings yet.</p>
+          <a class="btn  px-0" href="/listings/new">
+            <div class="btn btn-outline-dark">Host a listing</div>
+          </a>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
 </body>
+
+<script src="/js/listingEditDelete.js"></script>

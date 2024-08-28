@@ -3,8 +3,6 @@
   let coordinates = <%- JSON.stringify(listing.geometry.coordinates) %>;
 </script>
 
-
-
 <% layout("/layouts/boilerplate") %>
 
 <body>
@@ -31,7 +29,7 @@
             let totalRating = 0;
             listing.reviews.forEach(review => {
             totalRating += review.rating
-            }); 
+            });
             avgRating = totalRating / listing.reviews.length;
             %><%= avgRating.toFixed(1) %><% } else { %>New<% } %> &centerdot;
             <u><%= (listing.reviews).length.toLocaleString("en-IN") %> Reviews</u>
@@ -44,7 +42,16 @@
             </div>
             <div>
               <p class="card-text mb-1">Hosted by <b><%= listing.owner.username %></b></p>
-              <p class="card-text text-secondary fw-light mb-1">1 month hosting</p>
+              <p class="card-text text-secondary fw-light mb-1">
+                <% let ownerAge = checkAge(listing.owner.created_at); %>
+                <% if (ownerAge.monthsDifference == 0) { %>
+                Hosting Newly
+                <% } else if (ownerAge.monthsDifference < 12){ %>
+                <%= ownerAge.monthsDifference %> months hosting
+                <% } else { %>
+                <%= ownerAge.yearsDifference %> years hosting
+                <% } %>
+              </p>
             </div>
           </div>
 
@@ -86,7 +93,7 @@
             <div class="show-amenities-btn btn btn-outline-dark px-3 py-2">Show all <%= listing.offerings.length %> amenities</div>
             <% } %>
             <% } else { %>
-              <p class="m-0">This place does not have any amenities to offer yet.</p>
+            <p class="m-0">This place does not have any amenities to offer yet.</p>
             <% } %>
           </div>
 
@@ -191,7 +198,16 @@
                 </div>
                 <div class="ms-2">
                   <p class=" my-1"><%= review.author.username.slice(0,1).toUpperCase() %><%= review.author.username.slice(1,review.author.username.length) %></p>
-                  <p class="mb-2 text-secondary"><small>Moment.js</small></p>
+                  <p class="mb-2 text-secondary"><small>
+                      <% let reviewAge = checkAge(review.author.created_at); %>
+                      <% if (reviewAge.monthsDifference == 0) { %>
+                      Hosting Newly
+                      <% } else if (reviewAge.monthsDifference < 12){ %>
+                      <%= reviewAge.monthsDifference %> months hosting
+                      <% } else { %>
+                      <%= reviewAge.yearsDifference %> years hosting
+                      <% } %>
+                    </small></p>
                 </div>
               </div>
               <div class="d-flex">
@@ -268,25 +284,25 @@
     </div>
   </div>
 
-<!-- Successful booking popup -->
-<div class="booking-overlay">
-<div class="booking-confirmation-container">
-  <div class="booking-confirmation-popup bg-white border rounded-4 p-4 mx-1 position-relative">
-    <div class="close-btn booking-confirmation-close-btn mb-4 p-1 position-absolute"><i class="fa-solid fa-x"></i></div>
-    <% if (currentUser) { %>
-      <h3 class="mb-4 mx-3">Booking Confirmed</h3>
-      <p class="mb-4">Your booking for <%= listing.title %> has been confirmed. Your booking ID is <strong>BOOKING ID</strong>.</p>
-      <p class="mb-4">Please check your email for the booking details.</p>
-      <% } else {%>
+  <!-- Successful booking popup -->
+  <div class="booking-overlay">
+    <div class="booking-confirmation-container">
+      <div class="booking-confirmation-popup bg-white border rounded-4 p-4 mx-1 position-relative">
+        <div class="close-btn booking-confirmation-close-btn mb-4 p-1 position-absolute"><i class="fa-solid fa-x"></i></div>
+        <% if (currentUser) { %>
+        <h3 class="mb-4 mx-3">Booking Confirmed</h3>
+        <p class="mb-4">Your booking for <%= listing.title %> has been confirmed. Your booking ID is <strong>BOOKING ID</strong>.</p>
+        <p class="mb-4">Please check your email for the booking details.</p>
+        <% } else {%>
         <h3 class="mb-4 mx-3">You need to login first</h3>
-        <p class="mb-4">Please <span class="signup-btn text-decoration-underline text-primary">login/signup</span> to proceed with the booking experience.</p>
-      <% } %>
-    <div class="d-flex justify-content-center">
-      <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/listings'">Back to Home</button>
+        <p class="mb-4">Please <span class="login-btn text-decoration-underline text-primary">login</span>/<span class="signup-btn text-decoration-underline text-primary">signup</span> to proceed with the booking experience.</p>
+        <% } %>
+        <div class="d-flex justify-content-center">
+          <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/listings'">Back to Home</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </body>
 
 <script src="/js/map.js"></script>
@@ -347,4 +363,5 @@
     document.getElementById('search_date_2').click();
   });
 </script>
+
 <script src="/js/showAmenity.js"></script>

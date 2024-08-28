@@ -1,4 +1,6 @@
+const Listing = require('../models/listing');
 const User = require('../models/user');
+const checkAge = require('../utils/moment');
 
 module.exports.signUpUser = async (req, res, next) => {
     try {
@@ -36,5 +38,8 @@ module.exports.logoutUser = (req, res, next) => {
 }
 
 module.exports.renderUserProfile = async(req,res)=>{
-    res.render('pages/profile');
+    let currentUser = res.locals.currentUser;
+    const userAge = checkAge(currentUser.created_at);
+    const listings = await Listing.find({owner: currentUser.id});
+    res.render('pages/profile', {listings, userAge});
 }

@@ -1,0 +1,89 @@
+.personal-sec .mini-profile-card {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.mini-profile-card .left-sec div {
+  height: 6rem;
+  width: 6rem;
+}
+
+.personal-sec {
+  width: 100%;
+  max-width: 23rem;
+  min-width: 15rem;
+}
+
+.logout-btn {
+  opacity: 0.85;
+}
+
+.profile-verify-card hr {
+  opacity: 0.15;
+}
+
+.listings-sec {
+  flex: 1;
+  max-width: 55rem;
+}
+
+.hosted-list-sec .card {
+  min-width: 18rem;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
+  box-shadow: 2px 2px 10px 0px #bfbfbf;
+}
+
+.hosted-listings ul li img {
+  width: 8rem;
+  height: 5rem;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  -ms-border-radius: 0.25rem;
+  -o-border-radius: 0.25rem;
+}
+
+.hosted-listings {
+  background-color: #f7f7f7;
+  overflow: auto;
+  height: 35.5rem;
+}
+
+.hosted-listing-menu {
+  position: relative;
+}
+
+.hosted-listing-menu .menu-btn {
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.no-hostings-container {
+  background-color: #f7f7f7;
+}
+
+.edit-delete-container {
+  background-color: #fff;
+  position: absolute;
+  right: 0.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.edit-delete-container a {
+  text-decoration: none;
+  color: #000;
+}
+
+.edit-delete-container form button {
+  border: none;
+  color: #e15361;
+  background-color: #fff;
+}

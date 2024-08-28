@@ -511,6 +511,10 @@ img[class="error-search"] {
   display: none;
 }
 
+.login-btn, .signup-btn {
+  cursor: pointer;
+}
+
 /* Removing default bootstrap styles */
 
 .form-control.is-invalid:focus,

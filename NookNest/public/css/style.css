@@ -117,13 +117,13 @@ pre {
 .btn-underline:hover,
 .btn-underline:active,
 .btn-underline:focus:not(:focus-visible) {
-    border: none;
-    box-shadow: none;
-    outline: none;
+  border: none;
+  box-shadow: none;
+  outline: none;
 }
 
 .btn-underline:focus-visible {
-    outline: none;
+  outline: none;
 }
 
 .btn-underline::after {
@@ -146,11 +146,13 @@ pre {
 }
 
 .navbar-toggler {
-  border: var(--bs-border-width) solid rgb(255 255 255 / 15%);
-  background-color: #ffffff75;
-}
-.navbar-toggler:focus {
-  box-shadow: 0 0 5px #fff9;
+  filter: invert(1) contrast(2) brightness(2);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  &:focus {
+    box-shadow: none;
+  }
 }
 
 /* Footer  */
@@ -512,12 +514,17 @@ img[class="error-search"] {
   display: none;
 }
 
-.login-btn, .signup-btn {
+.login-btn,
+.signup-btn {
   cursor: pointer;
 }
 
 .things-container p {
   margin: 10px 0 0 0;
+}
+
+.cursor-p {
+  cursor: pointer;
 }
 
 /* Removing default bootstrap styles */

@@ -195,10 +195,10 @@ if (amenityCheckBtn) {
     amenityCheckBtn.addEventListener("click", () => {
         if (amenityCheckBtn.checked) {
             document.getElementById("amenities_container").style.display = "block";
-            document.getElementById("aminity_check_label").innerText = "Select the appropriate amenities";
+            document.getElementById("amenity_check_label").innerText = "Select the appropriate amenities";
         } else {
             document.getElementById("amenities_container").style.display = "none";
-            document.getElementById("aminity_check_label").innerText = "Check if the location provides amenities";
+            document.getElementById("amenity_check_label").innerText = "Check if the location provides amenities";
         }
     })
 }

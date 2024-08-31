@@ -1,0 +1,40 @@
+@media screen and (max-width: 865px) {
+    /* Index page */
+    .hero-content {
+        margin-top: 30vh;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* Index page */
+    .hero-content {
+        margin-top: 14vh;
+    }
+}
+@media screen and (max-width: 576px) {
+    /* Index page */
+    .hero-content {
+        margin-top: 10vh;
+    }
+}
+@media screen and (max-width: 540px) {
+    /* Index page */
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    #destination {
+        min-width: auto;
+    }
+}
+
+@media screen and (max-height: 1368px) and (min-width: 768px) {
+    .hero-content{
+        margin-top: 150px;
+    }
+
+    .index-hero-img {
+        height: 540px;
+    }
+}
+

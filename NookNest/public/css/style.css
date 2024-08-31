@@ -424,6 +424,7 @@ footer * {
   position: sticky;
   top: 2rem;
   z-index: 10;
+  background-color: white;
 }
 
 .hidden {
@@ -436,6 +437,11 @@ footer * {
 
 .flatpickr-calendar.open {
   z-index: 10;
+}
+
+#change_date {
+  display: none;
+  width: fit-content;
 }
 
 .description-popup,

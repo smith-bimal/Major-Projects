@@ -1,40 +1,101 @@
 @media screen and (max-width: 865px) {
-    /* Index page */
-    .hero-content {
-        margin-top: 30vh;
-    }
+  /* Index page */
+  .hero-content {
+    margin-top: 30vh;
+  }
 }
 
 @media screen and (max-width: 768px) {
-    /* Index page */
-    .hero-content {
-        margin-top: 14vh;
-    }
+  /* Index page */
+  .hero-content {
+    margin-top: 14vh;
+  }
+}
+@media screen and (max-width: 745px) {
+  /* show page */
+  .listing-booking-card {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    -ms-border-radius: 0 !important;
+    -o-border-radius: 0 !important;
+    padding: 0.75rem 1rem !important;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .listing-booking-card .search-credentials {
+    display: none;
+  }
+
+  .listing-booking-card h4 {
+    margin: 0 !important;
+  }
+
+  #check_availability_button {
+    margin: 0 !important;
+    margin-left: auto !important;
+  }
+
+  #reserve_button {
+    margin-left: auto;
+    margin-top: 0 !important;
+  }
+
+ #price_calc,#total_before_taxes {
+    width: 100%;
+  }
+
+  #price_details {
+  display: none !important;
+  }
+
+  footer {
+    padding-bottom: 5rem !important;
+  }
+
+  .alert-dismissible.fade{
+    right: 0;
+  }
+
+  .flatpickr-calendar {
+    z-index: 100 !important;
+    position: fixed !important;
+    top: auto !important;
+    bottom: 5rem !important;
+    right: 0 !important;
+    left: auto !important;
+  }
 }
 @media screen and (max-width: 576px) {
-    /* Index page */
-    .hero-content {
-        margin-top: 10vh;
-    }
+  /* Index page */
+  .hero-content {
+    margin-top: 10vh;
+  }
 }
 @media screen and (max-width: 540px) {
-    /* Index page */
-    .hero-content h1 {
-        font-size: 3rem;
-    }
+  /* Index page */
+  .hero-content h1 {
+    font-size: 3rem;
+  }
 
-    #destination {
-        min-width: auto;
-    }
+  #destination {
+    min-width: auto;
+  }
 }
 
 @media screen and (max-height: 1368px) and (min-width: 768px) {
-    .hero-content{
-        margin-top: 150px;
-    }
+  .hero-content {
+    margin-top: 150px;
+  }
 
-    .index-hero-img {
-        height: 540px;
-    }
+  .index-hero-img {
+    height: 540px;
+  }
 }
-

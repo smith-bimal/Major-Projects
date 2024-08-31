@@ -121,9 +121,12 @@
             <div id="reserve_button" class="btn btn-dark mt-4 flex py-2" style="display: none;">Reserve</div>
             <div id="check_availability_button" class="btn btn-dark mt-4 flex py-2" style="display: block;">Check availability</div>
 
-            <p id="price_details" class="text-center text-secondary mt-2" style="display: none;">
-              <small>You won't be charged yet.</small>
-            </p>
+            <div class="w-100">
+              <div class="btn btn-sm border text-center mb-2" id="change_date">Change date</div>
+              <p id="price_details" class="text-center text-secondary" style="display: none;">
+                <small>You won't be charged yet.</small>
+              </p>
+            </div>
 
             <div id="price_calc" class="price-calc justify-content-between " style="display: none;">
               <span class="text-secondary text-decoration-underline">₹<%= listing.price.toLocaleString("en-IN") %> X <span id="number_of_days"></span> night(s)</span>
@@ -248,7 +251,7 @@
       <% } %>
     </div>
   </div>
-  
+
   <div class="row col-lg-9 m-auto mt-3 mb-4">
     <h4>Where you'll be</h4>
     <div id="map"></div>
@@ -352,6 +355,7 @@
       const totalBeforeTaxes = document.getElementById('total_before_taxes');
       const numberOfDaysElement = document.getElementById('number_of_days');
       const totalCostElement = document.querySelectorAll('.total_cost');
+      const changeDate = document.getElementById('change_date');
 
       if (selectedDates.length === 2) {
         const startDate = selectedDates[0];
@@ -376,6 +380,7 @@
         priceCalc.style.display = 'flex';
         priceDivider.style.display = 'block';
         totalBeforeTaxes.style.display = 'flex';
+        changeDate.style.display = 'block';
       } else {
         // Hide the reserve button and price details
         reserveButton.style.display = 'none';
@@ -384,11 +389,17 @@
         priceCalc.style.display = 'none';
         priceDivider.style.display = 'none';
         totalBeforeTaxes.style.display = 'none';
+        changeDate.style.display = 'none';
       }
     }
   });
 
   document.getElementById('check_availability_button').addEventListener('click', function() {
+    // Trigger the click event on the #search_date_2 input to open the calendar
+    document.getElementById('search_date_2').click();
+  });
+
+  document.getElementById('change_date').addEventListener('click', function() {
     // Trigger the click event on the #search_date_2 input to open the calendar
     document.getElementById('search_date_2').click();
   });

@@ -12,6 +12,7 @@ const nodemailer = require('nodemailer');
 
 const config = require('./config/config');
 
+const loginRouter = require("./routes/login");
 
 //Image uploading configuration
 const storage = multer.diskStorage({
@@ -26,7 +27,6 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage
 }).single("avatar");
-
 
 
 //database files acquiring
@@ -87,45 +87,7 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.route("/login").get((req, res) => {
-    res.render("login");
-});
-
-//login routes-------------------------------------------------
-app.post("/login/admin", async (req, res) => {
-    let admin = await Admin.findOne({ username: req.body.username });
-    if (!admin) {
-        return res.status(404).redirect("err");
-    } else {
-        bcrypt.compare(req.body.password, admin.password, async (err, result) => {
-            if (!result) {
-                return res.status(404).redirect("err");
-            }
-
-            let token = jwt.sign({ email: admin.email, role: 'admin' }, config.secret_key);
-            res.cookie("token", token);
-            res.redirect('/admin/dashboard');
-        })
-    }
-});
-
-app.post("/login/doctor", async (req, res) => {
-    let doctor = await Doctor.findOne({ email: req.body.email });
-    if (!doctor) {
-        return res.status(404).redirect("err");
-    }
-
-    bcrypt.compare(req.body.password, doctor.password, async (err, result) => {
-        if (!result) {
-            return res.status(404).redirect("err");
-        }
-
-        let token = jwt.sign({ email: doctor.email, role: 'doctor' }, config.secret_key);
-        res.cookie("token", token);
-        res.redirect('/doctor/dashboard');
-        await Doctor.findOneAndUpdate({ email: req.body.email }, { status: 'Online' });
-    })
-});
+app.use("/login", loginRouter);
 
 // admin section start-----------------------------------------
 app.route("/admin/dashboard")

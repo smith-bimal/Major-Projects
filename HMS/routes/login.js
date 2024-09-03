@@ -9,4 +9,7 @@ router.post("/admin", loginController.adminLogin);
 
 router.post("/doctor", loginController.doctorLogin);
 
+//login error page
+router.get('/err', loginController.wrongCredentials);
+
 module.exports = router;

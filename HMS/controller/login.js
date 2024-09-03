@@ -20,6 +20,7 @@ module.exports.adminLogin = async (req, res) => {
             }
 
             let token = jwt.sign({ email: admin.email, role: 'admin' }, config.secret_key);
+            req.session.currentUser = admin;
             res.cookie("token", token);
             res.redirect('/admin/dashboard');
         })
@@ -38,8 +39,13 @@ module.exports.doctorLogin = async (req, res) => {
         }
 
         let token = jwt.sign({ email: doctor.email, role: 'doctor' }, config.secret_key);
+        await Doctor.findOneAndUpdate({ email: req.body.email }, { status: 'Online' });
+        req.session.currentUser = doctor;
         res.cookie("token", token);
         res.redirect('/doctor/dashboard');
-        await Doctor.findOneAndUpdate({ email: req.body.email }, { status: 'Online' });
     })
+};
+
+module.exports.wrongCredentials = (req, res) => {
+    res.render('wrong');
 };

@@ -2,28 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const { fetchAdminDetails, fetchDoctorDetails } = require('./helper');
 
-//protected url middleware
-function  isLoggedIn(requiredRole) {
-    return (req, res, next) => {
-        const token = req.cookies.token;
-
-        if (!token || token === "") {
-            return res.status(401).redirect('/login');
-        }
-
-        try {
-            const data = jwt.verify(token, config.secret_key);
-            if (data.role !== requiredRole) {
-                return res.status(403).redirect('/login');
-            }
-            req.user = data;
-            next();
-        } catch (error) {
-            console.log(error);
-            return res.status(401).redirect('/login');
-        }
-    };
-}
+let pass;
 
 //protected url middleware only for logout
 function isAdminOrDoctor(req, res, next) {
@@ -46,6 +25,8 @@ function isAdminOrDoctor(req, res, next) {
     }
 }
 
+
+//verify if the user is authenticated
 async function isAuthenticated(req, res, next) {
     const token = req.cookies.token;
 
@@ -92,6 +73,29 @@ async function isAuthenticated(req, res, next) {
         console.error('Error verifying token:', error);
         return res.status(401).redirect('/login');
     }
+};
+
+//protected url middleware to separate admin and doctor
+function  isLoggedIn(requiredRole) {
+    return (req, res, next) => {
+        const token = req.cookies.token;
+
+        if (!token || token === "") {
+            return res.status(401).redirect('/login');
+        }
+
+        try {
+            const data = jwt.verify(token, config.secret_key);
+            if (data.role !== requiredRole) {
+                return res.status(403).redirect('/login');
+            }
+            req.user = data;
+            next();
+        } catch (error) {
+            console.log(error);
+            return res.status(401).redirect('/login');
+        }
+    };
 }
 
 module.exports = { isLoggedIn, isAdminOrDoctor, isAuthenticated };

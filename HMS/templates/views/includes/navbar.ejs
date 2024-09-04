@@ -16,9 +16,9 @@
 
         <img src="/Assets/pngwing.com.png" />
 
-        <% if (admin) { %>
+        <% if (currUser) { %>
         <div class="username">
-          <h3><%= admin.name %></h3>
+          <h3><%= currUser.name %></h3>
           <p>Admin</p>
           <% } else { %>
 

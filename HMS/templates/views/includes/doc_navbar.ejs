@@ -14,11 +14,11 @@
           <i class="fa-solid fa-bell"></i>
         </div>
 
-        <% if (doctor) { %>
-        <img src="/uploads/<%= doctor.avatar %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
+        <% if (currUser) { %>
+        <img src="/uploads/<%= currUser.avatar %>" onerror="this.onerror=null; this.src='/Assets/pngwing.com.png'" />
 
         <div class="username">
-          <h3><%= doctor.full_name %></h3>
+          <h3><%= currUser.full_name %></h3>
           <p>Doctor</p>
           <% } else { %>
           <img src="/Assets/pngwing.com.png" />

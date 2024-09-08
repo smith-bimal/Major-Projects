@@ -5,14 +5,12 @@ const multer = require("multer");
 const bcrypt = require("bcrypt");
 
 const {
-  isLoggedIn,
   isAdminOrDoctor,
   isAuthenticated,
+  dynamicIsLoggedIn,
 } = require("../utils/middlewares");
 
 const Appointment = require("../src/models/appointmentModel");
-const Pharmacy = require("../src/models/pharmacyModel");
-const Prescription = require("../src/models/prescriptionModel");
 const Patient = require("../src/models/patientModel");
 const Doctor = require("../src/models/docModel");
 const Employee = require("../src/models/employeeModel");
@@ -21,7 +19,9 @@ const Discharge = require("../src/models/dischargeModel");
 const Payroll = require("../src/models/payrollModel");
 const { fetchAdminDetails } = require("../utils/helper");
 const adminDashboardRoute = require("../routes/dashboardAdmin");
-const appointmentRoute = require("./appointmentAdmin");
+const appointmentRoute = require("./appointmentRoutes");
+const pharmacyRoute = require("./pharmacyRoutes");
+const prescriptionRoute = require("./prescriptionRoutes");
 
 //Image uploading configuration
 const storage = multer.diskStorage({
@@ -39,232 +39,32 @@ const upload = multer({
 
 router.use("/dashboard", adminDashboardRoute);
 router.use("/appointment", appointmentRoute);
+router.use("/pharmacy", pharmacyRoute);
+router.use("/prescription", prescriptionRoute);
 
-
-router
-  .route("/pharmacy/add")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    const userType = req.session.userType;
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_pharma", { admin, userType });
-  })
-  .post(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    const newPharmacy = new Pharmacy(req.body);
-    try {
-      await newPharmacy.save();
-      res.status(201).redirect("/admin/pharmacy/manage");
-    } catch (error) {
-      res.status(400).redirect("/admin/pharmacy/add");
-    }
-  });
-
-router.get(
-  "/pharmacy/manage",
-  isAdminOrDoctor,
-  isLoggedIn("admin"),
-  async (req, res) => {
-    const userType = req.session.userType;
-    const pharmacies = await Pharmacy.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("manage_pharma", { admin, pharmacies, userType });
-  }
-);
-
-router
-  .route("/pharmacy/manage/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    const userType = req.session.userType;
-    let pharma = await Pharmacy.findById(req.params.id);
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("update_pharma", { admin, pharma, userType });
-  })
-  .patch(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    try {
-      const updatedPharmacy = await Pharmacy.findByIdAndUpdate(
-        req.params.id,
-        {
-          name: req.body.name,
-          quantity: req.body.quant,
-          category: req.body.categ,
-          vendor: req.body.vendor,
-          barcode_number: req.body.bc,
-          description: req.body.description,
-        },
-        { new: true, runValidators: true }
-      );
-
-      if (!updatedPharmacy) {
-        return res.status(404).send("Pharmacy not found");
-      }
-
-      res.redirect("/admin/pharmacy/manage");
-    } catch (error) {
-      res.status(500).redirect("/admin/pharmacy/manage");
-    }
-  })
-  .delete(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    try {
-      const deletedPharmacy = await Pharmacy.findByIdAndDelete(req.params.id);
-      if (!deletedPharmacy) {
-        return res.status(404).send("Pharmacy not found");
-      }
-    } catch (err) {
-      res.status(500).json({ success: false, message: err.message });
-    }
-  });
-
-router.get(
-  "/prescription/add",
-  isAdminOrDoctor,
-  isLoggedIn("admin"),
-  async (req, res) => {
-    const userType = req.session.userType;
-    const patients = await Patient.find({});
-    const prescriptions = await Prescription.find({});
-
-    // Create a set of patient IDs who already have prescriptions
-    const patientsWithPrescriptions = new Set(
-      prescriptions.map((presc) => presc.patient_id)
-    );
-
-    // Filter out patients who do not have prescriptions
-    const patientsWithoutPrescriptions = patients.filter(
-      (patient) => !patientsWithPrescriptions.has(patient.patient_id)
-    );
-
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_presc", {
-      patients: patientsWithoutPrescriptions,
-      admin,
-      userType,
-    });
-  }
-);
-
-router
-  .route("/prescription/add/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    const userType = req.session.userType;
-    const patient = await Patient.findOne({ patient_id: req.params.id });
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_new_presc", { admin, patient, userType });
-  })
-  .post(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    const newPrescription = new Prescription(req.body);
-    try {
-      await newPrescription.save();
-      res.status(201).redirect("/admin/prescription/q");
-    } catch (error) {
-      res.status(400).redirect("/admin/prescription/add");
-    }
-  });
-
-router.get(
-  "/prescription/q",
-  isAdminOrDoctor,
-  isLoggedIn("admin"),
-  async (req, res) => {
-    const userType = req.session.userType;
-    const prescriptions = await Prescription.find({});
-    const patients = await Patient.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("view_presc", { admin, patients, prescriptions, userType });
-  }
-);
-
-router.get(
-  "/prescription/q/:id",
-  isAdminOrDoctor,
-  isLoggedIn("admin"),
-  async (req, res) => {
-    const userType = req.session.userType;
-    let patient = await Patient.findOne({ patient_id: req.params.id });
-    let presc = await Prescription.findOne({ patient_id: req.params.id });
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("prescription", { admin, patient, presc, userType });
-  }
-);
-
-router.get(
-  "/prescription/manage",
-  isAdminOrDoctor,
-  isLoggedIn("admin"),
-  async (req, res) => {
-    const userType = req.session.userType;
-    let prescriptions = await Prescription.find({});
-    let patients = await Patient.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("manage_presc", { admin, patients, prescriptions, userType });
-  }
-);
-
-router
-  .route("/prescription/manage/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    const userType = req.session.userType;
-    const admin = await fetchAdminDetails(req.user.email);
-    let presc = await Prescription.findById(req.params.id);
-    res.render("update_presc", { admin, presc, userType });
-  })
-  .patch(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    try {
-      const updatedPrescription = await Prescription.findByIdAndUpdate(
-        req.params.id,
-        {
-          name: req.body.name,
-          age: req.body.age,
-          address: req.body.address,
-          type: req.body.type,
-          ailment: req.body.ailment,
-          notes: req.body.notes,
-        },
-        { new: true, runValidators: true }
-      );
-
-      if (!updatedPrescription) {
-        return res.status(404).send("prescription not found");
-      }
-
-      res.redirect("/admin/prescription/q");
-    } catch (error) {
-      res.status(500).send("Error updating prescription");
-    }
-  })
-  .delete(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
-    try {
-      const deletedPrescription = await Prescription.findByIdAndDelete(
-        req.params.id
-      );
-      if (!deletedPrescription) {
-        return res.status(404).send("Prescription not found");
-      }
-    } catch (err) {
-      res.status(500).json({ success: false, message: err.message });
-    }
-  });
 
 router.get(
   "/lab/tests",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({ treat_status: "Ongoing" });
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("patient_lab_test", { admin, patients, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("patient_lab_test", { currUser, patients, userType });
   }
 );
 
 router
   .route("/lab/tests/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findOne({ patient_id: req.params.id });
     const lab = await LabReport.findOne({ patient_id: req.params.id });
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_lab_test", { admin, patient, lab, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("add_lab_test", { currUser, patient, lab, userType });
   })
-  .patch(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .patch(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const updatedVitals = await LabReport.findOneAndUpdate(
         { patient_id: req.params.id },
@@ -290,25 +90,25 @@ router
 router.get(
   "/lab/results",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const labs = await LabReport.find({});
-    const admin = await fetchAdminDetails(req.user.email);
+    const currUser = await fetchAdminDetails(req.user.email);
     const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("patient_lab_result", { admin, patients, labs, userType });
+    res.render("patient_lab_result", { currUser, patients, labs, userType });
   }
 );
 
 router
   .route("/lab/results/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
     const lab = await LabReport.findById(req.params.id);
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_lab_result", { admin, lab, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("add_lab_result", { currUser, lab, userType });
   })
-  .patch(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .patch(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const updatedLabResult = await LabReport.findByIdAndUpdate(
         req.params.id,
@@ -332,25 +132,25 @@ router
 router.get(
   "/patient/vitals",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const labs = await LabReport.find({});
-    const admin = await fetchAdminDetails(req.user.email);
+    const currUser = await fetchAdminDetails(req.user.email);
     const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("patient_vitals", { admin, patients, labs, userType });
+    res.render("patient_vitals", { currUser, patients, labs, userType });
   }
 );
 
 router
   .route("/patient/vitals/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
     const lab = await LabReport.findById(req.params.id);
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_patient_vitals", { admin, lab, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("add_patient_vitals", { currUser, lab, userType });
   })
-  .patch(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .patch(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const updatedLabTest = await LabReport.findByIdAndUpdate(
         req.params.id,
@@ -377,37 +177,37 @@ router
 router.get(
   "/lab/reports",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const labs = await LabReport.find({});
-    const admin = await fetchAdminDetails(req.user.email);
+    const currUser = await fetchAdminDetails(req.user.email);
     const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("lab_reports", { admin, patients, labs, userType });
+    res.render("lab_reports", { currUser, patients, labs, userType });
   }
 );
 
 router.get(
   "/lab/reports/:id",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     let lab = await LabReport.findOne({ patient_id: req.params.id });
     let patient = await Patient.findOne({ patient_id: req.params.id });
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("view_lab_report", { admin, lab, patient, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("view_lab_report", { currUser, lab, patient, userType });
   }
 );
 
 router
   .route("/doctor/add")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_doctor", { admin, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("add_doctor", { currUser, userType });
   })
-  .post(isAdminOrDoctor, isLoggedIn("admin"), upload, async (req, res) => {
+  .post(isAdminOrDoctor, dynamicIsLoggedIn, upload, async (req, res) => {
     const {
       full_name,
       email,
@@ -460,56 +260,56 @@ router
 
 router
   .route("/doctor/q")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
     const doctors = await Doctor.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("view_doctor", { admin, doctors, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("view_doctor", { currUser, doctors, userType });
   });
 
 router.get(
   "/doctor/q/:id",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     let doctor = await Doctor.findById(req.params.id);
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("doctor_profile", { admin, doctor, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("doctor_profile", { currUser, doctor, userType });
   }
 );
 
 router.get(
   "/doctor/manage",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const doctors = await Doctor.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("manage_doctor", { admin, doctors, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("manage_doctor", { currUser, doctors, userType });
   }
 );
 
 router
   .route("/doctor/manage/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const userType = req.session.userType;
       const doctor = await Doctor.findById(req.params.id);
-      const admin = await fetchAdminDetails(req.user.email);
+      const currUser = await fetchAdminDetails(req.user.email);
 
       if (!doctor) {
         return res.status(404).send("Doctor not found");
       }
 
-      res.render("update_doctor", { admin, doctor, userType });
+      res.render("update_doctor", { currUser, doctor, userType });
     } catch (error) {
       console.error("Error fetching doctor details:", error);
       res.status(500).send("Internal Server Error");
     }
   })
-  .patch(isAdminOrDoctor, isLoggedIn("admin"), upload, async (req, res) => {
+  .patch(isAdminOrDoctor, dynamicIsLoggedIn, upload, async (req, res) => {
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -592,7 +392,7 @@ router
       res.status(500).send("Internal Server Error");
     }
   })
-  .delete(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .delete(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const deletedDoctor = await Doctor.findByIdAndDelete(req.params.id);
       if (!deletedDoctor) {
@@ -605,12 +405,12 @@ router
 
 router
   .route("/patient/register")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("register_patient", { admin, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("register_patient", { currUser, userType });
   })
-  .post(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .post(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const newPatient = new Patient(req.body);
     try {
       await newPatient.save();
@@ -623,50 +423,50 @@ router
 router.get(
   "/patient/q",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("view_patient", { admin, patients, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("view_patient", { currUser, patients, userType });
   }
 );
 
 router.get(
   "/patient/q/:id",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findOne({ patient_id: req.params.id });
     const lab = await LabReport.findOne({ patient_id: req.params.id });
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("patient_profile", { admin, patient, lab, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("patient_profile", { currUser, patient, lab, userType });
   }
 );
 
 router.get(
   "/patient/manage",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("manage_patient", { admin, patients, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("manage_patient", { currUser, patients, userType });
   }
 );
 
 router
   .route("/patient/manage/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
     const patient = await Patient.findById(req.params.id);
     const doctors = await Doctor.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("update_patient", { admin, patient, doctors, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("update_patient", { currUser, patient, doctors, userType });
   })
-  .patch(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .patch(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const updatedPatient = await Patient.findByIdAndUpdate(
         req.params.id,
@@ -698,7 +498,7 @@ router
       res.status(500).send("Error updating Patient details");
     }
   })
-  .delete(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .delete(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const deletedPatient = await Patient.findByIdAndDelete(req.params.id);
       await LabReport.findOneAndDelete({
@@ -716,24 +516,24 @@ router
 router.get(
   "/patient/discharge",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("discharge_patient", { admin, patients, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("discharge_patient", { currUser, patients, userType });
   }
 );
 
 router
   .route("/patient/discharge/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
-    const admin = await fetchAdminDetails(req.user.email);
+    const currUser = await fetchAdminDetails(req.user.email);
     const patient = await Patient.findOne({ patient_id: req.params.id });
-    res.render("discharge_form", { admin, patient, userType });
+    res.render("discharge_form", { currUser, patient, userType });
   })
-  .post(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .post(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const newDischarge = new Discharge(req.body);
     try {
       await newDischarge.save();
@@ -754,12 +554,12 @@ router
 
 router
   .route("/employee/add")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_employee", { admin, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("add_employee", { currUser, userType });
   })
-  .post(isAdminOrDoctor, isLoggedIn("admin"), upload, async (req, res) => {
+  .post(isAdminOrDoctor, dynamicIsLoggedIn, upload, async (req, res) => {
     const newEmployee = new Employee({
       ...req.body,
       avatar: req.file.filename,
@@ -775,48 +575,48 @@ router
 router.get(
   "/employee/q",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("view_employee", { admin, employees, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("view_employee", { currUser, employees, userType });
   }
 );
 
 router.get(
   "/employee/q/:id",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
-    const admin = await fetchAdminDetails(req.user.email);
+    const currUser = await fetchAdminDetails(req.user.email);
     const employee = await Employee.findById(req.params.id);
-    res.render("employee_profile", { admin, employee, userType });
+    res.render("employee_profile", { currUser, employee, userType });
   }
 );
 
 router.get(
   "/employee/manage",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("manage_employee", { admin, employees, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("manage_employee", { currUser, employees, userType });
   }
 );
 
 router
   .route("/employee/manage/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
     const employee = await Employee.findById(req.params.id);
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("update_employee", { admin, employee, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("update_employee", { currUser, employee, userType });
   })
-  .patch(isAdminOrDoctor, isLoggedIn("admin"), upload, async (req, res) => {
+  .patch(isAdminOrDoctor, dynamicIsLoggedIn, upload, async (req, res) => {
     let updateData = {};
 
     if (!req.file) {
@@ -872,7 +672,7 @@ router
       res.status(500).send("Error updating Employee details");
     }
   })
-  .delete(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .delete(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const deletedEmployee = await Employee.findByIdAndDelete(req.params.id);
       if (!deletedEmployee) {
@@ -886,45 +686,45 @@ router
 router.get(
   "/records/appointment",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const appointments = await Appointment.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("appointment_records", { admin, appointments, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("appointment_records", { currUser, appointments, userType });
   }
 );
 
 router.get(
   "/records/appointment/:id",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     let app = await Appointment.findById(req.params.id);
     let doctorName = router.app_doc;
-    const admin = await fetchAdminDetails(req.user.email);
+    const currUser = await fetchAdminDetails(req.user.email);
     let doc = await Doctor.findOne({ full_name: doctorName });
-    res.render("appointment", { admin, app, doc, userType });
+    res.render("appointment", { currUser, app, doc, userType });
   }
 );
 
 router.get(
   "/records/patient",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const patients = await Patient.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("patient_records", { admin, patients, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("patient_records", { currUser, patients, userType });
   }
 );
 
 router.get(
   "/records/patient/:id",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     let patient = await Patient.findOne({ patient_id: req.params.id });
@@ -932,7 +732,7 @@ router.get(
     let doc = await Doctor.findOne({ full_name: doctorName });
     let lab = await LabReport.findOne({ patient_id: req.params.id });
     let discharge = await Discharge.findOne({ patient_id: req.params.id });
-    const admin = await fetchAdminDetails(req.user.email);
+    const currUser = await fetchAdminDetails(req.user.email);
     res.render("patient_final_record", {
       admin,
       patient,
@@ -947,12 +747,12 @@ router.get(
 router.get(
   "/payroll/add",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const employees = await Employee.find({});
     const payrolls = await Payroll.find({});
-    const admin = await fetchAdminDetails(req.user.email);
+    const currUser = await fetchAdminDetails(req.user.email);
 
     // Create a Set of employee IDs that have salaries
     const employeeWithSalaries = new Set(
@@ -975,13 +775,13 @@ router.get(
 
 router
   .route("/payroll/add/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
     const emp = await Employee.findById(req.params.id);
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("add_new_payroll", { admin, emp, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("add_new_payroll", { currUser, emp, userType });
   })
-  .post(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .post(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const newPayroll = new Payroll(req.body);
     try {
       await newPayroll.save();
@@ -994,24 +794,24 @@ router
 router.get(
   "/payroll/manage",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const payrolls = await Payroll.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("manage_payroll", { admin, payrolls, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("manage_payroll", { currUser, payrolls, userType });
   }
 );
 
 router
   .route("/payroll/manage/:id")
-  .get(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .get(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     const userType = req.session.userType;
     let payroll = await Payroll.findById(req.params.id);
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("update_payroll", { admin, payroll, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("update_payroll", { currUser, payroll, userType });
   })
-  .patch(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .patch(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const updatedPayroll = await Payroll.findByIdAndUpdate(
         req.params.id,
@@ -1035,7 +835,7 @@ router
       res.status(500).send("Error updating Employee payroll details");
     }
   })
-  .delete(isAdminOrDoctor, isLoggedIn("admin"), async (req, res) => {
+  .delete(isAdminOrDoctor, dynamicIsLoggedIn, async (req, res) => {
     try {
       const deletedPayroll = await Payroll.findByIdAndDelete(req.params.id);
       if (!deletedPayroll) {
@@ -1049,35 +849,35 @@ router
 router.get(
   "/payroll/generate",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const employees = await Payroll.find({});
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("generate_payroll", { admin, employees, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("generate_payroll", { currUser, employees, userType });
   }
 );
 
 router.get(
   "/payroll/generate/:id",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
     const payroll = await Payroll.findById(req.params.id);
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("employee_payslip", { admin, payroll, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("employee_payslip", { currUser, payroll, userType });
   }
 );
 
 router.get(
   "/survey",
   isAdminOrDoctor,
-  isLoggedIn("admin"),
+  dynamicIsLoggedIn,
   async (req, res) => {
     const userType = req.session.userType;
-    const admin = await fetchAdminDetails(req.user.email);
-    res.render("survey", { admin, userType });
+    const currUser = await fetchAdminDetails(req.user.email);
+    res.render("survey", { currUser, userType });
   }
 );
 

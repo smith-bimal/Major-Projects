@@ -61,7 +61,6 @@ module.exports.updateAppointment = async (req, res) => {
       return res.status(404).send("Appointment not found");
     }
 
-    console.log(updatedAppointment);
     res.redirect(`/${req.user.role}/appointment/manage`);
   } catch (error) {
     res.status(500).redirect(`/${req.user.role}/appointment/manage`);

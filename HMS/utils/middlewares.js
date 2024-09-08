@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const { fetchAdminDetails, fetchDoctorDetails } = require('./helper');
 
-let pass;
 
 //protected url middleware only for logout
 function isAdminOrDoctor(req, res, next) {
@@ -98,4 +97,13 @@ function  isLoggedIn(requiredRole) {
     };
 }
 
-module.exports = { isLoggedIn, isAdminOrDoctor, isAuthenticated };
+function dynamicIsLoggedIn(req, res, next) {
+    const role = req.user.role;
+    if (!role) {
+        return res.status(403).redirect('/login'); // Or handle the missing role appropriately
+    }
+    // Call the isLoggedIn function with the role from req.user
+    isLoggedIn(role)(req, res, next);
+}
+
+module.exports = { isLoggedIn, isAdminOrDoctor, isAuthenticated, dynamicIsLoggedIn };

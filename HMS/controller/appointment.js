@@ -6,6 +6,7 @@ module.exports.renderAppointmentForm = async (req, res) => {
   const userType = req.session.userType;
   const doctors = await Doctor.find({});
   const currUser = await fetchAdminDetails(req.user.email);
+  console.log(currUser);
   res.render("create_app", { currUser, doctors, userType });
 };
 

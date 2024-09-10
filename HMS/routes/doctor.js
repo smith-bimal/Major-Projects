@@ -19,6 +19,7 @@ const doctorDashboardRoute = require("../routes/dashboardDoctor");
 const appointmentRoute = require("./appointmentRoutes");
 const pharmacyRoute = require("./pharmacyRoutes");
 const prescriptionRoute = require("./prescriptionRoutes");
+const labRoute = require("./labRoutes");
 
 const multer = require("multer");
 const bcrypt = require("bcrypt");
@@ -41,119 +42,7 @@ router.use("/dashboard", doctorDashboardRoute);
 router.use("/appointment", appointmentRoute);
 router.use("/pharmacy", pharmacyRoute);
 router.use("/prescription", prescriptionRoute);
-
-
-router.get(
-  "/lab/tests",
-  isAdminOrDoctor,
-  isLoggedIn("doctor"),
-  isAuthenticated,
-  async (req, res) => {
-    const userType = req.session.userType;
-    const userEmail = req.user.email;
-    const doctor = await fetchDoctorDetails(userEmail);
-    const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("patient_lab_test", { patients, userType, doctor });
-  }
-);
-
-router
-  .route("/lab/tests/:id")
-  .get(
-    isAdminOrDoctor,
-    isLoggedIn("doctor"),
-    isAuthenticated,
-    async (req, res) => {
-      const userType = req.session.userType;
-      const userEmail = req.user.email;
-      const doctor = await fetchDoctorDetails(userEmail);
-      const patient = await Patient.findOne({ patient_id: req.params.id });
-      const lab = await LabReport.findOne({ patient_id: req.params.id });
-      res.render("add_lab_test", { patient, lab, userType, doctor });
-    }
-  )
-  .patch(
-    isAdminOrDoctor,
-    isLoggedIn("doctor"),
-    isAuthenticated,
-    async (req, res) => {
-      try {
-        const updatedVitals = await LabReport.findOneAndUpdate(
-          { patient_id: req.params.id },
-          {
-            name: req.body.name,
-            ailment: req.body.ailment,
-            patient_id: req.body.id,
-            lab_tests: req.body.tests,
-          },
-          { new: true, runValidators: true }
-        );
-
-        if (!updatedVitals) {
-          return res.status(404).send("Vitals data not found");
-        }
-
-        res.redirect("/doctor/lab/tests");
-      } catch (error) {
-        res.status(500).send("Error updating Vitals data");
-      }
-    }
-  );
-
-router.get(
-  "/lab/results",
-  isAdminOrDoctor,
-  isLoggedIn("doctor"),
-  isAuthenticated,
-  async (req, res) => {
-    const userType = req.session.userType;
-    const userEmail = req.user.email;
-    const doctor = await fetchDoctorDetails(userEmail);
-    const labs = await LabReport.find({});
-    const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("patient_lab_result", { patients, labs, userType, doctor });
-  }
-);
-
-router
-  .route("/lab/results/:id")
-  .get(
-    isAdminOrDoctor,
-    isLoggedIn("doctor"),
-    isAuthenticated,
-    async (req, res) => {
-      const userType = req.session.userType;
-      const userEmail = req.user.email;
-      const lab = await LabReport.findById(req.params.id);
-      const doctor = await fetchDoctorDetails(userEmail);
-      res.render("add_lab_result", { lab, userType, doctor });
-    }
-  )
-  .patch(
-    isAdminOrDoctor,
-    isLoggedIn("doctor"),
-    isAuthenticated,
-    async (req, res) => {
-      try {
-        const updatedLabResult = await LabReport.findByIdAndUpdate(
-          req.params.id,
-          {
-            result_date: req.body.result_date,
-            lab_results: req.body.results,
-          },
-          { new: true, runValidators: true }
-        );
-
-        if (!updatedLabResult) {
-          return res.status(404).send("Lab Results not found");
-        }
-
-        res.redirect("/doctor/lab/results");
-      } catch (error) {
-        res.status(500).send("Error updating Lab Results");
-      }
-    }
-  );
+router.use("/lab", labRoute);
 
 router.get(
   "/patient/vitals",
@@ -212,35 +101,6 @@ router
       }
     }
   );
-router.get(
-  "/lab/reports",
-  isAdminOrDoctor,
-  isLoggedIn("doctor"),
-  isAuthenticated,
-  async (req, res) => {
-    const userType = req.session.userType;
-    const userEmail = req.user.email;
-    const doctor = await fetchDoctorDetails(userEmail);
-    const labs = await LabReport.find({});
-    const patients = await Patient.find({ treat_status: "Ongoing" });
-    res.render("lab_reports", { patients, labs, userType, doctor });
-  }
-);
-
-router.get(
-  "/lab/reports/:id",
-  isAdminOrDoctor,
-  isLoggedIn("doctor"),
-  isAuthenticated,
-  async (req, res) => {
-    const userType = req.session.userType;
-    let lab = await LabReport.findOne({ patient_id: req.params.id });
-    let patient = await Patient.findOne({ patient_id: req.params.id });
-    const userEmail = req.user.email;
-    const doctor = await fetchDoctorDetails(userEmail);
-    res.render("view_lab_report", { patient, lab, userType, doctor });
-  }
-);
 
 router
   .route("/patient/register")

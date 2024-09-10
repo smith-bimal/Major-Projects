@@ -53,7 +53,7 @@ Follow these steps to set up the project locally:
 
 6. **Open your browser and navigate to:**
     ```
-    http://localhost:4040
+    http://localhost:5000
     ```
 
 ## Usage

@@ -2,8 +2,11 @@ const Admin = require("../src/models/adminModel");
 const Doctor = require("../src/models/docModel");
 
 //Function to fetch logged in doctor information
-async function fetchAdminDetails(adminEmail) {
-    const admin = await Admin.findOne({ email: adminEmail });
+async function fetchAdminDetails(userEmail) {
+    let admin = await Admin.findOne({ email: userEmail });
+    if (!admin) {
+        admin = await Doctor.findOne({ email: userEmail });
+    }
     return admin;
 };
 

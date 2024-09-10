@@ -11,7 +11,7 @@ const nodemailer = require('nodemailer');
 
 const config = require('./config/config');
 
-const loginRouter = require("./routes/login");
+const loginRouter = require("./routes/loginRoutes");
 const adminRouter = require("./routes/admin");
 const doctorRouter = require("./routes/doctor");
 

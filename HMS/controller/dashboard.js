@@ -12,7 +12,7 @@ module.exports.doctorDashboard = async (req, res) => {
   const pharmacies = await Pharmacy.find({});
   const labReports = await LabReport.find({});
   const userType = req.session.userType;
-  const currUser = await fetchDoctorDetails(req.user.email);
+  const currUser = await fetchAdminDetails(req.user.email);
   res.render("doctor", {
     userType,
     patients,

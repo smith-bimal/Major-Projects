@@ -56,9 +56,10 @@
           </div>
 
           <hr class="my-4">
-
-          <% if (listing.description.length >350){ %>
-          <pre><%= listing.description.slice(0,350) %>...</pre>
+          
+          <h5>About this place</h5>
+          <% if (listing.description.length >550){ %>
+          <pre><%= listing.description.slice(0,550) %>...</pre>
           <div class="btn show-more-btn p-0"><span class="text-decoration-underline">Show more</span>&nbsp;<small><i class="fa-solid fa-greater-than"></i></small></div>
           <% }else{ %>
           <pre><%= listing.description %></pre>

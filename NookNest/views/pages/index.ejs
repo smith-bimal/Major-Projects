@@ -35,78 +35,81 @@ const month25Name = monthNames[month25Index];
 
 <body>
   <div>
-  <img src="/assets/pexels-pixabay-258154.jpg" class="index-hero-img position-absolute top-0 start-0" alt="bg_image">
-  
-  <!-- Hero content -->
-  <div class="hero-content d-flex flex-column justify-content-md-end main-width">
-    <h1 class="text-white">Find Your Best Staycation</h1>
-    <div class="booking-search mb-4 p-4 border">
-      <div class="row">
-        <div class=" col-md-4">
-          <div class="search-credentials">
-            <label for="search_location">Location</label>
-            <div class="search-credential-input">
-              <i class="fa-solid fa-location-crosshairs top-50 translate-middle-y"></i>
-              <input type="text" id="search_location" class="form-control" placeholder="Find location" />
-            </div>
-          </div>
-        </div>
-        <div class=" col-md-4">
-          <div class="search-credentials">
-            <label for="search_date_1">Check-in & Check-out Date</label>
-            <div class="search-credential-input">
-              <i class="fa-regular fa-calendar-check top-50 translate-middle-y"></i>
-              <input type="date" id="search_date_1" class="form-control" placeholder="Add dates" />
-            </div>
-          </div>
-        </div>
-        <div class=" col-md-4">
-          <div class="search-credentials">
-            <label for="search_gnr_count">Guests and Rooms</label>
-            <div class="search-credential-input">
-              <i class="fa-regular fa-user top-50 translate-middle-y"></i>
-              <input type="text" id="search_gnr_count" class="form-control" placeholder="1 guest, 1 room" disabled />
-              <i class="fa-solid fa-circle-chevron-down top-50 end-0 me-3"></i>
-            </div>
-          </div>
-        </div>
+    <img src="/assets/pexels-pixabay-258154.jpg" class="index-hero-img position-absolute top-0 start-0" alt="bg_image">
+
+    <!-- Hero content -->
+    <div class="hero-content d-flex flex-column justify-content-md-end main-width">
+      <div class="overflow-hidden mb-3 gsap-hero">
+        <h1 class="text-white m-0">Find Your Best Staycation</h1>
       </div>
 
-      <div class="row flex justify-content-between mt-3 ">
-        <div class="search-filter-container d-flex gap-md-2 gap-1 flex-wrap mb-md-0 mb-3">
-          <span class="flex">Filter:</span>
-
-          <div class="search-filter-option ">
-            <input type="checkbox" class="btn-check" id="btn-check-1-outlined" checked autocomplete="off">
-            <label class="btn btn-outline-dark rounded-pill" for="btn-check-1-outlined">Hotels</label><br>
+      <div class="booking-search mb-4 p-4 border gsap-hero">
+        <div class="row">
+          <div class=" col-md-4">
+            <div class="search-credentials">
+              <label for="search_location">Location</label>
+              <div class="search-credential-input">
+                <i class="fa-solid fa-location-crosshairs top-50 translate-middle-y"></i>
+                <input type="text" id="search_location" class="form-control" placeholder="Find location" />
+              </div>
+            </div>
           </div>
-          <div class="search-filter-option">
-            <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
-            <label class="btn btn-outline-dark rounded-pill" for="btn-check-2-outlined">Villas</label><br>
+          <div class=" col-md-4">
+            <div class="search-credentials">
+              <label for="search_date_1">Check-in & Check-out Date</label>
+              <div class="search-credential-input">
+                <i class="fa-regular fa-calendar-check top-50 translate-middle-y"></i>
+                <input type="date" id="search_date_1" class="form-control" placeholder="Add dates" />
+              </div>
+            </div>
           </div>
-          <div class="search-filter-option">
-            <input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
-            <label class="btn btn-outline-dark rounded-pill" for="btn-check-3-outlined">Apartments</label><br>
+          <div class=" col-md-4">
+            <div class="search-credentials">
+              <label for="search_gnr_count">Guests and Rooms</label>
+              <div class="search-credential-input">
+                <i class="fa-regular fa-user top-50 translate-middle-y"></i>
+                <input type="text" id="search_gnr_count" class="form-control" placeholder="1 guest, 1 room" disabled />
+                <i class="fa-solid fa-circle-chevron-down top-50 end-0 me-3"></i>
+              </div>
+            </div>
           </div>
-          <div class="search-filter-option">
-            <input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
-            <label class="btn btn-outline-dark rounded-pill" for="btn-check-4-outlined">Resorts</label><br>
-          </div>
-          <div class="search-filter-option">
-            <input type="checkbox" class="btn-check" id="btn-check-5-outlined" autocomplete="off">
-            <label class="btn btn-outline-dark rounded-pill" for="btn-check-5-outlined">Cottages</label><br>
-          </div>
-
         </div>
 
-        <div class="btn btn-dark btn-booking-search">Search &nbsp; <i class="fa-solid fa-arrow-right"></i></div>
+        <div class="row flex justify-content-between mt-3 ">
+          <div class="search-filter-container d-flex gap-md-2 gap-1 flex-wrap mb-md-0 mb-3">
+            <span class="flex">Filter:</span>
+
+            <div class="search-filter-option ">
+              <input type="checkbox" class="btn-check" id="btn-check-1-outlined" checked autocomplete="off">
+              <label class="btn btn-outline-dark rounded-pill" for="btn-check-1-outlined">Hotels</label><br>
+            </div>
+            <div class="search-filter-option">
+              <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
+              <label class="btn btn-outline-dark rounded-pill" for="btn-check-2-outlined">Villas</label><br>
+            </div>
+            <div class="search-filter-option">
+              <input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
+              <label class="btn btn-outline-dark rounded-pill" for="btn-check-3-outlined">Apartments</label><br>
+            </div>
+            <div class="search-filter-option">
+              <input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
+              <label class="btn btn-outline-dark rounded-pill" for="btn-check-4-outlined">Resorts</label><br>
+            </div>
+            <div class="search-filter-option">
+              <input type="checkbox" class="btn-check" id="btn-check-5-outlined" autocomplete="off">
+              <label class="btn btn-outline-dark rounded-pill" for="btn-check-5-outlined">Cottages</label><br>
+            </div>
+
+          </div>
+
+          <div class="btn btn-dark btn-booking-search">Search &nbsp; <i class="fa-solid fa-arrow-right"></i></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <!-- Discover Destinations Content -->
-  <div class="main-width mt-4">
+  <div class="main-width mt-4 gsap-discover">
     <h2>Discover Your Destinations</h2>
     <p class="text-secondary">Explore our range of property types for every traveler's preference.</p>
     <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-2 row-column-xs-1">
@@ -179,11 +182,11 @@ const month25Name = monthNames[month25Index];
       </div>
     </div>
   </div>
-  <hr>
+  <hr class="gsap-discover">
 
   <!-- Trending Hotel Content -->
   <% if (villas.length>0) { %>
-  <div class="main-width mt-4">
+  <div class="main-width mt-4 gsap-discover">
     <h2>Top trending hotel in worldwide</h2>
     <p class="text-secondary">Discover the most trending hotels worldwide for an unforgettable experience.</p>
 
@@ -243,28 +246,30 @@ const month25Name = monthNames[month25Index];
     </div>
   </div>
   <% }else{ %>
-  <div class="main-width mt-4">
+  <div class="main-width mt-4 gsap-discover">
     <h2>No hotels available.</h2>
     <p class="text-secondary">We're sorry, but no hotels are available at the moment.</p>
   </div>
-  <hr>
   <% } %>
+  <hr class="gsap-discover">
 
   <!-- Most Visited Hotel Content -->
   <% if (placesWithReview.length > 0) { %>
-  <div class="main-width mt-4">
+  <div class="main-width mt-4 ">
+    <div id="most-visit-head">
     <h2>Most visited hotels of all time</h2>
     <p class="text-secondary">Trending exceptional hospitality that captivated travelers of all time.</p>
+  </div>
 
     <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-2 row-column-xs-1">
-      <% let count; 
-      if (placesWithReview.length >4) { 
+      <% let count;
+      if (placesWithReview.length >4) {
         count = 4;
       } else{
       count = placesWithReview.length;
       }%>
       <% for( let index = 0; index < count; index++ ) { %>
-      <div class="trending-container mt-3">
+      <div class="trending-container mt-3 most-visit-content">
         <a href="/listings/<%= placesWithReview[index].id %>" class="text-decoration-none">
           <div>
             <div class="card">
@@ -279,7 +284,7 @@ const month25Name = monthNames[month25Index];
                           let totalRating = 0;
                           placesWithReview[index].reviews.forEach(review => {
                             totalRating += review.rating
-                          }); 
+                          });
                           avgRating = totalRating / placesWithReview[index].reviews.length;
                         %>
                         <%= avgRating.toFixed(1) %>
@@ -300,13 +305,17 @@ const month25Name = monthNames[month25Index];
     </div>
   </div>
   <% } %>
+  <hr id="most-visit-hr">
 
   <!-- Promo Code Content -->
   <div class="main-width my-md-4">
-    <h2>Get promo for a cheaper price</h2>
-    <p class="text-secondary">Secure Your Promo at an Irresistible Price and Enjoy Great Discounts Across Our Range of Products!</p>
+    <div id="promo-head">
+      <h2>Get promo for a cheaper price</h2>
+      <p class="text-secondary">Secure Your Promo at an Irresistible Price and Enjoy Great Discounts Across Our Range of Products!</p>
+    </div>
+
     <div class="row row-cols-md-2 row-column-sm-1 ">
-      <div class="discount-container">
+      <div class="discount-container" id="promo-content-1">
         <div class="discount1 p-sm-4 p-3 mb-3">
           <div class="flex justify-content-between">
             <i class="fa-solid fa-tags p-2"></i>
@@ -318,7 +327,7 @@ const month25Name = monthNames[month25Index];
         </div>
       </div>
 
-      <div class="discount-container">
+      <div class="discount-container" id="promo-content-2">
         <div class="discount2 p-sm-4 p-3 mb-3">
           <div class="flex justify-content-between">
             <i class="fa-solid fa-tags p-2"></i>
@@ -333,7 +342,7 @@ const month25Name = monthNames[month25Index];
   </div>
 
   <!-- Demo Logo Section -->
-  <div class="main-width my-md-4 flex-wrap flex justify-content-md-between gap-3 p-md-4 p-2 demo-logo-container">
+  <div class="main-width my-md-4 flex-wrap flex justify-content-md-between gap-3 p-md-4 p-2 demo-logo-container overflow-hidden">
     <img src="/assets/demo_logo1.png" alt="demo_logo1" class="demo-logo1">
     <img src="/assets/demo_logo2.png" alt="demo_logo2" class="demo-logo2">
     <img src="/assets/demo_logo3.png" alt="demo_logo3" class="demo-logo3">
@@ -344,7 +353,7 @@ const month25Name = monthNames[month25Index];
 
   <!-- Below card Content -->
   <div class="main-width d-flex py-3">
-    <div class="col-md-5 col-12 pe-md-3 p-0">
+    <div class="col-md-5 col-12 me-md-3 p-0 overflow-hidden">
       <div class="booking-card mb-3">
         <img src="/assets/hotel-interior-design-zikzak-architects.jpg" alt="bg">
         <div class="p-sm-4 p-3">
@@ -363,6 +372,7 @@ const month25Name = monthNames[month25Index];
         </div>
       </div>
     </div>
+
     <div class="col-7 p-md-4 flex d-md-flex d-none accommodation">
       <h2 class="text-white text-center fw-normal">Beyond accommodation, creating <br>memories of a lifetime.</h2>
     </div>

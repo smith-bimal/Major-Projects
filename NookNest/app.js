@@ -9,11 +9,14 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/nookNest";
+const dbUrl = process.env.ATLASDB_URL;
+
+// const MONGO_URL = "mongodb://127.0.0.1:27017/nookNest";
 const ExpressError = require('./utils/ExpressError');
 const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
@@ -28,7 +31,7 @@ main().then(() => {
     console.log(err);
 });
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
 }
 
 app.set("view engine", "ejs");
@@ -38,8 +41,21 @@ app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto:{
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24 * 60 * 60,
+});
+
+store.on("error", (err)=> {
+    console.log("ERROR ON MONGO SESSION STORE" + err);
+})
+
 const sessionOptions = {
-    secret: "mysupersceretkey",
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -48,11 +64,6 @@ const sessionOptions = {
         httpOnly: true,
     }
 };
-
-// Home Route
-app.get("/", (req, res) => {
-    res.redirect('/listings');
-});
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -69,6 +80,11 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 })
+
+// Home Route
+app.get("/", (req, res) => {
+    res.redirect('/listings');
+});
 
 // Listing Routings 
 app.use("/listings", listingRouter);

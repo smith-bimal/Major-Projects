@@ -6,7 +6,9 @@ const initData = require("./listing_data");
 const { reviews } = require("./review_data");
 const { users } = require("./user_data");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/nookNest";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/nookNest";
+
+const dbUrl = process.env.ATLASDB_URL;
 
 main().then(() => {
     console.log("Connected to the database");
@@ -14,7 +16,7 @@ main().then(() => {
     console.log(err);
 });
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
 }
 
 const initDB = async () => {

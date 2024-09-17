@@ -1,11 +1,11 @@
 const tl = gsap.timeline();
 
-tl.from(".banner-msg", {
-  opacity: 0,
-  duration: 1,
-  delay: 1,
-  ease: "power3.inOut",
-});
+// tl.from(".banner-msg", {
+//   opacity: 0,
+//   duration: 1,
+//   delay: 1,
+//   ease: "power3.inOut",
+// });
 
 tl.to(".banner", {
   delay: 2,
@@ -21,20 +21,20 @@ gsap.from(".banner-msg span", {
     stagger: 0.3
 })
 
-tl.from(".gsap-hero",{
-    y:-20,
-    opacity:0,
-    duration: 0.5,
-    stagger: 0.2
-})
+// tl.from(".gsap-hero",{
+//     y:-20,
+//     opacity:0,
+//     duration: 0.5,
+//     stagger: 0.2
+// })
 
-tl.from(".gsap-discover", {
-    opacity:0,
-    y:20,
-    duration: 2,
-    ease: "back.out(1)",
-    stagger: 0.3
-})
+// tl.from(".gsap-discover", {
+//     opacity:0,
+//     y:20,
+//     duration: 2,
+//     ease: "back.out(1)",
+//     stagger: 0.3
+// })
 
 gsap.from("#most-visit-head", {
     x:50,

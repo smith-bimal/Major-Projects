@@ -145,12 +145,12 @@ gsap.from(".accommodation", {
   },
 });
 
-gsap.from("footer", {
-  opacity: 0,
-  duration: 1.5,
-  ease: "power3.inOut",
-  scrollTrigger: {
-    trigger: "footer",
-    start: "top 75%",
-  },
-});
+// gsap.from("footer", {
+//   opacity: 0,
+//   duration: 1.5,
+//   ease: "power3.inOut",
+//   scrollTrigger: {
+//     trigger: "footer",
+//     start: "top 75%",
+//   },
+// });

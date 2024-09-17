@@ -1,36 +1,38 @@
+<div class="banner position-fixed text-white flex">
+  <div class="banner-msg fs-2">
+    <span>Your </span><span>cozy </span><span>escape </span><span>starts </span><span>here.</span>
+  </div>
+</div>
+
 <nav class="navbar navbar-expand-md">
   <div class="container-fluid main-width sticky-top">
-    <a class="navbar-brand flex" href="/"><img src="/assets/logo.png" alt="logo"> <span
-        class="text-white">NookNest</span></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+    <a class="navbar-brand flex gsap-hero" href="/"><img src="/assets/logo.png" alt="logo"> <span class="text-white">NookNest</span></a>
+    <button class="navbar-toggler gsap-hero" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ms-auto">
-        <form action="/search" class="d-flex gap-2 position-relative">
-          <input type="text" name="sq" id="destination" class="form-control" placeholder="Search Destination..."
-            autocomplete="off">
-          <button type="submit"
-            class="btn btn-transparent position-absolute end-0 top-50 translate-middle-y text-white pe-4"><i
-              class="fa-solid fa-magnifying-glass"></i></button>
+        <form action="/search" class="d-flex gap-2 position-relative gsap-hero">
+          <input type="text" name="sq" id="destination" class="form-control" placeholder="Search Destination..." autocomplete="off">
+          <button type="submit" class="btn btn-transparent position-absolute end-0 top-50 translate-middle-y text-white pe-4"><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
       </div>
       <div class="navbar-nav ms-auto flex align-items-end">
         <% if (!currentUser) { %>
-          <a class="nav-link btn login-btn">
-            <div class="btn btn-underline text-white">Login</div>
-          </a>
-          <a class="nav-link signup-btn">
-            <div class="btn btn-light">Sign Up</div>
-          </a>
-          <% } else { %>
-            <a class="nav-link btn  px-0" href="/listings/new">
-              <div class="btn btn-underline text-white">Publish your stay</div>
-            </a>
-            <a class="nav-link" href="/user/profile">
-              <div class="btn btn-light">Account</div>
-            </a>
-            <% } %>
+        <a class="nav-link btn login-btn gsap-hero">
+          <div class="btn btn-underline text-white">Login</div>
+        </a>
+        <a class="nav-link signup-btn gsap-hero">
+          <div class="btn btn-light">Sign Up</div>
+        </a>
+        <% } else { %>
+        <a class="nav-link btn  px-0" href="/listings/new">
+          <div class="btn btn-underline text-white">Publish your stay</div>
+        </a>
+        <a class="nav-link" href="/user/profile">
+          <div class="btn btn-light">Account</div>
+        </a>
+        <% } %>
       </div>
     </div>
   </div>
@@ -45,8 +47,7 @@
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-circle-user"></i>
-        <input type="text" class="input form-control" id="login_username" name="username"
-          placeholder="Enter your Username" aria-autocomplete="none">
+        <input type="text" class="input form-control" id="login_username" name="username" placeholder="Enter your Username" aria-autocomplete="none">
       </div>
 
       <div class="flex-column">
@@ -54,8 +55,7 @@
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-lock"></i>
-        <input type="password" id="login_password" name="password" class="input form-control"
-          placeholder="Enter your Password" aria-autocomplete="none">
+        <input type="password" id="login_password" name="password" class="input form-control" placeholder="Enter your Password" aria-autocomplete="none">
       </div>
 
       <div class="flex-row">
@@ -78,8 +78,7 @@
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-circle-user"></i>
-        <input type="text" class="input form-control" id="signup_username" name="username"
-          placeholder="Enter your Username" aria-autocomplete="none" required>
+        <input type="text" class="input form-control" id="signup_username" name="username" placeholder="Enter your Username" aria-autocomplete="none" required>
       </div>
 
       <div class="flex-column">
@@ -87,8 +86,7 @@
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-at"></i>
-        <input type="email" class="input form-control" id="signup_email" name="email"
-          placeholder="Enter your mail address" aria-autocomplete="none" required>
+        <input type="email" class="input form-control" id="signup_email" name="email" placeholder="Enter your mail address" aria-autocomplete="none" required>
       </div>
 
       <div class="flex-column">
@@ -96,8 +94,7 @@
       </div>
       <div class="inputForm">
         <i class="fa-solid fa-lock"></i>
-        <input type="password" id="signup_password" name="password" class="input form-control"
-          placeholder="Enter your Password" aria-autocomplete="none" required>
+        <input type="password" id="signup_password" name="password" class="input form-control" placeholder="Enter your Password" aria-autocomplete="none" required>
       </div>
 
       <button class="button-submit" type="submit">Sign Up</button>

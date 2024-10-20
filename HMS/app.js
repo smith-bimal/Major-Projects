@@ -1,10 +1,13 @@
+require("dotenv").config();
 const express = require("express");
-const session = require("express-session");
 const app = express();
+
 const path = require("path");
 const fs = require("fs");
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
+const session = require("express-session");
+const MongoStore = require('connect-mongo');
 
 //database files acquiring
 require("./src/db/conn");
@@ -27,12 +30,30 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
+const store = MongoStore.create({
+    mongoUrl: process.env.ATLASDB_URL,
+    crypto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24 * 60 * 60,
+});
+
+store.on("error", (err) => {
+    console.log("ERROR ON MONGO SESSION STORE" + err);
+})
+
 // Configure express-session middleware
 app.use(session({
-    secret: config.secret_key, // Use the secret key from your config
+    store,
+    secret: process.env.SECRET, // Use the secret key from your config
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: {
+        secure: false, // Set to true if using HTTPS
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+    }
 }));
 
 // Middleware to log all requests

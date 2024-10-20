@@ -5,7 +5,7 @@ const { sendResetPasswordMail } = require('../utils/helper');
 
 const Doctor = require('../src/models/docModel');
 const Admin = require('../src/models/adminModel');
-const config = require('../config/config');
+const { sendMail } = require('../utils/sendMail');
 
 module.exports.renderForgotPasswordPage = (req, res) => {
     res.render('forgot_pwd');
@@ -13,7 +13,7 @@ module.exports.renderForgotPasswordPage = (req, res) => {
 
 module.exports.sendResetLink = async (req, res) => {
     const email = req.body.email;
-    const JWT_TOKEN = config.secret_key;
+    const JWT_TOKEN = process.env.SECRET;
 
     try {
         const doc = await Doctor.findOne({ email: email });
@@ -27,14 +27,14 @@ module.exports.sendResetLink = async (req, res) => {
                 const token = jwt.sign({ email: doc.email, id: doc._id }, secret, { expiresIn: '10m' });
                 const link = `http://localhost:5000/password/reset/${doc._id}/${token}`;
                 console.log(link);
-                sendResetPasswordMail(doc.email, link)
+                sendMail(doc.email, link);
                 res.status(200).render('reset_link');
-            } else if (admin) {
+              } else if (admin) {
                 const secret = JWT_TOKEN + admin.password;
                 const token = jwt.sign({ email: admin.email, id: admin._id }, secret, { expiresIn: '10m' });
                 const link = `http://localhost:5000/password/reset/${admin._id}/${token}`;
                 console.log(link);
-                sendResetPasswordMail(admin, link)
+                sendMail(admin.email, link);
                 res.status(200).render('reset_link');
             }
         }
@@ -44,7 +44,7 @@ module.exports.sendResetLink = async (req, res) => {
 }
 
 module.exports.renderNewPasswordPageWithValidation = async (req, res) => {
-    const JWT_TOKEN = config.secret_key;
+    const JWT_TOKEN = process.env.SECRET;
     const { id, token } = req.params;
 
     try {
@@ -79,10 +79,10 @@ module.exports.renderNewPasswordPageWithValidation = async (req, res) => {
 
 module.exports.changeNewPassword = async (req, res) => {
     const { new_pwd, cnf_pwd } = req.body;
-    const JWT_TOKEN = config.secret_key;
+    const JWT_TOKEN = process.env.SECRET;
     const { id, token } = req.params;
     async (req, res) => {
-      const JWT_TOKEN = config.secret_key;
+      const JWT_TOKEN = process.env.SECRET;
       const { id, token } = req.params;
 
       try {

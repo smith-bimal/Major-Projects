@@ -1,441 +1,23 @@
-const { name } = require('ejs');
-const mongoose = require('mongoose');
+require("dotenv").config();
 
-main().then(() => {
-    console.log("Connected to database");
-}).catch(err => console.log(err));
+const mongoose = require('mongoose');
+const Admin = require('./src/models/adminModel');
+const Doctor = require('./src/models/docModel');
+const Appointment = require('./src/models/appointmentModel');
+const Employee = require('./src/models/employeeModel');
+const LabReport = require('./src/models/labModel');
+const Patient = require('./src/models/patientModel');
+const Prescription = require('./src/models/prescriptionModel');
+const Pharmacy = require('./src/models/pharmacyModel');
+const Payroll = require('./src/models/payrollModel');
+
+main()
+console.log("Connected to database");
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/hms_database');
+    // await mongoose.connect('mongodb://127.0.0.1:27017/hms_database');
+    await mongoose.connect(process.env.ATLASDB_URL);
 };
-
-
-const adminSchema = new mongoose.Schema({
-    name: {
-        type: String,
-
-    },
-    email: {
-        type: String,
-
-
-    },
-    username: {
-        type: String,
-
-
-    },
-    password: {
-        type: String,
-
-    }
-});
-
-const doctorSchema = new mongoose.Schema({
-    doc_id: {
-        type: String,
-    },
-    full_name: {
-        type: String,
-    },
-    email: {
-        type: String,
-    },
-    contact_number: {
-        type: String,
-    },
-    dob: {
-        type: Date,
-    },
-    gender: {
-        type: String,
-    },
-    address: {
-        type: String,
-    },
-    pincode: {
-        type: Number,
-    },
-    specialty: {
-        type: String,
-    },
-    experience: {
-        type: Number,
-    },
-    username: {
-        type: String,
-    },
-    password: {
-        type: String,
-    },
-    status: {
-        type: String,
-        default: "Offline",
-    },
-    qualification: {
-        type: String,
-    },
-    notes: {
-        type: String,
-    },
-    bio: {
-        type: String,
-        default: "No Bio"
-    },
-    avatar: {
-        type: String,
-        default: "default.jpg"
-    }
-});
-
-const appointmentSchema = new mongoose.Schema({
-    name: {
-        type: String,
-
-    },
-    email: {
-        type: String,
-
-
-    },
-    contact: {
-        type: String,
-        minLength: 10,
-
-    },
-    dob: {
-        type: Date,
-    },
-    age: {
-        type: Number
-    },
-    gender: {
-        type: String,
-    },
-    address: {
-        type: String,
-    },
-    pincode: {
-        type: String,
-        minLength: 6,
-        maxLength: 6,
-    },
-    app_doc: {
-        type: String
-    },
-    app_date: {
-        type: Date,
-    },
-    reason: {
-        type: String,
-    },
-    notes: {
-        type: String
-    },
-    status: {
-        type: String,
-        default: "Pending"
-    }
-});
-
-const empSchema = new mongoose.Schema({
-    employee_id: {
-        type: String,
-
-    },
-    full_name: {
-        type: String,
-
-    },
-    email: {
-        type: String,
-
-
-    },
-    contact_number: {
-        type: String,
-        minLength: 10,
-
-    },
-    date_of_birth: {
-        type: Date,
-    },
-    age: {
-        type: Number,
-        min: 15,
-    },
-    gender: {
-        type: String,
-    },
-    address: {
-        type: String
-    },
-    pincode: {
-        type: String,
-        minLength: 6,
-        maxLength: 6,
-    },
-    department: {
-        type: String,
-    },
-    position: {
-        type: String,
-    },
-    salary: {
-        type: Number,
-    },
-    qualification: {
-        type: String,
-    },
-    experience: {
-        type: Number,
-    }
-});
-
-const labSchema = new mongoose.Schema({
-    patient_id: {
-        type: String,
-    },
-    name: {
-        type: String,
-    },
-    ailment: {
-        type: String,
-    },
-    type: {
-        type: String,
-    },
-    lab_tests: {
-        type: String,
-    },
-    lab_results: {
-        type: String,
-    },
-    result_date: {
-        type: Date,
-    },
-    heart_rate: {
-        type: Number,
-    },
-    blood_pressure: {
-        type: String
-    },
-    temperature: {
-        type: Number,
-    },
-    resp_rate: {
-        type: Number,
-    },
-    oxygen_sat: {
-        type: Number,
-    }
-});
-
-const patientSchema = new mongoose.Schema({
-    patient_id: {
-        type: String,
-    },
-    name: {
-        type: String,
-    },
-    email: {
-        type: String,
-    },
-    dob: {
-        type: Date,
-    },
-    age: {
-        type: Number,
-        min: 15,
-    },
-    gender: {
-        type: String,
-    },
-    contact: {
-        type: String,
-        minLength: 10,
-    },
-    emergency_contact: {
-        type: String,
-        minLength: 10,
-    },
-    address: {
-        type: String
-    },
-    marital_status: {
-        type: String,
-    },
-    ailment: {
-        type: String,
-    },
-    type: {
-        type: String,
-    },
-    doc_assign: {
-        type: String,
-    },
-    treat_status: {
-        type: String,
-        default: "Ongoing",
-    },
-    is_discharged: {
-        type: Boolean,
-        default: 0,
-    }
-});
-
-const prescriptionSchema = new mongoose.Schema({
-    patient_id: {
-        type: String,
-        unique: true,
-
-    },
-    name: {
-        type: String,
-
-    },
-    age: {
-        type: Number,
-    },
-    address: {
-        type: String,
-    },
-    type: {
-        type: String,
-    },
-    ailment: {
-        type: String,
-    },
-    notes: {
-        type: String,
-    }
-});
-
-const pharmacySchema = new mongoose.Schema({
-    name: {
-        type: String,
-
-    },
-    quantity: {
-        type: Number,
-
-    },
-    category: {
-        type: String,
-    },
-    vendor: {
-        type: String,
-    },
-    barcode_number: {
-        type: String,
-
-
-    },
-    description: {
-        type: String,
-    }
-});
-
-const payrollSchema = new mongoose.Schema({
-    employee_id: {
-        type: String,
-        unique: true
-    },
-    full_name: {
-        type: String,
-    },
-    email: {
-        type: String,
-        unique: true
-    },
-    department: {
-        type: String,
-    },
-    position: {
-        type: String,
-    },
-    salary: {
-        type: Number,
-    },
-    payroll_desc: {
-        type: String
-    },
-    payment_status: {
-        type: String,
-        default: "Unpaid"
-    },
-    posted_date: {
-        type: Date,
-        default: Date.now()
-    }
-});
-
-const dischargeSchema = new mongoose.Schema({
-    patient_id: {
-        type: String,
-        unique: true,
-    },
-    name: {
-        type: String,
-    },
-    email: {
-        type: String,
-    },
-    contact: {
-        type: String,
-        minLength: 10,
-    },
-    dob: {
-        type: Date,
-    },
-    gender: {
-        type: String,
-    },
-    emergency_contact: {
-        type: String,
-        minLength: 10,
-    },
-    address: {
-        type: String,
-    },
-    created_at: {
-        type: Date,
-    },
-    reason: {
-        type: String,
-    },
-    discharge_time: {
-        type: Date,
-    },
-    primary_diag: {
-        type: String,
-    },
-    secondary_diag: {
-        type: String,
-    },
-    treat_summary: {
-        type: String,
-    },
-    procedures: {
-        type: String,
-    },
-    medications: {
-        type: String,
-    }
-});
-
-
-const Discharge = mongoose.model("Discharge", dischargeSchema);
-const Payroll = new mongoose.model("Payroll", payrollSchema);
-const Admin = new mongoose.model("Admin", adminSchema);
-const Doctor = new mongoose.model("Doctor", doctorSchema);
-const Appointment = new mongoose.model("Appointment", appointmentSchema);
-const Employee = new mongoose.model("Employee", empSchema);
-const LabReport = new mongoose.model("LabReport", labSchema);
-const Patient = new mongoose.model("Patient", patientSchema);
-const Prescription = new mongoose.model("Prescription", prescriptionSchema);
-const Pharmacy = new mongoose.model("Pharmacy", pharmacySchema);
-
 
 //Admin data
 const adminData = [
@@ -443,16 +25,9 @@ const adminData = [
         name: "System Admin",
         email: "admin@example.com",
         username: "admin",
-        password: "admin"
+        password: "$2b$10$qWmsivd5b8rHjEfuuSEs1ubK9LNO7tMmkLRdZevcQdAKAc1DyiRi2"
     }
 ];
-
-Admin.insertMany(adminData).then(() => {
-    console.log("Admins inserted successfully");
-}).catch(err => {
-    console.log("Error inserting admins:", err);
-});
-
 
 //Doctor Data
 const doctorData = [
@@ -541,15 +116,7 @@ const doctorData = [
         avatar: 'doc-5.jpg'
     }
 
-]
-    ;
-
-Doctor.insertMany(doctorData).then(() => {
-    console.log("Doctors inserted successfully");
-}).catch(err => {
-    console.log("Error inserting doctors:", err);
-});
-
+];
 
 //Appointments Data
 const appointmentData = [
@@ -691,14 +258,6 @@ const appointmentData = [
     }
 ];
 
-
-Appointment.insertMany(appointmentData).then(() => {
-    console.log("Appointments inserted successfully");
-}).catch(err => {
-    console.log("Error inserting appointments:", err);
-});
-
-
 //Employee data
 const employeeData = [
     {
@@ -714,7 +273,6 @@ const employeeData = [
         pincode: "201301",
         department: "Administration",
         position: "HR Manager",
-        salary: 80098,
         qualification: "Post Graduate",
         experience: 15,
         __v: 0,
@@ -734,7 +292,6 @@ const employeeData = [
         pincode: "683101",
         department: "Nursing",
         position: "Senior Nurse",
-        salary: 50435,
         qualification: "Graduate",
         experience: 12,
         __v: 0,
@@ -753,7 +310,6 @@ const employeeData = [
         pincode: "380015",
         department: "Pharmacy",
         position: "Pharmacist",
-        salary: 45254,
         qualification: "Graduate",
         experience: 10,
         __v: 0,
@@ -772,7 +328,6 @@ const employeeData = [
         pincode: "110027",
         department: "Maintenance and Housekeeping",
         position: "Maintenance Supervisor",
-        salary: 35220,
         qualification: "12th Pass",
         experience: 30,
         __v: 0,
@@ -791,7 +346,6 @@ const employeeData = [
         pincode: "226016",
         department: "Medical Records",
         position: "Records Manager",
-        salary: 55057,
         qualification: "Graduate",
         experience: 20,
         __v: 0,
@@ -810,7 +364,6 @@ const employeeData = [
         pincode: "600004",
         department: "Laboratory",
         position: "Lab Technician",
-        salary: 40365,
         qualification: "Diploma or Equivalent",
         experience: 8,
         __v: 0,
@@ -819,16 +372,7 @@ const employeeData = [
     }
 ];
 
-
-Employee.insertMany(employeeData).then(() => {
-    console.log("Employees inserted successfully");
-}).catch(err => {
-    console.log("Error inserting employees:", err);
-});
-
-
 //Lab Report Data
-
 const labData = [
     {
         patient_id: "PA-39-9940859",
@@ -967,13 +511,6 @@ const labData = [
         result_date: "2024-05-20T00:00:00.000Z"
     }
 ];
-
-LabReport.insertMany(labData).then(() => {
-    console.log("Lab Data inserted successfully");
-}).catch(err => {
-    console.log("Error inserting employees:", err);
-});
-
 
 //Patient Data
 const patientData = [
@@ -1159,13 +696,6 @@ const patientData = [
     },
 ];
 
-Patient.insertMany(patientData).then(() => {
-    console.log("Patient Data inserted successfully");
-}).catch(err => {
-    console.log("Error inserting Patients:", err);
-})
-
-
 //Prescription Data
 const prescriptionData = [{
     _id: "665f1d35035b109914313bc5",
@@ -1233,12 +763,6 @@ const prescriptionData = [{
     age: null,
     type: ""
 }];
-
-
-Prescription.insertMany(prescriptionData).then(() => {
-    console.log("Prescription Data inserted successfully");
-}).catch(err => { console.log("Error inserting Prescription:", err) });
-
 
 //Pharmacy Data
 const pharmacyData = [
@@ -1316,12 +840,6 @@ const pharmacyData = [
     },
 ];
 
-Pharmacy.insertMany(pharmacyData).then(() => {
-    console.log("Prescription Data inserted successfully");
-}).catch(err => { console.log("Error inserting Pharmacy:", err) });
-
-
-
 //Pharmacy Data
 const payrollData = [
     {
@@ -1350,8 +868,43 @@ const payrollData = [
     },
 ];
 
-Payroll.insertMany(payrollData).then(() => {
+
+const initDB = async () => {
+    await Admin.deleteMany({});
+    await Admin.insertMany(adminData)
+    console.log("Admins inserted successfully");
+
+    await Doctor.deleteMany({});
+    await Doctor.insertMany(doctorData)
+    console.log("Doctors inserted successfully");
+
+    await Appointment.deleteMany({});
+    await Appointment.insertMany(appointmentData)
+    console.log("Appointments inserted successfully");
+
+    await Employee.deleteMany({});
+    await Employee.insertMany(employeeData)
+    console.log("Employees inserted successfully");
+
+    await LabReport.deleteMany({});
+    await LabReport.insertMany(labData)
+    console.log("Lab Data inserted successfully");
+
+    await Patient.deleteMany({});
+    await Patient.insertMany(patientData)
+    console.log("Patient Data inserted successfully");
+
+    await Prescription.deleteMany({});
+    await Prescription.insertMany(prescriptionData)
+    console.log("Prescription Data inserted successfully");
+
+    await Pharmacy.deleteMany({});
+    await Pharmacy.insertMany(pharmacyData)
+    console.log("Prescription Data inserted successfully");
+
+    await Payroll.deleteMany({});
+    await Payroll.insertMany(payrollData)
     console.log("Payroll Data inserted successfully");
-}).catch(err => { console.log("Error inserting Payroll:", err) });
+}
 
-
+initDB();

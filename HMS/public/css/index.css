@@ -506,3 +506,68 @@ main {
 .social-icons i:hover {
   color: var(--primary-primary);
 }
+
+/* Documentation card styling */
+
+#documentation-card {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+ #documentation-card {
+  left: 1rem;
+  bottom: 1rem;
+ } 
+}
+
+.nft {
+  user-select: none;
+  max-width: 200px;
+  border: 1px solid #ffffff22;
+  background: linear-gradient(
+    45deg,
+    #0c04ff11 0%,
+    #14a6fa23 100%
+  );
+  box-shadow: 0 7px 20px 5px #00000038;
+  border-radius: 0.7rem;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  transition: 0.5s all;
+
+  .main {
+    padding: 1rem;
+    .description {
+      line-height: 1rem;
+      letter-spacing: 0;
+    }
+    button {
+      margin-top: 0.5rem;
+      padding:0.2rem 0.5rem;
+      border: none;
+      border-radius: 0.35rem;
+      background-color: #04b0ff3d;
+      color:#fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #04b8ff59;
+      transition: 0.7s all;
+    }
+  }
+  ::before {
+    position: fixed;
+    content: "";
+    box-shadow: 0 0 100px 40px #ffffff08;
+    top: -10%;
+    left: -100%;
+    transform: rotate(-45deg);
+    height: 60rem;
+    transition: 0.7s all;
+  }
+}

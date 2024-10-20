@@ -16,7 +16,6 @@ const LocalStrategy = require("passport-local");
 
 const dbUrl = process.env.ATLASDB_URL;
 
-// const MONGO_URL = "mongodb://127.0.0.1:27017/nookNest";
 const ExpressError = require('./utils/ExpressError');
 const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");

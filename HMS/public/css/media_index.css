@@ -255,4 +255,7 @@
     margin: 0 auto;
     width: 100%;
   }
+  .service-card {
+    width: 20rem;
+  }
 }

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb://localhost:27017/hms_database", {
+mongoose.connect(process.env.ATLASDB_URL, {
 }).then(() => {
     console.log("Connected to database");
 }).catch((err) => {
